@@ -212,8 +212,8 @@ export function computeFullCostOfLivingBreakdown(): FullCostOfLivingItem[] {
   return [
     {
       id: 'housing_mortgage',
-      category: '1. Logement, Prêt 260k€ sur 25 ans (3,7% - 4,0%) & Notaire (23,5k€)',
-      label: 'Prêt 260 000 € sur 25 ans (Taux 3,7% à 4,0%, médian 3,85% = 1 351 €/m), Taxe Foncière & Assurance',
+      category: '1. Logement, Prêt 260k€ (25 ans à 3,7% - 4,0%) & Notaire (23,5k€)',
+      label: 'Prêt 260 000 € sur 25 ans (1 330 € à 1 372 €/m, médian 1 351 €/m), Taxe Foncière & Assurance',
       continuiteCost: 18560,
       lfiCost: 18910,
       rnCost: 19410,
@@ -221,8 +221,8 @@ export function computeFullCostOfLivingBreakdown(): FullCostOfLivingItem[] {
       continuiteWhy: 'Prêt de 260 000 € sur 25 ans à 3,85% médian (1 351 €/mois = 16 210 €/an ; de 1 330 €/m à 3,7% à 1 372 €/m à 4,0%) + Taxe foncière Pélissanne (1 900 €) + Assurance (450 €). Frais de notaire (23 500 €) financés par l\'apport.',
       lfiWhy: 'Prêt de 260 000 € sur 25 ans figé à la signature, mais hausse estimée de la fiscalité locale départementale/communale (+350 €/an).',
       rnWhy: 'Prêt initial figé sur 25 ans, mais risque de tension sur les taux (4,65% en cas de crédit complémentaire) et compensation des baisses de dotations par la fiscalité locale (+850 €/an).',
-      droiteWhy: 'Détente des taux bancaires (favorable pour décrocher 3,70% au lieu de 4,00% sur 25 ans, soit -252 €/an) et plafonnement de la taxe foncière (-150 €/an).',
-      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? En empruntant 260 000 € sur 25 ans (au lieu de 20 ans) pour sa maison à 305 000 € (+23 500 € de frais de notaire), la mensualité de Nelly baisse de 204 €/mois (1 351 €/mois à 3,85% au lieu de 1 555 €/mois sur 20 ans), ce qui dégage +2 450 €/an de trésorerie disponible ! De plus, sur 25 ans, le capital s\'amortit plus lentement les premières années, ce qui maintient des intérêts d\'emprunt élevés (~9 905 € en An 1, dont 28% = 2 773 € déductibles) pour gommer l\'impôt sur le loyer Nell\'Immo (passé de 400 €/m en location à 650 €/m + 100 € charges) au Régime Foncier Réel (Art. 28 & 31 CGI).',
+      droiteWhy: 'Détente des taux bancaires (favorable pour décrocher 3,70% au lieu de 4,00% sur 25 ans, soit -504 €/an) et plafonnement de la taxe foncière (-150 €/an).',
+      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? Sur son prêt de 260 000 € sur 25 ans pour sa maison à 305 000 € (+23 500 € de frais de notaire), la mensualité de Nelly est de 1 351 €/mois à 3,85% (1 330 €/m à 3,70% ; 1 372 €/m à 4,00%). Sur 25 ans, les intérêts d\'emprunt atteignent ~9 905 € la 1re année, dont 28% (2 773 €/an) sont déductibles au Régime Foncier Réel (Art. 28 & 31 CGI) pour effacer l\'impôt sur le loyer Nell\'Immo (passé de 400 €/m en location à 650 €/m + 100 € charges).',
       sourceRef: 'Offre de Prêt 260k€ sur 25 ans (3,7%-4,0%), Notaire (23 500 €) & Art. 28/31 CGI',
       lawRef: 'Art. 28 & 31 CGI'
     },
@@ -355,7 +355,7 @@ export function computeLifeHorizonProjections(): LifeHorizonProjection[] {
         rn: { passive: 46773, optimized: 56674, note: '+12 359 € vs réf. : baisse immédiate TVA 5,5% énergie + CAF 1 080 €' },
         droite: { passive: 45245, optimized: 55420, note: 'Détente des taux vers 3,70% sur le prêt de 260 000 € sur 25 ans' }
       },
-      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Le passage du prêt de 260 000 € sur 25 ans (au lieu de 20 ans) abaisse la mensualité à 1 351 €/mois (à 3,85%), tout en maintenant ~9 905 € d\'intérêts d\'emprunt la 1re année dont 28% (2 773 €) effacent l\'impôt sur le nouveau bail professionnel de 9 000 €/an.',
+      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Le prêt de 260 000 € sur 25 ans fixe la mensualité à 1 351 €/mois (à 3,85%), tout en générant ~9 905 € d\'intérêts d\'emprunt la 1re année dont 28% (2 773 €) effacent l\'impôt sur le nouveau bail professionnel de 9 000 €/an.',
       sourceRef: 'Art. 28 & 31 CGI, Offre de Prêt 260k€ sur 25 ans (3,7%-4,0%) & Art. 34 Constitution'
     },
     {
@@ -370,7 +370,7 @@ export function computeLifeHorizonProjections(): LifeHorizonProjection[] {
         rn: { passive: 46900, optimized: 55200, note: 'Gain fiscal + allocations (+1 730 €), vigilance sur le volume de ventes Nell\'Immo si taux acheteurs > 4,5%.' },
         droite: { passive: 45800, optimized: 57900, note: 'Relance des investisseurs locatifs privés (+12% CA Nell\'Immo) + QF relevé à 2 500 €.' }
       },
-      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Le prêt sur 25 ans allège la charge fixe du foyer de 2 450 €/an et prolonge la durée pendant laquelle les intérêts d\'emprunt gomment les revenus fonciers du bureau Nell\'Immo.',
+      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Le prêt sur 25 ans maintient une mensualité maîtrisée (1 330 € à 1 372 €/mois) et des intérêts d\'emprunt élevés qui gomment durablement les revenus fonciers du bureau Nell\'Immo.',
       sourceRef: 'Croisement Modèle Micro-Fiscal DGFiP × Amortissement Prêt 260k€ sur 25 ans'
     },
     {
@@ -385,7 +385,7 @@ export function computeLifeHorizonProjections(): LifeHorizonProjection[] {
         rn: { passive: 35800, optimized: 50100, note: 'Fin des allocations familiales à 20 ans et 0 € de bourse CROUS : études à charge, compensées par pension déductible ou Holding.' },
         droite: { passive: 35100, optimized: 51200, note: 'Transmission studio/maison à 0 € de droits (abattement 200k€), mais retraite à 64-65 ans et études à la charge de la famille.' }
       },
-      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? En économisant +2 450 €/an de mensualité grâce au prêt sur 25 ans (1 351 €/m au lieu de 1 555 €/m), Nelly accumule +17 150 € de trésorerie supplémentaire d\'ici 2033 (entrée de l\'aînée à l\'université) !',
+      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Avec 60 000 € de revenus (40k€ + 20k€), Nelly dépasse le plafond des bourses CROUS. Dès 2033, l\'Allocation d\'Autonomie Jeunesse sous LFI (1 063 €/mois) ou la déduction de pension alimentaire / Holding sous RN et Droite deviennent déterminantes.',
       sourceRef: 'Barème National CROUS, Contrat Législature NFP 2024 & Art. 145 / 156 CGI'
     }
   ];

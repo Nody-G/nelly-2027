@@ -9,6 +9,7 @@ import { LawProvider } from './context/LawContext';
 import { SimulatorTab } from './components/tabs/SimulatorTab';
 import { OptimizationTab } from './components/tabs/OptimizationTab';
 import { DaughtersTab } from './components/tabs/DaughtersTab';
+import { VotingGuide2027Tab } from './components/tabs/VotingGuide2027Tab';
 import { ExportReportTab } from './components/tabs/ExportReportTab';
 
 export const App: React.FC = () => {
@@ -37,10 +38,10 @@ export const App: React.FC = () => {
           onToggleViewMode={(mode) => handleChangeParams({ viewMode: mode })}
         />
 
-        {/* Barre de navigation sticky épurée en 3 onglets (masquée à l'impression) */}
+        {/* Barre de navigation sticky épurée (masquée à l'impression) */}
         <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* Contenu principal à l'écran (3 onglets unifiés sans sous-onglets) */}
+        {/* Contenu principal à l'écran */}
         <main className="no-print flex-1 max-w-7xl w-full mx-auto px-3 sm:px-8 py-6">
           {activeTab === 'simulator' && (
             <SimulatorTab
@@ -53,6 +54,8 @@ export const App: React.FC = () => {
           {activeTab === 'optimization' && <OptimizationTab />}
 
           {activeTab === 'daughters' && <DaughtersTab />}
+
+          {activeTab === 'voting' && <VotingGuide2027Tab params={params} />}
         </main>
 
         {/* Version dédiée à l'impression PDF (déclenchée par le bouton PDF de l'en-tête) */}

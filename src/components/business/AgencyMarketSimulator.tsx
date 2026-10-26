@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, TrendingUp, TrendingDown, AlertTriangle, ShieldCheck, Scale, Coins } from 'lucide-react';
-import { LawBadge } from '../common/LawBadge';
+import { Building2 } from 'lucide-react';
 import { Tooltip } from '../common/Tooltip';
 
 export const AgencyMarketSimulator: React.FC = () => {
@@ -14,7 +13,7 @@ export const AgencyMarketSimulator: React.FC = () => {
   const baselineTurnover = annualDeals * feePerDeal; // CA Transaction annuel
 
   // Impacts par bloc politique sur le CA de transaction
-  // 1. Continuité : Statu quo (taux 3,3%, DPE maintenu)
+  // 1. Continuité : Statu quo (taux 3,7% - 4,0% sur 25 ans, DPE maintenu)
   const caCont = baselineTurnover;
 
   // 2. LFI : Baisse des investisseurs locatifs (-20%) compensée par les résidences principales (+5%)
@@ -44,7 +43,7 @@ export const AgencyMarketSimulator: React.FC = () => {
             Simulateur d'Impact Marché & Chiffre d'Affaires de Nell'Immo (2027)
           </h2>
           <p className="text-xs text-slate-600 mt-0.5">
-            Estimation croisée du volume de transactions à Pélissanne selon les réformes (DPE, encadrement des loyers, taux bancaires).
+            Estimation croisée du volume de transactions à Pélissanne selon les réformes (DPE, encadrement des loyers, taux bancaires sur 25 ans).
           </p>
         </div>
         <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200">
@@ -123,7 +122,7 @@ export const AgencyMarketSimulator: React.FC = () => {
             <div className="text-lg font-black text-slate-900">{formatEuro(caCont)} HT</div>
             <div className="text-sky-800 font-bold">Stabilité du marché</div>
             <p className="text-slate-600 leading-snug">
-              Taux bancaires modérés (~3,4%). Calendrier DPE maintenu incitant les vendeurs de biens G à vendre avec décote.
+              Taux bancaires sur 25 ans autour de 3,7 % - 4,0 %. Calendrier DPE maintenu incitant les vendeurs de biens G à vendre avec décote.
             </p>
           </div>
           <div className="pt-2 border-t border-sky-200 text-slate-500 font-medium text-[11px]">
@@ -169,7 +168,7 @@ export const AgencyMarketSimulator: React.FC = () => {
               /> libère des mandats de vente, mais la hausse des taux d'emprunt (
               <Tooltip 
                 term="Spread OAT à 110 bps" 
-                explanation="Écart de taux d'emprunt de la France face à l'Allemagne. S'il grimpe, les taux de crédit immobilier passent à 4,50%-4,70%, provoquant des refus de prêts chez les acquéreurs." 
+                explanation="Écart de taux d'emprunt de la France face à l'Allemagne. S'il grimpe, les taux de crédit immobilier sur 25 ans passent à 4,50%-4,70%, provoquant des refus de prêts chez les acquéreurs." 
               />) bloque 1 à 2 compromis par an faute de financement bancaire.
             </p>
           </div>

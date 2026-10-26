@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, Home, Compass } from 'lucide-react';
+import { Calculator, Home, Compass, Vote } from 'lucide-react';
 import { TabId, TabDefinition } from '../../types';
 
 interface NavigationProps {
@@ -10,23 +10,29 @@ interface NavigationProps {
 export const navigationTabs: TabDefinition[] = [
   {
     id: 'simulator',
-    label: '1. Simulateur, Prêt 260k€ (25 ans) & Coût de la Vie',
+    label: '1. Simulateur, Prêt 25 ans & Budget',
     icon: 'Calculator',
-    description: 'Calculateur temps réel des 4 blocs politiques, mensualité du prêt sur 25 ans (3,7% - 4,0%) et 8 postes du budget à Pélissanne',
+    description: 'Calculateur temps réel des 4 blocs politiques, mensualité du prêt de 260k€ sur 25 ans (3,7% - 4,0%) et 8 postes du budget à Pélissanne',
   },
   {
     id: 'optimization',
-    label: '2. Maison 305k€, Bail (400€ → 650€) & Leviers SASU',
+    label: '2. Maison 305k€, Bail (400€ → 650€) & Leviers',
     icon: 'Home',
     badge: '0 € IR',
     description: 'Calculateur du bail propriétaire au Foncier Réel (prêt 260k€ sur 25 ans), les 6 leviers SASU et la checklist URSSAF',
   },
   {
     id: 'daughters',
-    label: '3. Prévision 2027-2039 : Filles (5 & 11 ans) & Duel LFI / RN',
+    label: '3. Filles (5 & 11 ans), Études 2033 & Nell\'Immo',
     icon: 'Compass',
-    badge: 'Arbitrage',
-    description: 'Trajectoire de vie à 12 ans (école, études Aix 2033, retraite 60 vs 64 ans), duel LFI vs RN et impact sur Nell\'Immo',
+    description: 'Trajectoire de vie 2027-2039 (école, études Aix 2033, retraite 60 vs 64 ans) et simulateur de chiffre d\'affaires Nell\'Immo',
+  },
+  {
+    id: 'voting',
+    label: '4. Pour qui voter en 2027 ?',
+    icon: 'Vote',
+    badge: 'Boussole & 18 Mesures',
+    description: 'Boussole électorale interactive (6 curseurs), impact des 18 mesures sur ELLE, SES 2 FILLES et SA SOCIÉTÉ Nell\'Immo, et verdict 2027',
   },
 ];
 
@@ -39,6 +45,8 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
         return <Home className="w-4 h-4" />;
       case 'Compass':
         return <Compass className="w-4 h-4" />;
+      case 'Vote':
+        return <Vote className="w-4 h-4" />;
       default:
         return <Calculator className="w-4 h-4" />;
     }
@@ -67,7 +75,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }
                   className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
                     isActive
                       ? 'bg-indigo-800 text-indigo-100'
-                      : 'bg-slate-100 text-slate-600'
+                      : 'bg-amber-100 text-amber-900'
                   }`}
                 >
                   {tab.badge}

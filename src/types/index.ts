@@ -1,7 +1,8 @@
 export type TabId =
   | 'simulator'
   | 'optimization'
-  | 'daughters';
+  | 'daughters'
+  | 'voting';
 
 export type PoliticalBlocId = 'continuite' | 'nfp_lfi' | 'rn' | 'droite';
 

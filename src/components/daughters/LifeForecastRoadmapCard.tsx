@@ -54,7 +54,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                 </span>
               </div>
               <p className="text-slate-700 leading-relaxed text-[11px]">
-                • <strong>Sous LFI (Passif) :</strong> Comme Nelly n'a que <strong>20 000 € de dividendes</strong>, la fin de la Flat Tax lui coûte ~4 140 € d'impôts en plus, mais ses <strong>+3 987 €/an d'économies de factures et CAF</strong> (cantine 0 €, 100 % Sécu orthodontie) compensent presque intégralement la hausse d'impôt !
+                • <strong>Sous LFI (Passif) :</strong> Comme Nelly a <strong>20 000 € de dividendes</strong>, la fin de la Flat Tax lui coûte ~4 140 € d'impôts en plus, mais ses <strong>+3 987 €/an d'économies de factures et CAF</strong> (cantine 0 €, 100 % Sécu orthodontie) compensent presque intégralement la hausse d'impôt !
                 <br />• <strong>Sous le RN (Passif) :</strong> Maintien de la Flat Tax 30 % sur les 20 000 € de dividendes + part pleine dès le 2e enfant + 1 080 € de CAF universelle + baisse TVA 5,5 % énergie/carburant.
               </p>
             </div>
@@ -71,7 +71,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
               </div>
               <p className="text-slate-700 leading-relaxed text-[11px]">
                 • <strong>Remplacement de 56 % à 100 % des 20 000 € de dividendes :</strong> En passant le loyer Nell'Immo de 400 € (maison louée) à 650 € + 100 € charges dans la nouvelle maison (+4 200 €/an déduits grâce aux intérêts du prêt de 260 000 € sur 25 ans), + CESU (3 131 €) + PEE (3 880 €), Nelly remplace <strong>11 211 € sur ses 20 000 € de dividendes en récurrent (et 100 % la 1re année)</strong> !
-                <br />• <strong>Bonus du prêt sur 25 ans :</strong> La mensualité tombe à <strong>1 351 €/mois (à 3,85 %)</strong> au lieu de 1 555 €/mois sur 20 ans, libérant <strong>+2 450 €/an d'épargne libre supplémentaire</strong> !
+                <br />• <strong>Bouclier fiscal du prêt sur 25 ans :</strong> La mensualité s'établit à <strong>1 330 € - 1 372 €/mois (médian 1 351 €/mois à 3,85 %)</strong> et génère ~2 773 €/an d'intérêts déductibles au Foncier Réel dès la 1re année.
               </p>
             </div>
           </div>
@@ -191,7 +191,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                     • <strong>Exonération IR jeunes :</strong> Exonération totale d'IR jusqu'à 30 ans pour les jeunes en apprentissage ou premier emploi.
                   </li>
                   <li>
-                    • <strong>Anticipation Études :</strong> Grâce aux +2 450 €/an économisés par l'étalement du prêt sur 25 ans, Nelly met de côté +17 150 € d'ici 2033 pour préparer les études de l'aînée.
+                    • <strong>Anticipation Études :</strong> Grâce aux +4 200 €/an supplémentaires du nouveau bail Nell'Immo (650 € + 100 € charges), Nelly met de côté +25 200 € d'ici 2033 pour financer les études de l'aînée.
                   </li>
                 </ul>
               </div>

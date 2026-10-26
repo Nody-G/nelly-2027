@@ -58,7 +58,7 @@ export const FoncierReelModeler: React.FC = () => {
             {formatEuro(result.monthlyLoanPayment)} / mois (à {interestRate.toFixed(2)} %)
           </div>
           <p className="text-[11px] text-amber-900 mt-0.5">
-            Sur 25 ans : <strong>-204 €/mois</strong> vs 20 ans • Intérêts An 1 : <strong>{formatEuro(result.annualMortgageInterests)}</strong>.
+            Durée : <strong>25 ans (300 mois)</strong> • Intérêts An 1 : <strong>{formatEuro(result.annualMortgageInterests)}</strong>.
           </p>
         </div>
 
@@ -192,7 +192,7 @@ export const FoncierReelModeler: React.FC = () => {
             <span className="flex items-center gap-2 font-medium">
               <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
               <span>
-                <strong>Double avantage du prêt sur 25 ans :</strong> La mensualité baisse à {formatEuro(result.monthlyLoanPayment)}/mois (-204 €/m vs 20 ans) et les intérêts déductibles ({formatEuro(result.deductibleInterests)}/an) restent élevés plus longtemps pour gommer l'impôt !
+                <strong>Effet fiscal du prêt sur 25 ans :</strong> La mensualité s'établit à {formatEuro(result.monthlyLoanPayment)}/mois et les intérêts déductibles ({formatEuro(result.deductibleInterests)}/an) effacent l'impôt sur le loyer professionnel !
               </span>
             </span>
           </div>

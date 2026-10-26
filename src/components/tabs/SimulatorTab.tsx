@@ -136,7 +136,7 @@ export const SimulatorTab: React.FC<SimulatorTabProps> = ({
         </div>
       </div>
 
-      {/* 3. Tableau Synthétique Direct des 8 Postes du Coût de la Vie à Pélissanne (sans sous-onglets cachés) */}
+      {/* 3. Tableau Synthétique Direct des 8 Postes du Coût de la Vie à Pélissanne */}
       <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
@@ -151,7 +151,7 @@ export const SimulatorTab: React.FC<SimulatorTabProps> = ({
             </div>
           </div>
           <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-amber-50 text-amber-900 border border-amber-200">
-            Sur 25 ans : -204 €/mois (-2 450 €/an) vs 20 ans
+            Prêt 260 000 € sur 25 ans : {monthlyAt37} € à {monthlyAt40} €/mois
           </span>
         </div>
 

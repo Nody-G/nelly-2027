@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { GraduationCap, Landmark, Sparkles, Building2, CheckCircle2 } from 'lucide-react';
+import { GraduationCap, Building2 } from 'lucide-react';
 import { LawBadge } from '../common/LawBadge';
 
 export const HigherEducationSimulator: React.FC = () => {
   const [monthlyStudentBudget, setMonthlyStudentBudget] = useState(1050); // Loyer studio Aix/Marseille + vie étudiante
   const [yearsOfStudy, setYearsOfStudy] = useState(5); // Licence + Master
 
-  const annualStudentCost = monthlyStudentBudget * 12; // ~12 600 € / an
+  const annualStudentCost = monthlyStudentBudget * 12; // ~12 600 € / an (soit 6 300 € part Nelly 50/50)
   const totalCostPerDaughter = annualStudentCost * yearsOfStudy; // ~63 000 €
 
   // Sous LFI : Allocation d'Autonomie Jeunesse (1 063 € / mois)
@@ -16,13 +16,13 @@ export const HigherEducationSimulator: React.FC = () => {
   const formatEuro = (n: number) => Math.round(n).toLocaleString('fr-FR') + ' €';
 
   return (
-    <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+    <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <div>
           <div className="flex items-center gap-2">
             <GraduationCap className="w-5 h-5 text-indigo-600" />
             <h3 className="font-extrabold text-slate-900 text-sm sm:text-base">
-              Projection Études Supérieures des 2 Filles (Horizon 2033 & 2039)
+              Projection Études Supérieures des 2 Filles (Horizon 2033 & 2039 à Aix/Marseille)
             </h3>
           </div>
           <p className="text-xs text-slate-600 mt-0.5">
@@ -35,13 +35,12 @@ export const HigherEducationSimulator: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-        {/* Curseur budget */}
         <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
           <div className="flex justify-between font-bold text-slate-800">
             <span>Budget mensuel estimé par fille (Studio + Vie) :</span>
             <span className="text-indigo-600 font-extrabold">{formatEuro(monthlyStudentBudget)} / mois</span>
           </div>
-          <input 
+          <input
             type="range"
             min={700}
             max={1400}
@@ -60,7 +59,7 @@ export const HigherEducationSimulator: React.FC = () => {
             <span>Durée des études supérieures :</span>
             <span className="text-purple-700 font-extrabold">{yearsOfStudy} ans (Bac+5 Master)</span>
           </div>
-          <input 
+          <input
             type="range"
             min={3}
             max={7}
@@ -71,45 +70,43 @@ export const HigherEducationSimulator: React.FC = () => {
           />
         </div>
 
-        {/* Chiffrage comparatif */}
         <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
           <div className="font-bold text-slate-900 uppercase text-[11px]">
-            Coût cumulé sur 5 ans par fille (Aix-Marseille)
+            Coût cumulé sur {yearsOfStudy} ans par fille (Aix-Marseille)
           </div>
 
           <div className="flex justify-between text-slate-700">
             <span>Sous Continuité / RN / Droite :</span>
-            <span className="font-bold text-rose-600">-{formatEuro(totalCostPerDaughter)} (100% à charge)</span>
+            <span className="font-bold text-rose-600">-{formatEuro(totalCostPerDaughter)} (dont 50% Nelly = -{formatEuro(totalCostPerDaughter / 2)})</span>
           </div>
           <div className="text-[10px] text-slate-500">
-            Avec 70 000 € de revenus, Nelly Fernandez aura droit à 0 € de bourse CROUS.
+            Avec 60 000 € de revenus (40k€ + 20k€ div.), Nelly dépasse le plafond des bourses CROUS (0 € de bourse).
           </div>
 
           <div className="flex justify-between text-slate-700 pt-1 border-t border-slate-200">
             <span>Sous Nouveau Front Populaire / LFI :</span>
-            <span className="font-bold text-emerald-700">+{formatEuro(lfiTotalGrant)} perçus</span>
+            <span className="font-bold text-emerald-700">+{formatEuro(lfiTotalGrant)} versés à la fille</span>
           </div>
           <div className="text-[10px] text-emerald-800 font-medium">
-            Allocation d'autonomie universelle de 1 063 €/mois versée directement à chaque fille.
+            Allocation d'autonomie universelle de 1 063 €/mois couvrant 100 % du studio et de la vie étudiante.
           </div>
         </div>
       </div>
 
-      {/* Stratégie Alternative sous Continuité / RN : La Holding / SCI */}
       <div className="p-4 rounded-xl bg-indigo-50 border border-indigo-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
         <div className="space-y-1">
           <div className="font-bold text-indigo-950 flex items-center justify-between gap-1.5">
             <span className="flex items-center gap-1.5">
               <Building2 className="w-4 h-4 text-indigo-600" />
-              <span>La parade patrimoniale pour Nelly : Le Studio Étudiant en Holding / SCI</span>
+              <span>La parade sous Continuité / RN / Droite : Pension Déductible (6 674 €/an) ou Studio en Holding</span>
             </span>
             <div className="flex items-center gap-1">
-              <LawBadge article="Art. 145 & 216" code="CGI" />
-              <LawBadge article="Art. 669" code="CGI" />
+              <LawBadge article="Art. 156-II-2°" code="CGI" />
+              <LawBadge article="Art. 145" code="CGI" />
             </div>
           </div>
           <p className="text-indigo-900 leading-relaxed">
-            Si le gouvernement reste en Continuité ou bascule au RN (sans allocation d'autonomie étudiante), Nelly utilise la trésorerie capitalisée dans Nell'Immo pour acquérir un studio à Aix-en-Provence ou Marseille via une <strong>Holding patrimoniale (Régime Mère-Fille exonéré à 95%, <LawBadge article="Art. 145 & 216 CGI" />)</strong> avec démembrement temporaire d'usufruit (<LawBadge article="Art. 669 CGI" />). Les frais d'hébergement de ses filles sont ainsi transformés en constitution de patrimoine immobilier familial à 0% d'IR et 0% d'IFI !
+            Sans allocation d'autonomie étudiante, Nelly peut soit détacher sa fille majeure à 18 ans et déduire <strong>6 674 €/an de pension alimentaire</strong> de son revenu imposable (<LawBadge article="Art. 156-II-2° CGI" />), soit acquérir un studio à Aix via une <strong>Holding Mère-Fille (IS à 1,25 %, <LawBadge article="Art. 145 CGI" />)</strong>.
           </p>
         </div>
       </div>
