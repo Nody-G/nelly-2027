@@ -4,16 +4,14 @@ import {
   DaughterExpenseBreakdown,
   computeFullCostOfLivingBreakdown,
   FullCostOfLivingItem,
-  computeLifeHorizonProjections,
-  LifeHorizonProjection,
 } from '../../engine/budgetEngine';
-import { Info, BookOpen, Home, CalendarClock, ChevronDown, ChevronUp, Scale } from 'lucide-react';
+import { Info, BookOpen, Home, ChevronDown, ChevronUp, Scale } from 'lucide-react';
 import { LawBadge } from '../common/LawBadge';
 
-type CostViewMode = 'targeted' | 'full_household' | 'life_horizons';
+type CostViewMode = 'targeted' | 'full_household';
 
 export const DailyExpensesTable: React.FC = () => {
-  const [viewMode, setViewMode] = useState<CostViewMode>('targeted');
+  const [viewMode, setViewMode] = useState<CostViewMode>('full_household');
   const [expandedRow, setExpandedRow] = useState<string | null>('housing_mortgage');
 
   const linesContinuite = getDetailedExpenseLines('continuite');
@@ -22,7 +20,6 @@ export const DailyExpensesTable: React.FC = () => {
   const linesDroite = getDetailedExpenseLines('droite');
 
   const fullCategories = computeFullCostOfLivingBreakdown();
-  const lifeHorizons = computeLifeHorizonProjections();
 
   const formatEuro = (n: number, sign = false) => {
     const s = Math.round(n).toLocaleString('fr-FR') + ' €';
@@ -47,27 +44,15 @@ export const DailyExpensesTable: React.FC = () => {
         <div>
           <span className="text-[11px] font-bold uppercase text-indigo-600 flex items-center gap-1.5">
             <Scale className="w-3.5 h-3.5" />
-            Observatoire Documenté du Coût de la Vie & du Pouvoir d'Achat • Pélissanne (13330)
+            Observatoire Documenté du Coût de la Vie Annuel • Pélissanne (13330)
           </span>
           <h3 className="text-sm sm:text-base font-extrabold text-slate-900 mt-0.5">
-            Estimations Budgétaires, Croisements Macro-Politiques & Justification de chaque Chiffre
+            Détail Euro par Euro des Dépenses du Foyer & Justification de chaque Chiffre
           </h3>
         </div>
 
-        {/* Sélecteur 3 Vues */}
+        {/* Sélecteur 2 Vues (Focus vs Budget Complet) */}
         <div className="flex flex-wrap gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200">
-          <button
-            type="button"
-            onClick={() => setViewMode('targeted')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-              viewMode === 'targeted'
-                ? 'bg-indigo-600 text-white shadow-xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-            }`}
-          >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>1. Frais Ciblés Filles & CAF (5 687 €)</span>
-          </button>
           <button
             type="button"
             onClick={() => setViewMode('full_household')}
@@ -78,24 +63,166 @@ export const DailyExpensesTable: React.FC = () => {
             }`}
           >
             <Home className="w-3.5 h-3.5" />
-            <span>2. Coût de la Vie Complet (8 Postes • 36 677 €)</span>
+            <span>1. Budget Complet Foyer (8 Postes • 36 677 €)</span>
           </button>
           <button
             type="button"
-            onClick={() => setViewMode('life_horizons')}
+            onClick={() => setViewMode('targeted')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-              viewMode === 'life_horizons'
+              viewMode === 'targeted'
                 ? 'bg-indigo-600 text-white shadow-xs'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
             }`}
           >
-            <CalendarClock className="w-3.5 h-3.5" />
-            <span>3. Horizons de Vie (2026 → 2039)</span>
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>2. Focus Frais Filles & CAF (5 687 €)</span>
           </button>
         </div>
       </div>
 
-      {/* VUE 1 : FRAIS CIBLÉS DES 2 FILLES + ÉNERGIE + CAF */}
+      {/* VUE 1 : COÛT DE LA VIE COMPLET DU FOYER (8 POSTES À PÉLISSANNE) */}
+      {viewMode === 'full_household' && (
+        <div className="space-y-4">
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed">
+            <strong className="text-slate-900">Pourquoi analyser les 8 postes complets du foyer ({formatEuro(fullTotalCont)}/an de base) ?</strong>{' '}
+            Les programmes politiques agissent non seulement sur l'école et l'énergie, mais aussi sur les <strong>taux d'intérêt immobiliers (spread OAT 10 ans sur le crédit de la maison à 305 000 €)</strong>, la <strong>Taxe Foncière de Pélissanne</strong>, l'<strong>alimentation</strong> et la <strong>mobilité</strong>. Cliquez sur n'importe quelle ligne pour afficher le calcul et la source officielle.
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs min-w-[780px]">
+              <thead>
+                <tr className="border-b-2 border-slate-200 text-slate-500 uppercase text-[10px] bg-slate-50">
+                  <th className="py-2.5 px-3">Poste du Budget Foyer Pélissanne</th>
+                  <th className="py-2.5 px-3 text-sky-900 bg-sky-50/50">1. Continuité</th>
+                  <th className="py-2.5 px-3 text-emerald-900 bg-emerald-50/50">2. NFP / LFI</th>
+                  <th className="py-2.5 px-3 text-amber-900 bg-amber-50/50">3. Programme RN</th>
+                  <th className="py-2.5 px-3 text-indigo-900 bg-indigo-50/50">4. Droite Répub.</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-slate-700">
+                {fullCategories.map((cat: FullCostOfLivingItem) => {
+                  const isOpen = expandedRow === cat.id;
+                  return (
+                    <React.Fragment key={cat.id}>
+                      <tr
+                        onClick={() => setExpandedRow(isOpen ? null : cat.id)}
+                        className="hover:bg-slate-50/90 transition-colors cursor-pointer"
+                      >
+                        <td className="py-2.5 px-3 font-semibold text-slate-900">
+                          <div className="flex items-center justify-between gap-1">
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-indigo-600 block">{cat.category}</span>
+                              <span>{cat.label}</span>
+                            </div>
+                            {isOpen ? (
+                              <ChevronUp className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                            ) : (
+                              <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                            )}
+                          </div>
+                          <div className="text-[10px] text-slate-400 font-normal mt-0.5">{cat.sourceRef}</div>
+                        </td>
+                        <td className="py-2.5 px-3 bg-sky-50/20 font-bold text-slate-900">
+                          {formatEuro(cat.continuiteCost)} / an
+                          <span className="block text-[10px] font-normal text-slate-500">
+                            ({formatEuro(cat.continuiteCost / 12)} / mois)
+                          </span>
+                        </td>
+                        <td className="py-2.5 px-3 bg-emerald-50/20 font-bold text-emerald-900">
+                          {formatEuro(cat.lfiCost)} / an
+                          <span className="block text-[10px] font-semibold text-emerald-700">
+                            {cat.lfiCost - cat.continuiteCost <= 0
+                              ? `Éco : ${formatEuro(cat.continuiteCost - cat.lfiCost, true)}`
+                              : `Surcoût : +${formatEuro(cat.lfiCost - cat.continuiteCost)}`}
+                          </span>
+                        </td>
+                        <td className="py-2.5 px-3 bg-amber-50/20 font-bold text-amber-900">
+                          {formatEuro(cat.rnCost)} / an
+                          <span className="block text-[10px] font-semibold text-amber-700">
+                            {cat.rnCost - cat.continuiteCost <= 0
+                              ? `Éco : ${formatEuro(cat.continuiteCost - cat.rnCost, true)}`
+                              : `Surcoût : +${formatEuro(cat.rnCost - cat.continuiteCost)}`}
+                          </span>
+                        </td>
+                        <td className="py-2.5 px-3 bg-indigo-50/20 font-bold text-indigo-900">
+                          {formatEuro(cat.droiteCost)} / an
+                          <span className="block text-[10px] font-semibold text-indigo-700">
+                            {cat.droiteCost - cat.continuiteCost <= 0
+                              ? `Éco : ${formatEuro(cat.continuiteCost - cat.droiteCost, true)}`
+                              : `Surcoût : +${formatEuro(cat.droiteCost - cat.continuiteCost)}`}
+                          </span>
+                        </td>
+                      </tr>
+
+                      {isOpen && (
+                        <tr className="bg-indigo-50/40 border-l-4 border-indigo-600">
+                          <td colSpan={5} className="p-3.5 text-[11px] text-slate-700 space-y-2">
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <span className="font-extrabold text-indigo-950 uppercase tracking-wide text-[10px]">
+                                Justification & Croisement Documenté — {cat.category}
+                              </span>
+                              {cat.lawRef && <LawBadge article={cat.lawRef} />}
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                              <div className="p-2 rounded bg-white border border-slate-200">
+                                <strong className="text-sky-900">1. Continuité :</strong> {cat.continuiteWhy}
+                              </div>
+                              <div className="p-2 rounded bg-white border border-emerald-200">
+                                <strong className="text-emerald-900">2. NFP / LFI :</strong> {cat.lfiWhy}
+                              </div>
+                              <div className="p-2 rounded bg-white border border-amber-200">
+                                <strong className="text-amber-900">3. RN :</strong> {cat.rnWhy}
+                              </div>
+                              <div className="p-2 rounded bg-white border border-indigo-200">
+                                <strong className="text-indigo-900">4. Droite Républicaine :</strong> {cat.droiteWhy}
+                              </div>
+                            </div>
+                            <div className="p-2.5 rounded-lg bg-indigo-950 text-indigo-50 text-[11px] leading-relaxed">
+                              <strong className="text-amber-300">Croisement de Second Tour (Pourquoi cette réflexion) :</strong>{' '}
+                              {cat.deepCrossReasoning}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+
+                {/* Total Coût de la Vie Complet */}
+                <tr className="bg-slate-100 font-black text-slate-900 text-xs border-t-2 border-slate-300">
+                  <td className="py-3 px-3 uppercase">COÛT DE LA VIE COMPLET (8 POSTES CUMULÉS)</td>
+                  <td className="py-3 px-3 text-sky-900">
+                    {formatEuro(fullTotalCont)} / an
+                    <span className="block text-[10px] font-normal text-slate-500">
+                      ({formatEuro(fullTotalCont / 12)} / mois)
+                    </span>
+                  </td>
+                  <td className="py-3 px-3 text-emerald-800">
+                    {formatEuro(fullTotalLFI)} / an
+                    <span className="block text-[10px] font-bold text-emerald-600">
+                      Économie nette : +{formatEuro(fullTotalCont - fullTotalLFI)} / an
+                    </span>
+                  </td>
+                  <td className="py-3 px-3 text-amber-800">
+                    {formatEuro(fullTotalRN)} / an
+                    <span className="block text-[10px] font-bold text-amber-600">
+                      Économie nette : +{formatEuro(fullTotalCont - fullTotalRN)} / an
+                    </span>
+                  </td>
+                  <td className="py-3 px-3 text-indigo-900">
+                    {formatEuro(fullTotalDroite)} / an
+                    <span className="block text-[10px] font-bold text-indigo-600">
+                      Économie nette : +{formatEuro(fullTotalCont - fullTotalDroite)} / an
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* VUE 2 : FOCUS FRAIS CIBLÉS DES 2 FILLES + ÉNERGIE + CAF */}
       {viewMode === 'targeted' && (
         <div className="space-y-4">
           <div className="overflow-x-auto">
@@ -256,242 +383,6 @@ export const DailyExpensesTable: React.FC = () => {
             <span>
               <strong>Astuce interactive :</strong> Cliquez sur n'importe quelle ligne du tableau ci-dessus pour afficher sa <strong>documentation méthodologique complète</strong> (formule de calcul exacte, sources officielles Pélissanne/Ameli/CAF et croisement macro-budgétaire).
             </span>
-          </div>
-        </div>
-      )}
-
-      {/* VUE 2 : COÛT DE LA VIE COMPLET DU FOYER (8 POSTES À PÉLISSANNE) */}
-      {viewMode === 'full_household' && (
-        <div className="space-y-4">
-          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed">
-            <strong className="text-slate-900">Pourquoi modéliser les 8 postes complets du coût de la vie ({formatEuro(fullTotalCont)}/an de base) ?</strong>{' '}
-            Les 6 postes ciblés (5 687 €) ne représentent que 15,5 % des dépenses réelles de Nelly à Pélissanne. Or, les programmes politiques agissent aussi fortement sur les <strong>taux d'intérêt immobiliers (spread OAT 10 ans sur le crédit de la maison à 305 000 €)</strong>, la <strong>Taxe Foncière communale</strong>, l'<strong>alimentation (blocage des marges vs baisse TVA)</strong> et la <strong>mobilité périurbaine</strong>. Cliquez sur chaque poste pour lire la démonstration complète.
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs min-w-[780px]">
-              <thead>
-                <tr className="border-b-2 border-slate-200 text-slate-500 uppercase text-[10px] bg-slate-50">
-                  <th className="py-2.5 px-3">Poste du Budget Foyer Pélissanne</th>
-                  <th className="py-2.5 px-3 text-sky-900 bg-sky-50/50">1. Continuité</th>
-                  <th className="py-2.5 px-3 text-emerald-900 bg-emerald-50/50">2. NFP / LFI</th>
-                  <th className="py-2.5 px-3 text-amber-900 bg-amber-50/50">3. Programme RN</th>
-                  <th className="py-2.5 px-3 text-indigo-900 bg-indigo-50/50">4. Droite Répub.</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200 text-slate-700">
-                {fullCategories.map((cat: FullCostOfLivingItem) => {
-                  const isOpen = expandedRow === cat.id;
-                  return (
-                    <React.Fragment key={cat.id}>
-                      <tr
-                        onClick={() => setExpandedRow(isOpen ? null : cat.id)}
-                        className="hover:bg-slate-50/90 transition-colors cursor-pointer"
-                      >
-                        <td className="py-2.5 px-3 font-semibold text-slate-900">
-                          <div className="flex items-center justify-between gap-1">
-                            <div>
-                              <span className="text-[10px] uppercase font-bold text-indigo-600 block">{cat.category}</span>
-                              <span>{cat.label}</span>
-                            </div>
-                            {isOpen ? (
-                              <ChevronUp className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                            ) : (
-                              <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                            )}
-                          </div>
-                          <div className="text-[10px] text-slate-400 font-normal mt-0.5">{cat.sourceRef}</div>
-                        </td>
-                        <td className="py-2.5 px-3 bg-sky-50/20 font-bold text-slate-900">
-                          {formatEuro(cat.continuiteCost)} / an
-                          <span className="block text-[10px] font-normal text-slate-500">
-                            ({formatEuro(cat.continuiteCost / 12)} / mois)
-                          </span>
-                        </td>
-                        <td className="py-2.5 px-3 bg-emerald-50/20 font-bold text-emerald-900">
-                          {formatEuro(cat.lfiCost)} / an
-                          <span className="block text-[10px] font-semibold text-emerald-700">
-                            {cat.lfiCost - cat.continuiteCost <= 0
-                              ? `Éco : ${formatEuro(cat.continuiteCost - cat.lfiCost, true)}`
-                              : `Surcoût : +${formatEuro(cat.lfiCost - cat.continuiteCost)}`}
-                          </span>
-                        </td>
-                        <td className="py-2.5 px-3 bg-amber-50/20 font-bold text-amber-900">
-                          {formatEuro(cat.rnCost)} / an
-                          <span className="block text-[10px] font-semibold text-amber-700">
-                            {cat.rnCost - cat.continuiteCost <= 0
-                              ? `Éco : ${formatEuro(cat.continuiteCost - cat.rnCost, true)}`
-                              : `Surcoût : +${formatEuro(cat.rnCost - cat.continuiteCost)}`}
-                          </span>
-                        </td>
-                        <td className="py-2.5 px-3 bg-indigo-50/20 font-bold text-indigo-900">
-                          {formatEuro(cat.droiteCost)} / an
-                          <span className="block text-[10px] font-semibold text-indigo-700">
-                            {cat.droiteCost - cat.continuiteCost <= 0
-                              ? `Éco : ${formatEuro(cat.continuiteCost - cat.droiteCost, true)}`
-                              : `Surcoût : +${formatEuro(cat.droiteCost - cat.continuiteCost)}`}
-                          </span>
-                        </td>
-                      </tr>
-
-                      {isOpen && (
-                        <tr className="bg-indigo-50/40 border-l-4 border-indigo-600">
-                          <td colSpan={5} className="p-3.5 text-[11px] text-slate-700 space-y-2">
-                            <div className="flex flex-wrap items-center justify-between gap-2">
-                              <span className="font-extrabold text-indigo-950 uppercase tracking-wide text-[10px]">
-                                Justification & Croisement Documenté — {cat.category}
-                              </span>
-                              {cat.lawRef && <LawBadge article={cat.lawRef} />}
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                              <div className="p-2 rounded bg-white border border-slate-200">
-                                <strong className="text-sky-900">1. Continuité :</strong> {cat.continuiteWhy}
-                              </div>
-                              <div className="p-2 rounded bg-white border border-emerald-200">
-                                <strong className="text-emerald-900">2. NFP / LFI :</strong> {cat.lfiWhy}
-                              </div>
-                              <div className="p-2 rounded bg-white border border-amber-200">
-                                <strong className="text-amber-900">3. RN :</strong> {cat.rnWhy}
-                              </div>
-                              <div className="p-2 rounded bg-white border border-indigo-200">
-                                <strong className="text-indigo-900">4. Droite Républicaine :</strong> {cat.droiteWhy}
-                              </div>
-                            </div>
-                            <div className="p-2.5 rounded-lg bg-indigo-950 text-indigo-50 text-[11px] leading-relaxed">
-                              <strong className="text-amber-300">Croisement de Second Tour (Pourquoi cette réflexion) :</strong>{' '}
-                              {cat.deepCrossReasoning}
-                            </div>
-                          </td>
-                        </tr>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
-
-                {/* Total Coût de la Vie Complet */}
-                <tr className="bg-slate-100 font-black text-slate-900 text-xs border-t-2 border-slate-300">
-                  <td className="py-3 px-3 uppercase">COÛT DE LA VIE COMPLET (8 POSTES CUMULÉS)</td>
-                  <td className="py-3 px-3 text-sky-900">
-                    {formatEuro(fullTotalCont)} / an
-                    <span className="block text-[10px] font-normal text-slate-500">
-                      ({formatEuro(fullTotalCont / 12)} / mois)
-                    </span>
-                  </td>
-                  <td className="py-3 px-3 text-emerald-800">
-                    {formatEuro(fullTotalLFI)} / an
-                    <span className="block text-[10px] font-bold text-emerald-600">
-                      Économie nette : +{formatEuro(fullTotalCont - fullTotalLFI)} / an
-                    </span>
-                  </td>
-                  <td className="py-3 px-3 text-amber-800">
-                    {formatEuro(fullTotalRN)} / an
-                    <span className="block text-[10px] font-bold text-amber-600">
-                      Économie nette : +{formatEuro(fullTotalCont - fullTotalRN)} / an
-                    </span>
-                  </td>
-                  <td className="py-3 px-3 text-indigo-900">
-                    {formatEuro(fullTotalDroite)} / an
-                    <span className="block text-[10px] font-bold text-indigo-600">
-                      Économie nette : +{formatEuro(fullTotalCont - fullTotalDroite)} / an
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* VUE 3 : PROJECTIONS SUR 3 HORIZONS DE VIE (2026-2039) */}
-      {viewMode === 'life_horizons' && (
-        <div className="space-y-4">
-          <div className="p-3.5 rounded-xl bg-indigo-50/70 border border-indigo-200 text-xs text-indigo-950 leading-relaxed">
-            <strong>Pourquoi projeter le pouvoir d'achat sur 3 horizons biologiques et scolaires (2026 → 2039) ?</strong>{' '}
-            Un programme politique qui paraît défavorable à court terme (ou inversement) peut s'inverser radicalement lorsque l'aînée entre dans l'enseignement supérieur (2033) ou lorsque Nelly liquide sa retraite (60 ans vs 64 ans). Voici la trajectoire complète documentée.
-          </div>
-
-          <div className="grid grid-cols-1 gap-4">
-            {lifeHorizons.map((h: LifeHorizonProjection) => (
-              <div
-                key={h.horizonId}
-                className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 space-y-3"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-2.5">
-                  <div>
-                    <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-indigo-600 text-white">
-                      {h.period}
-                    </span>
-                    <h4 className="text-sm font-extrabold text-slate-900 mt-1">{h.title}</h4>
-                  </div>
-                  <span className="text-xs font-semibold text-slate-600 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
-                    {h.daughtersAges}
-                  </span>
-                </div>
-
-                {/* Pouvoir d'achat net annuel comparé (Passif vs Optimisé) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
-                  <div className="p-2.5 rounded-lg bg-white border border-sky-200 space-y-1">
-                    <div className="text-[10px] font-bold uppercase text-sky-700">1. Continuité</div>
-                    <div className="text-sm font-black text-slate-900">
-                      Optimisé : {formatEuro(h.annualPurchasingPowerByBloc.continuite.optimized)}/an
-                    </div>
-                    <div className="text-[10px] text-slate-500">
-                      Passif : {formatEuro(h.annualPurchasingPowerByBloc.continuite.passive)}/an
-                    </div>
-                    <div className="text-[10px] text-sky-800 italic">
-                      {h.annualPurchasingPowerByBloc.continuite.note}
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-white border border-emerald-200 space-y-1">
-                    <div className="text-[10px] font-bold uppercase text-emerald-700">2. NFP / LFI</div>
-                    <div className="text-sm font-black text-emerald-900">
-                      Optimisé : {formatEuro(h.annualPurchasingPowerByBloc.nfp_lfi.optimized)}/an
-                    </div>
-                    <div className="text-[10px] text-slate-500">
-                      Passif : {formatEuro(h.annualPurchasingPowerByBloc.nfp_lfi.passive)}/an
-                    </div>
-                    <div className="text-[10px] text-emerald-800 italic">
-                      {h.annualPurchasingPowerByBloc.nfp_lfi.note}
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-white border border-amber-200 space-y-1">
-                    <div className="text-[10px] font-bold uppercase text-amber-700">3. Programme RN</div>
-                    <div className="text-sm font-black text-amber-900">
-                      Optimisé : {formatEuro(h.annualPurchasingPowerByBloc.rn.optimized)}/an
-                    </div>
-                    <div className="text-[10px] text-slate-500">
-                      Passif : {formatEuro(h.annualPurchasingPowerByBloc.rn.passive)}/an
-                    </div>
-                    <div className="text-[10px] text-amber-800 italic">
-                      {h.annualPurchasingPowerByBloc.rn.note}
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-white border border-indigo-200 space-y-1">
-                    <div className="text-[10px] font-bold uppercase text-indigo-700">4. Droite Répub.</div>
-                    <div className="text-sm font-black text-indigo-900">
-                      Optimisé : {formatEuro(h.annualPurchasingPowerByBloc.droite.optimized)}/an
-                    </div>
-                    <div className="text-[10px] text-slate-500">
-                      Passif : {formatEuro(h.annualPurchasingPowerByBloc.droite.passive)}/an
-                    </div>
-                    <div className="text-[10px] text-indigo-800 italic">
-                      {h.annualPurchasingPowerByBloc.droite.note}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-lg bg-white border border-slate-200 text-[11px] text-slate-700 space-y-1.5 leading-relaxed">
-                  <div>
-                    <strong className="text-slate-900">Événements clés du cycle de vie :</strong> {h.keyLifeEvents}
-                  </div>
-                  <div>
-                    <strong className="text-indigo-900">Pourquoi cette projection (Justification & Calcul) :</strong>{' '}
-                    {h.documentedReasoning}
-                  </div>
-                  <div className="text-[10px] text-slate-400">Sources : {h.sourceRef}</div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       )}

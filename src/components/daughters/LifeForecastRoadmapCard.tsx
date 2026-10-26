@@ -2,13 +2,8 @@ import React, { useState } from 'react';
 import {
   Compass,
   CalendarClock,
-  CheckCircle2,
-  AlertTriangle,
   ShieldCheck,
   TrendingUp,
-  ArrowRight,
-  GraduationCap,
-  Building2,
 } from 'lucide-react';
 import { LawBadge } from '../common/LawBadge';
 
@@ -16,38 +11,35 @@ export const LifeForecastRoadmapCard: React.FC = () => {
   const [selectedStage, setSelectedStage] = useState<'2027_2030' | '2030_2033' | '2033_2039'>('2027_2030');
 
   return (
-    <div className="bg-white rounded-2xl border-2 border-indigo-200 shadow-sm overflow-hidden space-y-0">
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
       {/* En-tête */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-5 sm:p-6 space-y-2">
+      <div className="bg-slate-900 text-white p-5 space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <span className="p-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-400/30">
               <Compass className="w-5 h-5" />
             </span>
             <div>
               <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300 font-bold block">
-                Prévision de Vie Complète (2027 → 2039) • Arbitrage Final
+                Prévision de Vie Complète (2027 → 2039) • Chiffres Réels 2025 (40k€ + 20k€ div • Prêt 260k€)
               </span>
-              <h3 className="font-black text-base sm:text-xl text-white">
+              <h3 className="font-extrabold text-base sm:text-lg text-white">
                 Prévision de Vie pour Nelly & ses 2 Filles (LFI vs RN) : Coûts Réels & Vers Quoi Aller
               </h3>
             </div>
           </div>
-          <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
-            Trajectoire 12 ans Documentée
-          </span>
         </div>
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          Synthèse prédictive croisant les <strong>8 postes du coût de la vie à Pélissanne</strong>, la <strong>fiscalité de Nell'Immo SASU (70 000 €)</strong> et les <strong>3 grandes étapes biologiques et scolaires des filles</strong> (Collège/Primaire → Lycée/Collège → Université Aix/Marseille & Retraite).
+        <p className="text-xs text-slate-300 leading-relaxed">
+          Synthèse prédictive croisant les <strong>revenus 2025 de Nelly (40 000 € salaire + 20 000 € dividendes)</strong>, son <strong>prêt de 260 000 € (taux 3,7 % - 4,0 %) + 23 500 € de notaire</strong> sur sa nouvelle maison à 305 000 €, le passage de son loyer pro de <strong>400 €/mois (maison louée) à 650 €/mois + 100 € charges</strong>, et l'avenir de ses 2 filles (5 & 11 ans).
         </p>
       </div>
 
-      <div className="p-5 sm:p-6 space-y-6">
-        {/* 1. CHOC COMPARÉ : SANS RIEN CHANGER vs AVEC LEVIERS MAISON 305k€ */}
+      <div className="p-5 space-y-6">
+        {/* 1. CHOC COMPARÉ : SANS RIEN CHANGER vs AVEC LEVIERS NOUVELLE MAISON 305k€ */}
         <div className="space-y-3">
           <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-slate-900 flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-indigo-600" />
-            <span>1. Le Verdict Chiffré Annuel : Pourquoi tout s'inverse selon l'activation des leviers maison</span>
+            <span>1. Verdict Chiffré (Base 2025 : 40 000 € + 20 000 € dividendes) : Pourquoi les 20k€ de dividendes changent tout</span>
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
@@ -55,15 +47,15 @@ export const LifeForecastRoadmapCard: React.FC = () => {
             <div className="p-4 rounded-xl bg-rose-50/60 border border-rose-200 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-extrabold text-rose-950 uppercase text-[11px]">
-                  Cas A — Si Nelly reste passive (30 000 € de dividendes classiques)
+                  Cas A — Sans activer la nouvelle maison (20 000 € div. + loyer 400 €)
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-600 text-white">
-                  Avantage RN (+3 835 €/an)
+                  Avantage RN (+2 611 €/an)
                 </span>
               </div>
               <p className="text-slate-700 leading-relaxed text-[11px]">
-                • <strong>Sous LFI (Passif) :</strong> La suppression de la Flat Tax soumet ses 30 000 € de dividendes aux cotisations sociales et au barème 14 tranches. Ses impôts bondissent à <strong>-19 860 €/an</strong> (+6 725 € de surtaxe), ce qui annule ses 4 637 € d'économies sur le coût de la vie. Son épargne libre tombe à <strong>18 700 €/an (1 558 €/mois)</strong>.
-                <br />• <strong>Sous le RN (Passif) :</strong> Flat Tax maintenue + part pleine dès le 2e enfant (-12 398 € d'impôts) + 1 080 € de CAF universelle + baisse TVA énergie/carburant. Son épargne libre atteint <strong>22 535 €/an (1 878 €/mois)</strong>.
+                • <strong>Sous LFI (Passif) :</strong> Comme Nelly n'a que <strong>20 000 € de dividendes</strong> (et non 30 000 €), la fin de la Flat Tax lui coûte ~4 140 € d'impôts en plus, mais ses <strong>+3 987 €/an d'économies de factures et CAF</strong> (cantine 0 €, 100 % Sécu orthodontie) compensent presque intégralement la hausse d'impôt !
+                <br />• <strong>Sous le RN (Passif) :</strong> Maintien de la Flat Tax 30 % sur les 20 000 € de dividendes + part pleine dès le 2e enfant + 1 080 € de CAF universelle + baisse TVA 5,5 % énergie/carburant.
               </p>
             </div>
 
@@ -71,15 +63,15 @@ export const LifeForecastRoadmapCard: React.FC = () => {
             <div className="p-4 rounded-xl bg-emerald-50/70 border-2 border-emerald-400 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-extrabold text-emerald-950 uppercase text-[11px]">
-                  Cas B — Si Nelly active les Leviers Maison 305k€ (Bail Pro + CESU + Pub)
+                  Cas B — Avec la Nouvelle Maison 305k€ (Bail 400€ → 650€ + CESU + PEE)
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-700 text-white">
-                  Avantage LFI (+3 352 €/an)
+                  Avantage LFI (+2 521 €/an)
                 </span>
               </div>
               <p className="text-slate-700 leading-relaxed text-[11px]">
-                • <strong>Sous LFI (Optimisé) :</strong> En remplaçant ses dividendes par le loyer bureau + enseigne pub (10 800 € en foncier réel à 0 € d'impôt) et les CESU (2 540 €), la surtaxe dividendes tombe à 0 €. Elle cumule alors ses leviers avec la gratuité cantine/100% Sécu : son épargne libre grimpe à <strong>37 280 €/an (3 107 €/mois)</strong> !
-                <br />• <strong>Sous le RN (Optimisé) :</strong> Elle cumule les leviers maison avec les 1 080 € de CAF universelle et la baisse d'IR : son épargne libre atteint <strong>33 928 €/an (2 827 €/mois)</strong>, mais elle conserve les frais scolaires et les futures études à sa charge.
+                • <strong>Remplacement de 56 % à 100 % des 20 000 € de dividendes :</strong> En passant le loyer Nell'Immo de 400 € (maison louée) à 650 € + 100 € charges dans la nouvelle maison (+4 200 €/an déduits grâce aux intérêts du prêt de 260 000 € à 3,7-4 %), + CESU (3 131 €) + PEE (3 880 €), Nelly remplace <strong>11 211 € sur ses 20 000 € de dividendes en récurrent (et 100 % la 1re année)</strong> !
+                <br />• <strong>Résultat :</strong> Son pouvoir d'achat bondit de <strong>+10 349 €/an (Continuité)</strong>, <strong>+12 359 €/an (RN)</strong> et <strong>+14 880 €/an (LFI)</strong> !
               </p>
             </div>
           </div>
@@ -97,7 +89,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedStage('2027_2030')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                   selectedStage === '2027_2030'
                     ? 'bg-indigo-600 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -108,7 +100,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedStage('2030_2033')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                   selectedStage === '2030_2033'
                     ? 'bg-indigo-600 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -119,10 +111,10 @@ export const LifeForecastRoadmapCard: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedStage('2033_2039')}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
+                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                   selectedStage === '2033_2039'
                     ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    : 'text-slate-600 hover:bg-slate-900'
                 }`}
               >
                 Étape 3 : 2033-2039 (Université & Retraite)
@@ -141,10 +133,10 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                     • <strong>Quotidien des filles :</strong> Orthodontie de l'aînée remboursée à 100 % (« 100 % Sécu » : +1 250 €/an économisés), cantines primaire et Collège Carcassonne gratuites (+777 €), kits fournitures gratuits (+260 €), Pass'Sport & Culture (+350 €), CAF 1er enfant (+600 €).
                   </li>
                   <li>
-                    • <strong>Coût de la vie complet :</strong> Abaisse le budget annuel du foyer de 36 677 € à <strong>32 040 €/an (-4 637 €)</strong>.
+                    • <strong>Prêt 260 000 € (3,7 % - 4,0 %) :</strong> Les ~9 860 € d'intérêts annuels permettent de déduire ~2 761 €/an sur les 9 000 € du nouveau bail professionnel (650 € + 100 €), gommant l'impôt foncier.
                   </li>
                   <li>
-                    • <strong>Impact Nell'Immo :</strong> Recul de -12 % à -15 % des investisseurs locatifs privés (encadrement des loyers), à compenser en développant la gestion locative sous Garantie Universelle des Loyers (+14 400 € HT/an).
+                    • <strong>Impact Nell'Immo :</strong> Compenser le recul des bailleurs privés en ouvrant 25 lots de gestion locative sous Garantie Universelle des Loyers (+14 400 € HT/an).
                   </li>
                 </ul>
               </div>
@@ -155,13 +147,13 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                 </div>
                 <ul className="space-y-1.5 text-slate-700 text-[11px] leading-relaxed">
                   <li>
-                    • <strong>Quotidien des filles :</strong> Versement direct de <strong>+1 080 €/an d'allocations familiales universelles</strong> (90 €/mois part Nelly) + baisse d'IR de <strong>+450 €/an</strong> (part pleine dès le 2e enfant). Uniforme fourni au Collège Carcassonne, mais cantine (777 €) et orthodontie (1 450 €) plein tarif, et risque de hausse du piano (+80 €).
+                    • <strong>Quotidien des filles :</strong> Versement direct de <strong>+1 080 €/an d'allocations familiales universelles</strong> (90 €/mois part Nelly) + baisse d'IR (part pleine dès le 2e enfant). Cantine (777 €) et orthodontie (1 450 €) restent au tarif plein.
                   </li>
                   <li>
                     • <strong>Énergie & Mobilité :</strong> Baisse immédiate de la TVA de 20 % à 5,5 % sur l'électricité, le gaz et le carburant (-1 160 €/an cumulés maison + trajets) et fin des ZFE à Aix/Marseille.
                   </li>
                   <li>
-                    • <strong>Impact Nell'Immo :</strong> L'abrogation des interdictions DPE F/G libère +12 % de mandats de vente, mais la tension sur la dette (Spread OAT → crédit à ~4,65 %) freine les acheteurs sans apport.
+                    • <strong>Prêt 260 000 € verrouillé :</strong> Signé en 2026 entre 3,7 % et 4,0 %, le prêt de Nelly la protège contre toute tension ultérieure des taux OAT en 2027.
                   </li>
                 </ul>
               </div>
@@ -176,7 +168,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                 </div>
                 <ul className="space-y-1.5 text-slate-700 text-[11px] leading-relaxed">
                   <li>
-                    • <strong>Orthodontie de la Cadette (2032) :</strong> Lorsque la cadette entre en 6e à 11 ans et débute son traitement orthodontique, Nelly économise une seconde fois <strong>1 250 €/an</strong> grâce au 100 % Sécu.
+                    • <strong>Orthodontie de la Cadette (2032) :</strong> Lorsque la cadette entre en 6e à 11 ans, Nelly économise une seconde fois <strong>1 250 €/an</strong> grâce au 100 % Sécu.
                   </li>
                   <li>
                     • <strong>Années Lycée de l'Aînée :</strong> Transports scolaires et TER vers Salon-de-Provence / Aix 100 % gratuits, manuels et restauration lycéenne gratuits.
@@ -193,13 +185,13 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                 </div>
                 <ul className="space-y-1.5 text-slate-700 text-[11px] leading-relaxed">
                   <li>
-                    • <strong>Majoration CAF +14 ans :</strong> Les deux filles ayant dépassé 11 et 14 ans, les allocations familiales universelles versées à Nelly montent autour de <strong>+1 250 €/an</strong> net d'impôt.
+                    • <strong>Majoration CAF +14 ans :</strong> Les allocations familiales universelles versées à Nelly montent autour de <strong>+1 250 €/an</strong> net d'impôt.
                   </li>
                   <li>
-                    • <strong>Orientation sélective :</strong> Fin du collège unique dès la 4e/3e. Exonération totale d'IR jusqu'à 30 ans pour les jeunes entrant en apprentissage ou activité salariée.
+                    • <strong>Exonération IR jeunes :</strong> Exonération totale d'IR jusqu'à 30 ans pour les jeunes en apprentissage ou premier emploi.
                   </li>
                   <li>
-                    • <strong>Anticipation Études :</strong> Comme les filles n'auront droit à aucune bourse CROUS en 2033 (revenus de Nelly à 70k€), Nelly doit capitaliser ~10 000 €/an dans une Holding Mère-Fille pour acheter un studio étudiant à Aix.
+                    • <strong>Anticipation Études :</strong> Avec 60 000 € de revenus, les filles n'auront droit à aucune bourse CROUS en 2033 : capitaliser l'épargne dans une Holding SASU pour préparer leur logement étudiant à Aix.
                   </li>
                 </ul>
               </div>
@@ -214,7 +206,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                 </div>
                 <ul className="space-y-1.5 text-slate-700 text-[11px] leading-relaxed">
                   <li>
-                    • <strong>Le Basculement Majeur de 2033 (18 ans de l'Aînée) :</strong> La Garantie d'Autonomie Jeunesse verse <strong>1 063 €/mois (12 756 €/an, soit 1 158 €/mois indexé inflation)</strong> directement à l'aînée dès 2033, puis à la cadette dès 2039 + repas CROUS à 1 €.
+                    • <strong>Le Basculement Majeur de 2033 (18 ans de l'Aînée) :</strong> La Garantie d'Autonomie Jeunesse verse <strong>1 063 €/mois (12 756 €/an)</strong> directement à l'aînée dès 2033, puis à la cadette dès 2039 + repas CROUS à 1 €.
                   </li>
                   <li>
                     • <strong>Économie cumulée sur 5 ans d'études × 2 filles :</strong> Nelly économise <strong>63 000 € de trésorerie nette</strong> (sa quote-part de loyer et vie étudiante à Aix/Marseille).
@@ -231,13 +223,10 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                 </div>
                 <ul className="space-y-1.5 text-slate-700 text-[11px] leading-relaxed">
                   <li>
-                    • <strong>Choc financier des études (0 € de bourse CROUS) :</strong> À 70 000 € de revenus, Nelly dépasse les plafonds sociaux et les allocations CAF cessent à 20 ans. Sans préparation, elle doit décaisser <strong>6 300 €/an par fille</strong> (12 600 €/an coût total studio Aix).
+                    • <strong>Coût des études (0 € de bourse CROUS) :</strong> Même à 60 000 € de revenus, Nelly dépasse les plafonds sociaux et les allocations CAF cessent à 20 ans. Coût part Nelly : <strong>6 300 €/an par fille</strong>.
                   </li>
                   <li>
-                    • <strong>Parade fiscale obligatoire sous RN :</strong> Détacher fiscalement sa fille majeure et lui verser une pension alimentaire déductible (<LawBadge article="Art. 156-II-2° CGI" /> : 6 674 €/an déduits de la tranche à 30 %) ou la loger via un studio détenu par sa Holding (<LawBadge article="Art. 145 CGI" />).
-                  </li>
-                  <li>
-                    • <strong>Retraite à 62-63 ans :</strong> N'ayant pas débuté avant 20 ans, Nelly part entre 62 et 63 ans.
+                    • <strong>Parade fiscale obligatoire sous RN :</strong> Détacher fiscalement sa fille majeure et déduire une pension alimentaire (<LawBadge article="Art. 156-II-2° CGI" /> : 6 674 €/an déduits de la tranche à 30 %) ou la loger via sa Holding (<LawBadge article="Art. 145 CGI" />).
                   </li>
                 </ul>
               </div>
@@ -250,44 +239,44 @@ export const LifeForecastRoadmapCard: React.FC = () => {
           <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
             <div className="flex items-center gap-2 font-extrabold text-xs sm:text-sm text-amber-300 uppercase tracking-wide">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>3. Vers quoi il faut aller dès maintenant : La Feuille de Route en 5 Actions Gagnantes à 100 %</span>
+              <span>3. Vers quoi aller dès maintenant : Les 5 Actions Gagnantes pour Nelly</span>
             </div>
             <span className="text-[10px] font-mono text-indigo-300">Protection LFI & RN</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3 text-[11px]">
             <div className="p-3 rounded-xl bg-slate-800/90 border border-slate-700 space-y-1">
-              <div className="font-bold text-amber-300">Action 1 • Crédit Fixe</div>
+              <div className="font-bold text-amber-300">1. Prêt 260k€ (3,7-4%)</div>
               <p className="text-slate-300 leading-snug">
-                Signer le prêt de la maison de <strong>305 000 € à taux fixe (~3,45 %) AVANT mai 2027</strong> pour se protéger contre la hausse des taux OAT (4,20 % à 4,65 %) sous LFI ou RN.
+                Négocier le taux du prêt de <strong>260 000 € au plus près de 3,70 %</strong> (1 535 €/m vs 1 576 €/m à 4,0 %) et débloquer le PEE achat pour couvrir la moitié des <strong>23 500 € de frais de notaire</strong>.
               </p>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-800/90 border border-slate-700 space-y-1">
-              <div className="font-bold text-emerald-300">Action 2 • Zéro Dividende</div>
+              <div className="font-bold text-emerald-300">2. Bail 400€ → 650€</div>
               <p className="text-slate-300 leading-snug">
-                Facturer <strong>8 400 €/an de bail pro (35 m²) + 3 600 €/an d'enseigne pub</strong> à Nell'Immo en foncier réel (<LawBadge article="Art. 28 & 31 CGI" />) : neutralise à 100 % la suppression de la Flat Tax sous LFI !
+                Dès la remise des clés de la maison à 305 000 €, passer le bail Nell'Immo de <strong>400 € (location actuelle) à 650 € + 100 € charges</strong> au Foncier Réel (<LawBadge article="Art. 28 & 31 CGI" />) et déduire 28 % des intérêts du prêt.
               </p>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-800/90 border border-slate-700 space-y-1">
-              <div className="font-bold text-sky-300">Action 3 • CESU & ANCV</div>
+              <div className="font-bold text-sky-300">3. CESU & ANCV</div>
               <p className="text-slate-300 leading-snug">
-                Activer <strong>2 540 € de CESU Dirigeant + 540 € d'ANCV</strong> par an pour payer le piano à domicile, la garderie et l'escalade à 0 € d'IR et récupérer +635 € de crédit d'IS.
+                Activer <strong>2 591 € de CESU Dirigeant + 540 € d'ANCV</strong> par an pour payer le piano à domicile, la garderie et l'escalade à 0 € d'IR (+648 € de crédit d'IS).
               </p>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-800/90 border border-slate-700 space-y-1">
-              <div className="font-bold text-purple-300">Action 4 • Holding Studio</div>
+              <div className="font-bold text-purple-300">4. Nue-Propriété</div>
               <p className="text-slate-300 leading-snug">
-                Donner la <strong>nue-propriété de la maison (0 € droits)</strong> et loger le surplus de cash dans une <strong>Holding SASU (IS 1,25 %)</strong> pour acheter un studio à Aix si le RN gagne (0 € bourse en 2033).
+                Donner la <strong>nue-propriété de la maison de 305 000 € (0 € droits)</strong> avant 51 ans et préparer les études de 2033 (pension déductible 6 674 € ou studio Holding).
               </p>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-800/90 border border-slate-700 space-y-1">
-              <div className="font-bold text-pink-300">Action 5 • Pivot Agence</div>
+              <div className="font-bold text-pink-300">5. Audit Pub 40k€</div>
               <p className="text-slate-300 leading-snug">
-                <strong>Si LFI passe :</strong> ouvrir 25 lots en Gestion Locative GUL (+14 400 € HT) + mandataires RSAC. <strong>Si RN passe :</strong> cibler les mandats DPE F/G libérés et les acheteurs avec 30 % d'apport.
+                Réduire de 12 % les 40 000 € de portails annonces (<strong>+4 080 € net/an</strong>) et adapter l'agence selon 2027 (Gestion locative GUL sous LFI ou mandats DPE F/G sous RN).
               </p>
             </div>
           </div>

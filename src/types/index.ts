@@ -1,10 +1,8 @@
-export type TabId = 
+export type TabId =
   | 'simulator'
-  | 'optimization'
   | 'daughters'
+  | 'optimization'
   | 'duel'
-  | 'legal'
-  | 'timeline'
   | 'export';
 
 export type CompanyForm = 'SASU' | 'SARL';

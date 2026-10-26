@@ -1,59 +1,92 @@
 import { FiscalParameters } from '../types/fiscal';
+import { OptimizationLeversBreakdown, ScenarioResult } from '../types/simulation';
 import { PoliticalBlocId } from '../types';
-import { ScenarioResult, OptimizationLeversBreakdown } from '../types/simulation';
-import { 
-  calculateIncomeTaxStandard, 
-  calculateIncomeTaxLFI, 
+import {
+  calculateIncomeTaxStandard,
+  calculateIncomeTaxLFI,
   calculateDividendsTaxation,
-  calculateFoncierReelAnnual
+  calculateMonthlyMortgagePayment,
 } from './taxEngine';
 import { computeDailyLivingCostsByBloc, computeFullCostOfLivingBreakdown } from './budgetEngine';
-import { taxConstants } from '../data/taxScale2026';
 
 export function computeOptimizationLevers(params: FiscalParameters): OptimizationLeversBreakdown {
-  // Levier 1 : Loyer bureau dans la maison à 305 000 € (600 €/mois au lieu de 300 €)
-  const foncier = calculateFoncierReelAnnual(
-    params.housePurchasePrice,
-    params.mortgageInterestRate,
-    0.28,
-    params.homeOfficeRentMonthly,
-    100
-  );
-  const extraRentAnnual = (params.homeOfficeRentMonthly - 300) * 12; // (600 - 300) * 12 = 3 600 €
-  const extraChargesAnnual = 1200; // 100 € * 12 charges refacturées
+  if (!params.enableOptimizationLevers) {
+    return {
+      extraRentAnnual: 0,
+      extraChargesAnnual: 0,
+      deductibleInterestAndPropertyTax: 0,
+      cesuAncvPackage: 0,
+      cesuCorporateTaxCredit: 0,
+      savingsPlanRelease: 0,
+      homeOfficeWorksHT: 0,
+      tvaRecoveredOnWorks: 0,
+      advertisingSavingsHT: 0,
+      holdingOrLoanInterest: 0,
+      totalCashExtractedWithoutIR: 0,
+      totalCorporateTaxSaved: 0,
+      annualRecurringTotal: 0,
+      oneOffPurchaseBoostTotal: 0,
+    };
+  }
 
-  // Levier 2 : CESU préfinancé 2026 + Chèques-Vacances
-  const cesuAmount = taxConstants.plafondCesu2026; // 2 591 €
-  const cvAmount = taxConstants.chequesVacancesMax; // 540 €
-  const cesuAncvPackage = cesuAmount + cvAmount; // 3 131 €
-  const cesuCorporateTaxCredit = cesuAmount * taxConstants.creditImpotFamilleTaux; // 647.75 €
+  const isFirstYear = params.viewMode === 'firstYear';
 
-  // Levier 3 : Déblocage épargne achat maison 305k€ (PEE si salarié, PER si seul) - PONCTUEL 2026
-  const savingsPlanRelease = params.hasEmployee ? 12500 : 7500;
-  // Abondement PEE annuel ordinaire pérenne (hors achat) : 8% PASS
-  const peeAnnualOrdinary = params.hasEmployee ? 3880 : 2000;
+  // 1. Passage du loyer actuel de 400 €/mois (maison louée à Pélissanne) au nouveau bail propriétaire (ex: 650 €/mois + 100 €/mois charges) dans la maison achetée à 305 000 €
+  const currentRent = params.currentTenantRentMonthly ?? 400;
+  const extraRentAnnual = Math.max(0, (params.homeOfficeRentMonthly - currentRent) * 12);
+  const extraChargesAnnual = 100 * 12; // 1 200 €/an d'eau/électricité/clim réversible remboursés
 
-  // Levier 4 : Aménagement bureau & archives en direct par Nell'Immo - PONCTUEL 2026
-  const homeOfficeWorksHT = 4500;
-  const tvaRecoveredOnWorks = 900; // TVA 20% récupérée par Nell'Immo
+  // Quote-part de 28% des intérêts sur le prêt de 260 000 € (entre 3,7% et 4,0%) + 28% de la taxe foncière (1 900 €)
+  const loanAmount = params.loanAmount || 260000;
+  const rate = params.mortgageInterestRate || 3.85;
+  const deductibleInterestAndPropertyTax = Math.round(loanAmount * (rate / 100) * 0.985 * 0.28 + 1900 * 0.28);
 
-  // Levier 5 : Économie audit des 40 000 € de pub/logiciels (RÉCURRENT)
-  const advertisingSavingsHT = 40000 * (params.adSavingsPct / 100); // 12% = 4 800 € HT
+  // 2. Package CESU Préfinancé (plafond 2026 : 2 591 €) + Chèques-Vacances ANCV (540 €) = 3 131 €/an exonérés d'IR et de charges
+  const cesuAmount = 2591;
+  const ancvAmount = 540;
+  const cesuAncvPackage = cesuAmount + ancvAmount; // 3 131 €
+  const cesuCorporateTaxCredit = Math.round(cesuAmount * 0.25); // 648 €
 
-  // Levier 6 : Intérêts de Compte Courant d'Associé (CCA) ou surplus Holding
-  const holdingOrLoanInterest = 1500;
+  // 3. Épargne salariale PEE/PER :
+  // - En rythme annuel récurrent : abondement 300% net de CSG/CRDS (9,7%) = 3 880 €/an
+  // - En Année 1 (achat de la maison à 305 000 € + 23 500 € notaire) : déblocage exceptionnel du PEE accumulé = 12 500 €
+  const peeOrdinaryAnnual = 3880;
+  const peeUnlockPurchaseYear1 = 12500;
+  const savingsPlanRelease = isFirstYear ? peeUnlockPurchaseYear1 : peeOrdinaryAnnual;
 
-  // Totaux
-  const annualRecurringTotal = extraRentAnnual + extraChargesAnnual + cesuAncvPackage + peeAnnualOrdinary + (advertisingSavingsHT * 0.55) + cesuCorporateTaxCredit;
-  const oneOffPurchaseBoostTotal = savingsPlanRelease + homeOfficeWorksHT + tvaRecoveredOnWorks;
+  // 4. Travaux bureau 35 m² (4 500 € HT) + TVA 20% récupérée (900 €)
+  const homeOfficeWorksHT = isFirstYear ? 4500 : 500;
+  const tvaRecoveredOnWorks = Math.round(homeOfficeWorksHT * 0.20);
 
-  const totalCashExtractedWithoutIR = extraRentAnnual + extraChargesAnnual + cesuAncvPackage + savingsPlanRelease + homeOfficeWorksHT;
-  const totalCorporateTaxSaved = (extraRentAnnual + extraChargesAnnual + cesuAmount + homeOfficeWorksHT + advertisingSavingsHT) * 0.25 + cesuCorporateTaxCredit;
+  // 5. Audit du budget publicitaire de 40 000 € : économie brute (ex: 12% = 4 800 € HT)
+  const advertisingSavingsHT = params.adBudgetAnnual * (params.adSavingTargetPercent / 100);
+
+  // 6. Rémunération Compte Courant d'Associé / Holding
+  const holdingOrLoanInterest = 930;
+
+  // Sur 20 000 € de dividendes (chiffres 2025), le nouveau bail + charges + CESU + PEE remplacent de 56% (récurrent) à 100% (Année 1) des dividendes !
+  const totalCashExtractedWithoutIR =
+    extraRentAnnual + extraChargesAnnual + cesuAncvPackage + savingsPlanRelease;
+
+  const totalCorporateTaxSaved =
+    (extraRentAnnual + extraChargesAnnual + cesuAncvPackage + homeOfficeWorksHT) * 0.15 + cesuCorporateTaxCredit;
+
+  const recurringCashGain =
+    extraRentAnnual +
+    extraChargesAnnual +
+    cesuAncvPackage +
+    cesuCorporateTaxCredit +
+    peeOrdinaryAnnual +
+    600 + // entretien courant + TVA
+    advertisingSavingsHT * 0.85;
+
+  const oneOffPurchaseBoostTotal =
+    (peeUnlockPurchaseYear1 - peeOrdinaryAnnual) + (4500 + 900 - 600); // 8 620 € + 4 800 € = 13 420 €
 
   return {
     extraRentAnnual,
     extraChargesAnnual,
-    deductibleInterestAndPropertyTax: foncier.totalDeductibleExpenses,
+    deductibleInterestAndPropertyTax,
     cesuAncvPackage,
     cesuCorporateTaxCredit,
     savingsPlanRelease,
@@ -63,154 +96,157 @@ export function computeOptimizationLevers(params: FiscalParameters): Optimizatio
     holdingOrLoanInterest,
     totalCashExtractedWithoutIR,
     totalCorporateTaxSaved,
-    annualRecurringTotal,
-    oneOffPurchaseBoostTotal
+    annualRecurringTotal: recurringCashGain,
+    oneOffPurchaseBoostTotal: isFirstYear ? oneOffPurchaseBoostTotal : 0,
   };
 }
 
-export function runSingleScenario(
-  blocId: PoliticalBlocId,
-  isPassive: boolean,
+export function runScenarioForBloc(
   params: FiscalParameters,
-  referencePassiveNetPurchasingPower: number = 0
+  blocId: PoliticalBlocId,
+  isPassive: boolean
 ): ScenarioResult {
-  const totalIncome = params.totalRevenue;
-  const initialDividends = Math.min(params.dividendsGross, Math.max(0, totalIncome - 12000));
-  const salaryNet = totalIncome - initialDividends;
-
-  const livingCosts = computeDailyLivingCostsByBloc(blocId);
-  const levers = computeOptimizationLevers(params);
-
-  let dividendsReplacedByLevers = 0;
-  let remainingDividends = initialDividends;
-  let extraCashFromBusinessLevers = 0;
-  let csgOnSavingsUnlocked = 0;
-
-  // Capacité de remplacement selon le mode de vue (Pérenne récurrent vs Année 1 avec achat)
-  const isFirstYearView = params.viewMode === 'firstYear';
-
-  if (!isPassive) {
-    if (isFirstYearView) {
-      // Vue Année 1 (intègre le déblocage exceptionnel de la maison 305k€)
-      const capacityToReplace = levers.extraRentAnnual + levers.extraChargesAnnual + levers.cesuAncvPackage + levers.savingsPlanRelease + levers.homeOfficeWorksHT;
-      dividendsReplacedByLevers = Math.min(initialDividends, capacityToReplace);
-      remainingDividends = Math.max(0, initialDividends - dividendsReplacedByLevers);
-      csgOnSavingsUnlocked = Math.min(dividendsReplacedByLevers, levers.savingsPlanRelease) * 0.097;
-      extraCashFromBusinessLevers = (levers.advertisingSavingsHT * 0.60) + levers.tvaRecoveredOnWorks + levers.cesuCorporateTaxCredit;
-    } else {
-      // Vue Annuelle Récurrente Pérenne (tous les ans sans déblocage ponctuel de maison)
-      const peeOrdinary = params.hasEmployee ? 3880 : 1500;
-      const capacityToReplace = levers.extraRentAnnual + levers.extraChargesAnnual + levers.cesuAncvPackage + peeOrdinary;
-      dividendsReplacedByLevers = Math.min(initialDividends, capacityToReplace);
-      remainingDividends = Math.max(0, initialDividends - dividendsReplacedByLevers);
-      csgOnSavingsUnlocked = peeOrdinary * 0.097;
-      extraCashFromBusinessLevers = (levers.advertisingSavingsHT * 0.60) + levers.cesuCorporateTaxCredit;
-    }
-  }
-
-  // Calculs des impôts selon le bloc politique
-  let incomeTax = 0;
-  let socialContributionsOnDividends = 0;
-
-  if (blocId === 'nfp_lfi') {
-    const activeDividends = isPassive ? initialDividends : remainingDividends;
-    // Sous LFI : cotisations sociales sur dividendes (~35% en SASU, ~42% en SARL)
-    const socialRate = params.companyForm === 'SASU' ? 0.35 : 0.42;
-    socialContributionsOnDividends = activeDividends * socialRate;
-    const dividendsNetForIR = activeDividends - socialContributionsOnDividends;
-    incomeTax = calculateIncomeTaxLFI(salaryNet, dividendsNetForIR, params.isSingleParent);
-  } else {
-    // Continuité, RN ou Droite
-    const isRN = (blocId === 'rn');
-    incomeTax = calculateIncomeTaxStandard(salaryNet, params.isSingleParent, isRN, blocId);
-
-    const activeDividends = isPassive ? initialDividends : remainingDividends;
-    const divTax = calculateDividendsTaxation(activeDividends, params.companyForm, blocId);
-    
-    socialContributionsOnDividends = divTax.socialCharges;
-    incomeTax += divTax.incomeTax;
-  }
-
-  const totalTaxBurden = incomeTax + socialContributionsOnDividends + csgOnSavingsUnlocked;
-
-  // Calcul du Pouvoir d'Achat Net Réel :
-  // (Revenu global - Impôts) + Gains trésorerie entreprise + Allocations familiales directes - Coût de la vie ciblé (Filles & Énergie)
-  const netIncomeAfterTaxes = totalIncome - totalTaxBurden;
-  const familyAllowancesCash = livingCosts.familyAllowancesCash;
-  const netPurchasingPower = netIncomeAfterTaxes + extraCashFromBusinessLevers + familyAllowancesCash - livingCosts.total;
-
-  // Calcul du Coût de la Vie Complet du Foyer (Crédit maison 305k€, taxe foncière, alimentation, mobilité, énergie, filles, santé, loisirs)
-  const fullItems = computeFullCostOfLivingBreakdown();
-  const fullHouseholdCostOfLiving = fullItems.reduce((sum, item) => {
-    if (blocId === 'nfp_lfi') return sum + item.lfiCost;
-    if (blocId === 'rn') return sum + item.rnCost;
-    if (blocId === 'droite') return sum + item.droiteCost;
-    return sum + item.continuiteCost;
-  }, 0);
-
-  // Reste à épargner / capacité financière nette annuelle une fois l'intégralité du coût de la vie payée
-  const disposableSavingsCapacity = netIncomeAfterTaxes + extraCashFromBusinessLevers + familyAllowancesCash - fullHouseholdCostOfLiving;
-  
-  const netGainVsReferencePassive = referencePassiveNetPurchasingPower > 0 
-    ? (netPurchasingPower - referencePassiveNetPurchasingPower)
-    : 0;
-
   const blocNames: Record<PoliticalBlocId, string> = {
-    continuite: 'Continuité (Statu Quo)',
+    continuite: 'Continuité / Statu Quo',
     nfp_lfi: 'Nouveau Front Populaire / LFI',
-    rn: 'Rassemblement National (RN)',
-    droite: 'Droite Républicaine / Libérale'
+    rn: 'Rassemblement National',
+    droite: 'Droite Républicaine',
   };
 
-  // Calcul séparé clair
-  const annualRecurringGain = netGainVsReferencePassive;
-  const oneOffPurchaseBoost = isFirstYearView ? levers.oneOffPurchaseBoostTotal : 0;
+  const salaryNet = Math.max(0, params.totalRevenue - params.dividendsGross); // 40 000 € sur 2025
+  const levers = computeOptimizationLevers(params);
+
+  // Dividendes remplacés par les leviers non imposables (loyer réel, charges, CESU, PEE)
+  const dividendsReplaced = isPassive
+    ? 0
+    : Math.min(params.dividendsGross, levers.totalCashExtractedWithoutIR);
+
+  const dividendsRemaining = Math.max(0, params.dividendsGross - dividendsReplaced);
+
+  const divTax = calculateDividendsTaxation(dividendsRemaining, params.companyForm, blocId);
+
+  let incomeTax = 0;
+  const extraPartRN = blocId === 'rn';
+
+  if (blocId === 'nfp_lfi') {
+    const dividendsNetOfSocial = dividendsRemaining - divTax.socialCharges;
+    const deductibleCsgOnDividends = dividendsRemaining * 0.068;
+    const taxableDividendsForScale = Math.max(0, dividendsNetOfSocial - deductibleCsgOnDividends);
+
+    incomeTax = calculateIncomeTaxLFI(salaryNet, taxableDividendsForScale, params.isSingleParentCaseT);
+  } else {
+    const irOnSalary = calculateIncomeTaxStandard(salaryNet, params.isSingleParentCaseT, extraPartRN, blocId);
+    incomeTax = irOnSalary + divTax.incomeTax;
+  }
+
+  // En passant de locataire (sous-location 400 €/m) à propriétaire au Régime Foncier Réel dans la maison à 305k€ (prêt 260k€ à 3,7-4%),
+  // les 4 800 €/an déjà facturés bénéficient eux aussi de l'effacement d'impôt par les intérêts d'emprunt (~2 761 €/an déductibles) : gain IR/PS de ~820 €/an
+  const existingLeaseRealRegimeTaxShield = isPassive ? 0 : 820;
+
+  const csgOnSavingsUnlocked = isPassive ? 0 : Math.round(levers.savingsPlanRelease * 0.097);
+  const totalTaxBurden = Math.max(
+    0,
+    incomeTax + divTax.socialCharges + csgOnSavingsUnlocked - existingLeaseRealRegimeTaxShield
+  );
+
+  // Cash additionnel provenant des économies de gestion (Pub 40k€, Crédit d'impôt Famille 25%, TVA récupérée)
+  const extraCashFromBusinessLevers = isPassive
+    ? 0
+    : Math.round(
+        levers.advertisingSavingsHT * 0.85 +
+          levers.cesuCorporateTaxCredit +
+          levers.tvaRecoveredOnWorks +
+          levers.homeOfficeWorksHT * 0.5
+      );
+
+  // Coûts du quotidien des 2 filles + énergie maison + allocations familiales selon le bloc
+  const livingCosts = computeDailyLivingCostsByBloc(blocId);
+  const baseLivingCosts = computeDailyLivingCostsByBloc('continuite');
+  const billSavingsOnly = baseLivingCosts.total - livingCosts.total;
+  const familyAllowancesCash = livingCosts.familyAllowancesCash;
+
+  // Coût de la vie complet du foyer à Pélissanne (les 8 postes du budget réel), ajusté dynamiquement selon le taux du prêt de 260 000 € (attendu entre 3,7 % et 4,0 %)
+  const fullCostItems = computeFullCostOfLivingBreakdown();
+  const baseLoanAnnual = calculateMonthlyMortgagePayment(260000, 3.85, 20) * 12;
+  const currentLoanAnnual =
+    calculateMonthlyMortgagePayment(params.loanAmount || 260000, params.mortgageInterestRate || 3.85, 20) * 12;
+  const loanRateDeltaAnnual = currentLoanAnnual - baseLoanAnnual;
+
+  const fullHouseholdCostOfLiving =
+    fullCostItems.reduce((acc, item) => {
+      if (blocId === 'nfp_lfi') return acc + item.lfiCost;
+      if (blocId === 'rn') return acc + item.rnCost;
+      if (blocId === 'droite') return acc + item.droiteCost;
+      return acc + item.continuiteCost;
+    }, 0) + loanRateDeltaAnnual;
+
+  // Pouvoir d'achat net annuel
+  const netPurchasingPower =
+    params.totalRevenue - totalTaxBurden + extraCashFromBusinessLevers + familyAllowancesCash - livingCosts.total;
+
+  // Capacité d'épargne / Reste à vivre une fois TOUT le coût de la vie payé (y compris le prêt de 260 000 € à 3,7%-4%)
+  const disposableSavingsCapacity =
+    params.totalRevenue - totalTaxBurden + extraCashFromBusinessLevers + familyAllowancesCash - fullHouseholdCostOfLiving;
 
   return {
     blocId,
     blocName: blocNames[blocId],
     isPassive,
-    totalIncome,
+    totalIncome: params.totalRevenue,
     salaryNet,
-    dividendsGross: initialDividends,
-    dividendsReplacedByLevers,
-    dividendsRemaining: remainingDividends,
+    dividendsGross: params.dividendsGross,
+    dividendsReplacedByLevers: dividendsReplaced,
+    dividendsRemaining,
     incomeTax,
-    socialContributionsOnDividends,
+    socialContributionsOnDividends: divTax.socialCharges,
     csgOnSavingsUnlocked,
     totalTaxBurden,
     extraCashFromBusinessLevers,
     dailyLifeLivingExpenses: livingCosts.total,
-    dailyLifeAidsAndSavings: livingCosts.savingsVsBase,
+    dailyLifeAidsAndSavings: billSavingsOnly,
     familyAllowancesCash,
     netPurchasingPower,
     fullHouseholdCostOfLiving,
     disposableSavingsCapacity,
-    netGainVsReferencePassive,
-    annualRecurringGain,
-    oneOffPurchaseBoost
+    netGainVsReferencePassive: 0,
+    annualRecurringGain: 0,
+    oneOffPurchaseBoost: isPassive ? 0 : levers.oneOffPurchaseBoostTotal,
   };
 }
 
 export function runAllScenarios(params: FiscalParameters) {
-  // Calcul de la référence absolue : Continuité Passive
-  const refPassive = runSingleScenario('continuite', true, params, 0);
-  const refNet = refPassive.netPurchasingPower;
-  refPassive.netGainVsReferencePassive = 0;
+  const referencePassive = runScenarioForBloc(params, 'continuite', true);
+  const referencePower = referencePassive.netPurchasingPower;
 
-  const continuiteOpti = runSingleScenario('continuite', false, params, refNet);
-  const lfiPassive = runSingleScenario('nfp_lfi', true, params, refNet);
-  const lfiOpti = runSingleScenario('nfp_lfi', false, params, refNet);
-  const rnPassive = runSingleScenario('rn', true, params, refNet);
-  const rnOpti = runSingleScenario('rn', false, params, refNet);
-  const droitePassive = runSingleScenario('droite', true, params, refNet);
-  const droiteOpti = runSingleScenario('droite', false, params, refNet);
+  const recurringParams: FiscalParameters = { ...params, viewMode: 'recurring' };
+  const referencePassiveRecurring = runScenarioForBloc(recurringParams, 'continuite', true);
+
+  const attachDelta = (res: ScenarioResult) => {
+    const recurringRes = runScenarioForBloc(recurringParams, res.blocId, res.isPassive);
+    return {
+      ...res,
+      netGainVsReferencePassive: res.netPurchasingPower - referencePower,
+      annualRecurringGain: recurringRes.netPurchasingPower - referencePassiveRecurring.netPurchasingPower,
+    };
+  };
 
   return {
-    referencePassive: refPassive,
-    continuite: { passive: refPassive, optimized: continuiteOpti },
-    lfi: { passive: lfiPassive, optimized: lfiOpti },
-    rn: { passive: rnPassive, optimized: rnOpti },
-    droite: { passive: droitePassive, optimized: droiteOpti },
+    continuite: {
+      passive: attachDelta(runScenarioForBloc(params, 'continuite', true)),
+      optimized: attachDelta(runScenarioForBloc(params, 'continuite', false)),
+    },
+    lfi: {
+      passive: attachDelta(runScenarioForBloc(params, 'nfp_lfi', true)),
+      optimized: attachDelta(runScenarioForBloc(params, 'nfp_lfi', false)),
+    },
+    rn: {
+      passive: attachDelta(runScenarioForBloc(params, 'rn', true)),
+      optimized: attachDelta(runScenarioForBloc(params, 'rn', false)),
+    },
+    droite: {
+      passive: attachDelta(runScenarioForBloc(params, 'droite', true)),
+      optimized: attachDelta(runScenarioForBloc(params, 'droite', false)),
+    },
+    leversBreakdown: computeOptimizationLevers(params),
   };
 }

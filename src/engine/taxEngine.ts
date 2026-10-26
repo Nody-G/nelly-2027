@@ -156,44 +156,61 @@ export function calculateDividendsTaxation(
   }
 }
 
+export function calculateMonthlyMortgagePayment(loanAmount: number, annualRatePct: number, durationYears: number = 20): number {
+  const n = durationYears * 12;
+  const r = (annualRatePct / 100) / 12;
+  if (r <= 0) return loanAmount / n;
+  return (loanAmount * r) / (1 - Math.pow(1 + r, -n));
+}
+
 export function calculateFoncierReelAnnual(
-  housePurchasePrice: number,
-  mortgageRatePct: number,
+  loanAmount: number = 260000,
+  mortgageRatePct: number = 3.85,
   proProportion: number = 0.28,
-  monthlyRent: number = 600,
+  monthlyRent: number = 650,
   monthlyCharges: number = 100
 ) {
-  const annualRentIncome = monthlyRent * 12; // 7 200 €
+  const annualRentIncome = monthlyRent * 12; // 7 800 € à 650 €/mois
   const annualChargesReimbursed = monthlyCharges * 12; // 1 200 €
-  const totalReceived = annualRentIncome + annualChargesReimbursed; // 8 400 €
+  const totalReceived = annualRentIncome + annualChargesReimbursed; // 9 000 €
 
-  // Intérêts annuels moyens d'emprunt (sur 305k€ à 3.5% sur 20-25 ans : ~9 000 €/an)
-  const annualMortgageInterests = housePurchasePrice * (mortgageRatePct / 100) * 0.85;
+  // Intérêts d'emprunt de début de prêt sur les 260 000 € empruntés (entre 3,7% et 4,0% : ~9 480 € à 10 250 €/an)
+  const annualMortgageInterests = loanAmount * (mortgageRatePct / 100) * 0.985;
   const annualPropertyTax = 1900; // Taxe foncière Pélissanne
-  const annualInsurance = 450; // Assurance PNO habitation
+  const annualInsurance = 450; // Assurance PNO / habitation
 
-  const deductibleInterests = annualMortgageInterests * proProportion; // ~2 520 €
+  const deductibleInterests = annualMortgageInterests * proProportion; // ~2 760 € à 3,85%
   const deductiblePropertyTax = annualPropertyTax * proProportion; // ~532 €
   const deductibleInsurance = annualInsurance * proProportion; // ~126 €
   const deductibleMaintenanceAndCharges = annualChargesReimbursed; // 1 200 €
 
-  // Travaux de réfection / aménagement déductibles de la zone pro (Art. 31-I-1°-a CGI : ~3 500 € à 4 500 € reportables)
-  const deductibleWorksRefurbishment = 4100;
+  // Travaux de réfection / aménagement déductibles de la zone pro (Art. 31-I-1°-a CGI : ~4 400 €)
+  const deductibleWorksRefurbishment = 4400;
 
-  const totalDeductibleExpenses = deductibleInterests + deductiblePropertyTax + deductibleInsurance + deductibleMaintenanceAndCharges + deductibleWorksRefurbishment;
-  
+  const totalDeductibleExpenses =
+    deductibleInterests +
+    deductiblePropertyTax +
+    deductibleInsurance +
+    deductibleMaintenanceAndCharges +
+    deductibleWorksRefurbishment;
+
   // Bénéfice foncier net après déduction des travaux et intérêts : tombe à 0 €
   const netTaxableFoncier = Math.max(0, totalReceived - totalDeductibleExpenses);
+
+  const monthlyLoanPayment = calculateMonthlyMortgagePayment(loanAmount, mortgageRatePct, 20);
 
   return {
     annualRentIncome,
     annualChargesReimbursed,
     totalCashReceived: totalReceived,
+    annualMortgageInterests,
     deductibleInterests,
     deductiblePropertyTax,
     deductibleWorksRefurbishment,
     totalDeductibleExpenses,
     netTaxableFoncier,
-    taxSavedIRAndUrssaf: totalReceived * 0.472 // Si c'était du salaire ou dividende imposé à ~47%
+    monthlyLoanPayment,
+    annualLoanPayment: monthlyLoanPayment * 12,
+    taxSavedIRAndUrssaf: totalReceived * 0.472 // Économie si c'était sorti en salaire/dividende chargé
   };
 }

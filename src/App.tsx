@@ -10,8 +10,6 @@ import { SimulatorTab } from './components/tabs/SimulatorTab';
 import { OptimizationTab } from './components/tabs/OptimizationTab';
 import { DaughtersTab } from './components/tabs/DaughtersTab';
 import { DuelTab } from './components/tabs/DuelTab';
-import { LegalSafeguardsTab } from './components/tabs/LegalSafeguardsTab';
-import { TimelineRetirementTab } from './components/tabs/TimelineRetirementTab';
 import { ExportReportTab } from './components/tabs/ExportReportTab';
 
 export const App: React.FC = () => {
@@ -21,7 +19,7 @@ export const App: React.FC = () => {
   const scenarios = runAllScenarios(params);
 
   const handleChangeParams = (updated: Partial<FiscalParameters>) => {
-    setParams(prev => ({ ...prev, ...updated }));
+    setParams((prev) => ({ ...prev, ...updated }));
   };
 
   const handleResetParams = () => {
@@ -32,7 +30,7 @@ export const App: React.FC = () => {
     <LawProvider>
       <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-indigo-500 selection:text-white">
         {/* En-tête Global Exécutif (masqué à l'impression) */}
-        <Header 
+        <Header
           gainContinuité={scenarios.continuite.optimized.netGainVsReferencePassive}
           gainLFI={scenarios.lfi.optimized.netGainVsReferencePassive}
           gainRN={scenarios.rn.optimized.netGainVsReferencePassive}
@@ -40,47 +38,26 @@ export const App: React.FC = () => {
           onToggleViewMode={(mode) => handleChangeParams({ viewMode: mode })}
         />
 
-        {/* Barre de navigation sticky (masquée à l'impression) */}
-        <Navigation 
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
+        {/* Barre de navigation sticky en 5 piliers clairs (masquée à l'impression) */}
+        <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
 
         {/* Contenu principal */}
         <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-8 py-6">
           {activeTab === 'simulator' && (
-            <SimulatorTab 
+            <SimulatorTab
               params={params}
               onChangeParams={handleChangeParams}
               onResetParams={handleResetParams}
             />
           )}
 
-          {activeTab === 'optimization' && (
-            <OptimizationTab />
-          )}
+          {activeTab === 'daughters' && <DaughtersTab />}
 
-          {activeTab === 'daughters' && (
-            <DaughtersTab />
-          )}
+          {activeTab === 'optimization' && <OptimizationTab />}
 
-          {activeTab === 'duel' && (
-            <DuelTab />
-          )}
+          {activeTab === 'duel' && <DuelTab />}
 
-          {activeTab === 'legal' && (
-            <LegalSafeguardsTab />
-          )}
-
-          {activeTab === 'timeline' && (
-            <TimelineRetirementTab />
-          )}
-
-          {activeTab === 'export' && (
-            <ExportReportTab 
-              params={params}
-            />
-          )}
+          {activeTab === 'export' && <ExportReportTab params={params} />}
         </main>
 
         {/* Pied de page avec sources vérifiées (masqué à l'impression) */}
@@ -89,11 +66,11 @@ export const App: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
               <span>
-                <strong>Sources vérifiées :</strong> CGI (Art. 28, 31, 145, 194-II, 199 sexdecies, 200 A, 244 quater F, 669, 779), Code du travail, BOSS URSSAF 2026, Ville de Pélissanne, Banque des Territoires.
+                <strong>Sources vérifiées :</strong> CGI (Art. 28, 31, 145, 194-II, 199 sexdecies, 200 A, 244 quater F, 669, 779), Code du travail, BOSS URSSAF 2026, Ville de Pélissanne, Banque de France.
               </span>
             </div>
             <span className="shrink-0 font-medium">
-              Dossier Nell'Immo • Nelly Fernandez • Pélissanne (13330) • Octobre 2026
+              Dossier Nell'Immo • Nelly Fernandez • Pélissanne (13330)
             </span>
           </div>
         </footer>
