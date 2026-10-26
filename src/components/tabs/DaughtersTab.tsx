@@ -4,7 +4,8 @@ import { AineeCard } from '../daughters/AineeCard';
 import { CustodySplitCalculator } from '../daughters/CustodySplitCalculator';
 import { HigherEducationSimulator } from '../daughters/HigherEducationSimulator';
 import { DaughtersAndCommonGoodBenchmark } from '../daughters/DaughtersAndCommonGoodBenchmark';
-import { Users, Heart, Sparkles, MapPin, Scale } from 'lucide-react';
+import { LifeForecastRoadmapCard } from '../daughters/LifeForecastRoadmapCard';
+import { Heart, MapPin } from 'lucide-react';
 
 export const DaughtersTab: React.FC = () => {
   return (
@@ -34,9 +35,12 @@ export const DaughtersTab: React.FC = () => {
 
         <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
           Avec un revenu net annuel de 70 000 € issu de Nell'Immo (CA ~130 000 € HT), Nelly se situe au-dessus des plafonds d'aides sociales actuelles (0 € de CAF, 0 € de bourses, tranche 5 haute à Pélissanne). 
-          Voici l'audit approfondi, poste par poste, des coûts réels, des leviers d'optimisation légaux (CESU 2 591 €, Chèques-Vacances, crédit d'impôt 50%) et le <strong>comparatif des programmes politiques 2027</strong> pour le bien-être de ses filles et le bien commun.
+          Voici la <strong>prévision de vie complète 2027-2039</strong>, l'audit euro par euro des coûts réels, des leviers d'optimisation légaux (CESU, Chèques-Vacances, crédit d'impôt 50%) et le <strong>comparatif LFI vs RN</strong> pour ses filles.
         </p>
       </div>
+
+      {/* PRÉVISION DE VIE COMPLÈTE 2027-2039 (LFI vs RN : Coûts Détaillés & Vers Quoi Aller) */}
+      <LifeForecastRoadmapCard />
 
       {/* Cartes Individuelles Cadette 5 ans & Aînée 11 ans */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

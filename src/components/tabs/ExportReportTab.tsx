@@ -2,6 +2,7 @@ import React from 'react';
 import { FiscalParameters } from '../../types/fiscal';
 import { runAllScenarios } from '../../engine/scenarioEngine';
 import { CrossMatrixTab } from './CrossMatrixTab';
+import { LifeForecastRoadmapCard } from '../daughters/LifeForecastRoadmapCard';
 import { LawBadge } from '../common/LawBadge';
 import { Printer, MapPin } from 'lucide-react';
 
@@ -194,26 +195,8 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
           </div>
         </div>
 
-        {/* 3. Recommandations prioritaires pour l'expert-comptable */}
-        <div className="p-4 rounded-2xl bg-slate-100 border border-slate-300 space-y-2 text-xs">
-          <div className="font-black uppercase tracking-wider text-slate-800">
-            3. Feuille de Route Opérationnelle pour l'Expert-Comptable & le Notaire (2026-2027) :
-          </div>
-          <ol className="list-decimal list-inside space-y-1.5 text-slate-700 leading-relaxed">
-            <li>
-              <strong>Verrouiller le prêt immobilier à taux fixe (~3,45%) avant l'élection de 2027</strong> pour immuniser l'acquisition de la maison de 305 000 € contre tout écartement du spread OAT 10 ans (+90 à +130 €/mois évités).
-            </li>
-            <li>
-              <strong>Rédiger et signer le bail professionnel (25 m² bureau + façade publicitaire)</strong> entre Nelly Fernandez (propriétaire particulier au régime foncier réel 2044) et NELL'IMMO SASU.
-            </li>
-            <li>
-              <strong>Émettre la décision unilatérale de présidence pour les CESU préfinancés</strong> (2 540 € base / 2 591 € plafond 2026) et imputer le crédit d'impôt famille de 25% (Art. 244 quater F CGI) sur le solde d'IS.
-            </li>
-            <li>
-              <strong>Régulariser chez le notaire de Pélissanne/Salon la donation avec réserve d'usufruit</strong> de la nue-propriété aux deux filles avant le 51e anniversaire de Nelly (valeur fiscale 61 000 €/fille = 0 € de droits sous les 4 blocs politiques).
-            </li>
-          </ol>
-        </div>
+        {/* 3. Prévision de Vie 2027-2039 (LFI vs RN & Vers quoi aller) */}
+        <LifeForecastRoadmapCard />
 
         {/* 4. Matrice Stratégique Multicritère Intégrée */}
         <div className="space-y-3 pt-2">
