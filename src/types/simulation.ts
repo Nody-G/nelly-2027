@@ -16,10 +16,13 @@ export interface ScenarioResult {
   extraCashFromBusinessLevers: number; // pub économie, TVA récupérée, crédit impôt
   dailyLifeLivingExpenses: number;
   dailyLifeAidsAndSavings: number;
-  netPurchasingPower: number; // revenu restant après impôts + gains leviers + aides
+  familyAllowancesCash: number;        // Allocations familiales directes (CAF garde alternée)
+  netPurchasingPower: number;          // Revenu restant après impôts + gains leviers + allocations - frais ciblés
+  fullHouseholdCostOfLiving: number;   // Coût de la vie complet du foyer à Pélissanne (crédit maison, alimentation, mobilité, énergie, filles...)
+  disposableSavingsCapacity: number;   // Reste à épargner / vivre net une fois TOUT le coût de la vie payé
   netGainVsReferencePassive: number;
-  annualRecurringGain: number;  // Gain annuel pérenne (tous les ans)
-  oneOffPurchaseBoost: number;   // Boost exceptionnel de trésorerie lié à l'achat 305k€ (PEE + travaux)
+  annualRecurringGain: number;         // Gain annuel pérenne (tous les ans)
+  oneOffPurchaseBoost: number;         // Boost exceptionnel de trésorerie lié à l'achat 305k€ (PEE + travaux)
 }
 
 export interface OptimizationLeversBreakdown {

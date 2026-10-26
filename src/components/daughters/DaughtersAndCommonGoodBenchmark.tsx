@@ -14,15 +14,11 @@ import {
   Trees, 
   Bus, 
   ShieldAlert, 
-  Layers, 
   BadgeCheck, 
-  Landmark,
-  Euro,
-  ExternalLink
+  Euro
 } from 'lucide-react';
 import { Tooltip } from '../common/Tooltip';
 import { LawBadge } from '../common/LawBadge';
-import { pelissanneLocalData } from '../../data/pelissanneRates';
 
 export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
   const [activeSubTab, setActiveSubTab] = useState<'GIRLS_BUDGET' | 'COMMON_GOOD' | 'VERDICT_SYNTHESIS'>('GIRLS_BUDGET');
@@ -53,8 +49,8 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
 
         <p className="text-xs sm:text-sm text-pink-100/90 leading-relaxed max-w-4xl">
           Nelly gagne environ <strong>70 000 € net par an</strong> avec l'agence Nell'Immo (CA 130 000 € HT). 
-          À ce niveau de revenus, elle se situe au-dessus de la quasi-totalité des aides sociales actuelles (0 € d'allocations CAF, 0 € de bourses, plein tarif municipal à Pélissanne). 
-          Voici le croisement exhaustif, poste par poste, des mesures réelles de <strong>La France Insoumise (NFP)</strong>, du <strong>Rassemblement National</strong> et de la <strong>Continuité</strong> pour ses filles et son cadre de vie provençal.
+          À ce niveau de revenus, elle se situe au-dessus de la quasi-totalité des aides sociales sous condition de ressources actuelles (0 € d'allocations CAF effectives en tranche 3 partagée, 0 € de bourses CROUS, plein tarif municipal à Pélissanne). 
+          Voici le croisement exhaustif et documenté, poste par poste, des mesures de <strong>La France Insoumise (NFP)</strong>, du <strong>Rassemblement National</strong>, de la <strong>Droite Républicaine</strong> et de la <strong>Continuité</strong>.
         </p>
 
         {/* Barre de navigation entre sous-onglets */}
@@ -111,12 +107,12 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-200/80 text-sky-900">Base Référence</span>
               </div>
               <div className="text-xl sm:text-2xl font-black text-sky-950">
-                3 850 € <span className="text-xs font-normal text-slate-600">/ an de reste à charge</span>
+                5 687 € <span className="text-xs font-normal text-slate-600">/ an (dont 3 437 € filles + 2 250 € énergie)</span>
               </div>
               <p className="text-[11px] text-slate-600 leading-relaxed">
-                Plein tarif partout (cantine Pélissanne tranche 5, fournitures, orthodontie). <strong>0 € d'allocations familiales</strong> (dépassement plafond de ressources). 
+                Plein tarif partout (cantine Pélissanne tranche 5 : 777 €, ALSH/fournitures : 610 €, sport/piano : 800 €, orthodontie/mutuelle : 1 250 €). <strong>0 € d'allocations familiales effectives</strong>. 
                 <span className="text-emerald-700 font-semibold block mt-1">
-                  💡 Réductible à 1 650 €/an en activant le CESU Dirigeant 2 591 € et les Chèques-Vacances de Nell'Immo.
+                  💡 Réductible de -3 080 €/an en activant le CESU Dirigeant (2 540 €) et les Chèques-Vacances (540 €) de Nell'Immo.
                 </span>
               </p>
             </div>
@@ -128,14 +124,14 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-600 text-white">Top Dépenses Enfants</span>
               </div>
               <div className="text-xl sm:text-2xl font-black text-emerald-900">
-                620 € <span className="text-xs font-bold text-emerald-700">(Gain net : +3 230 €/an !)</span>
+                2 300 € <span className="text-xs font-bold text-emerald-700">(Gain net : +3 987 €/an avec CAF !)</span>
               </div>
               <p className="text-[11px] text-slate-700 leading-relaxed">
-                <strong>Gratuité totale</strong> de la cantine scolaire (+780 €) et des kits de fournitures (+250 €). 
-                <strong>100% Sécu Orthodontie</strong> sans reste à charge (+700 €). Pass'Sport universel 150 € + chèque culture (+350 €). 
-                Allocation dès le 1er enfant (+600 €).
+                <strong>Gratuité totale</strong> de la cantine scolaire (+777 €) et des kits de fournitures (+260 €). 
+                <strong>100% Sécu Orthodontie & Mutuelle</strong> (+1 250 €). Chèque sport & culture (+350 €). Blocage prix énergie (+750 €). 
+                Allocation CAF dès le 1er enfant (+600 €).
                 <span className="text-indigo-800 font-bold block mt-1">
-                  🎓 Horizon 18 ans : Allocation autonomie de 1 158 €/mois par fille (+13 896 €/an !).
+                  🎓 Horizon 18 ans : Allocation autonomie de 1 063 €/mois (+12 756 €/an NFP 2024, soit 1 158 €/mois indexé inflation).
                 </span>
               </p>
             </div>
@@ -147,12 +143,12 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-600 text-white">Top Fiscal Famille</span>
               </div>
               <div className="text-xl sm:text-2xl font-black text-amber-950">
-                2 350 € <span className="text-xs font-bold text-amber-700">(Gain net : +1 500 €/an)</span>
+                5 037 € <span className="text-xs font-bold text-amber-700">(Gain : +1 730 €/an + 450 € IR)</span>
               </div>
               <p className="text-[11px] text-slate-700 leading-relaxed">
-                <strong>Universalité des allocations familiales dès le 1er enfant</strong> sans condition de revenus : versement direct de <strong>+900 € à +1 320 € / an</strong> pour Nelly en garde alternée !
-                <strong>Part fiscale pleine dès le 2e enfant</strong> (+450 € de baisse d'IR). 
-                Baisse de TVA à 5,5% sur le matériel de sport et fournitures (-180 €). Cantine et orthodontie maintenues plein tarif.
+                <strong>Universalité des allocations familiales</strong> sans condition de revenus : versement direct de <strong>+1 080 € / an</strong> (90 €/mois en 50/50) !
+                <strong> Baisse TVA 5,5% énergie</strong> (+650 €/an) + <strong>Part fiscale pleine dès le 2e enfant</strong> (+450 € de baisse d'IR). 
+                Cantine et orthodontie maintenues au tarif actuel.
               </p>
             </div>
 
@@ -188,11 +184,11 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                         <School className="w-3.5 h-3.5 text-pink-600" />
                         <span>Cantine Scolaire (Pélissanne)</span>
                       </div>
-                      <div className="text-[10px] text-slate-500">Primaire (Cadette 5 ans) + Collège (Aînée 11 ans)</div>
+                      <div className="text-[10px] text-slate-500">Primaire (Cadette 5 ans : 287 €) + Collège (Aînée 11 ans : 490 €)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-sky-50/20">
                       <strong>777 € / an</strong>
-                      <div className="text-[10px] text-slate-500">Tranche 5 haute (4,10 €/repas)</div>
+                      <div className="text-[10px] text-slate-500">Tranche 5 haute (4,10 € / 4,45 €)</div>
                     </td>
                     <td className="py-2.5 px-3 font-bold text-emerald-800 bg-emerald-50/30">
                       0 € / an
@@ -203,33 +199,37 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                       <div className="text-[10px] text-slate-500">Maintien tarif communal actuel</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-600">
-                      <span className="text-[10px] text-slate-500">Tarif fixé par le CCAS de Pélissanne selon QF CAF.</span>
+                      <span className="text-[10px] text-slate-500">Tarif fixé par la Mairie de Pélissanne et le CD13 selon QF.</span>
                     </td>
                   </tr>
 
-                  {/* Ligne 2 : Fournitures & Rentrée */}
+                  {/* Ligne 2 : Fournitures & Périscolaire ALSH */}
                   <tr className="hover:bg-slate-50">
                     <td className="py-2.5 px-3">
                       <div className="font-bold text-slate-900 flex items-center gap-1.5">
                         <GraduationCap className="w-3.5 h-3.5 text-indigo-600" />
-                        <span>Fournitures & Rentrée Scolaire</span>
+                        <span>Périscolaire ALSH & Fournitures Rentrée</span>
                       </div>
-                      <div className="text-[10px] text-slate-500">Cartables, trousses, cahiers, classeurs collège</div>
+                      <div className="text-[10px] text-slate-500">Garderie / mercredis ALSH (350 €) + fournitures (260 €)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-sky-50/20">
-                      <strong>~250 € / an</strong>
+                      <strong>610 € / an</strong>
                       <div className="text-[10px] text-slate-500">0 € ARS (revenus &gt; plafond)</div>
                     </td>
                     <td className="py-2.5 px-3 font-bold text-emerald-800 bg-emerald-50/30">
-                      0 € / an
-                      <div className="text-[10px] text-emerald-600 font-semibold">Kit officiel complet gratuit (+250 €)</div>
+                      350 € / an
+                      <div className="text-[10px] text-emerald-600 font-semibold">Kit fournitures 100% gratuit (+260 €)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-amber-50/20">
-                      <strong>~220 € / an</strong>
-                      <div className="text-[10px] text-slate-500">Baisse TVA 5,5% (-30 €)</div>
+                      <strong>610 € / an</strong>
+                      <div className="text-[10px] text-slate-500">Tarif municipal maintenu</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-600">
-                      <span className="text-[10px] text-slate-500">Financement par dotation d'État aux communes.</span>
+                      <Tooltip 
+                        term="Art. 200 quater B CGI" 
+                        explanation="Crédit d'impôt de 50% pour frais de garde hors domicile des enfants de moins de 6 ans (applicable à la cadette de 5 ans)."
+                        lawRef="Art. 200 quater B CGI"
+                      />
                     </td>
                   </tr>
 
@@ -240,19 +240,19 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                         <Trophy className="w-3.5 h-3.5 text-pink-600" />
                         <span>Escalade (Cadette 5 ans)</span>
                       </div>
-                      <div className="text-[10px] text-slate-500">Club Sensabloc / CAF Salon-Pélissanne (400 € / an)</div>
+                      <div className="text-[10px] text-slate-500">Club FFME / Salle bloc Salon-Pélissanne (400 € / an)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-sky-50/20">
                       <strong>400 € / an</strong>
                       <div className="text-[10px] text-emerald-700 font-semibold">0 € d'IR si Chèques-Vacances Nell'Immo</div>
                     </td>
                     <td className="py-2.5 px-3 font-bold text-emerald-800 bg-emerald-50/30">
-                      250 € / an
-                      <div className="text-[10px] text-emerald-600 font-semibold">Pass'Sport universel 150 € (-150 €)</div>
+                      225 € / an
+                      <div className="text-[10px] text-emerald-600 font-semibold">Pass'Sport universel (-175 €)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-amber-50/20">
-                      <strong>380 € / an</strong>
-                      <div className="text-[10px] text-slate-500">TVA 5,5% sur chaussons/baudrier (-20 €)</div>
+                      <strong>400 € / an</strong>
+                      <div className="text-[10px] text-slate-500">Tarif club associatif maintenu</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-600">
                       <Tooltip 
@@ -274,15 +274,15 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-sky-50/20">
                       <strong>400 € / an</strong>
-                      <div className="text-[10px] text-purple-700 font-semibold">Optimisable à 0 € via CESU 2 591 €</div>
+                      <div className="text-[10px] text-purple-700 font-semibold">Optimisable à 0 € via CESU Dirigeant</div>
                     </td>
                     <td className="py-2.5 px-3 font-bold text-emerald-800 bg-emerald-50/30">
-                      250 € / an
-                      <div className="text-[10px] text-emerald-600 font-semibold">Chèque culture musique (-150 €)</div>
+                      225 € / an
+                      <div className="text-[10px] text-emerald-600 font-semibold">Chèque culture musique (-175 €)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-amber-50/20">
-                      <strong>400 € à 650 € / an</strong>
-                      <div className="text-[10px] text-amber-700 font-semibold">⚠️ Risque hausse tarif si coupes subventions</div>
+                      <strong>400 € (risque 650 €)</strong>
+                      <div className="text-[10px] text-amber-700 font-semibold">⚠️ Vigilance subventions écoles de musique</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-600">
                       <Tooltip 
@@ -298,24 +298,24 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                     <td className="py-2.5 px-3">
                       <div className="font-bold text-slate-900 flex items-center gap-1.5">
                         <Stethoscope className="w-3.5 h-3.5 text-rose-600" />
-                        <span>Orthodontie (Âge 11-14 ans)</span>
+                        <span>Orthodontie (11-14 ans) & Mutuelle Filles</span>
                       </div>
-                      <div className="text-[10px] text-slate-500">Semestres de bagues dentaires (~1 600 € / an)</div>
+                      <div className="text-[10px] text-slate-500">Reste à charge TO 90 (~700 €) + surcomplémentaire (550 €)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-sky-50/20">
-                      <strong>~700 € / an</strong>
-                      <div className="text-[10px] text-slate-500">Reste à charge après mutuelle</div>
+                      <strong>1 250 € / an</strong>
+                      <div className="text-[10px] text-slate-500">Base Sécu 193,50 €/semestre</div>
                     </td>
                     <td className="py-2.5 px-3 font-bold text-emerald-800 bg-emerald-50/30">
                       0 € / an
-                      <div className="text-[10px] text-emerald-600 font-semibold">Plan 100% Sécu intégrale (+700 €)</div>
+                      <div className="text-[10px] text-emerald-600 font-semibold">Plan 100% Sécu intégrale (+1 250 €)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-amber-50/20">
-                      <strong>~700 € / an</strong>
+                      <strong>1 250 € / an</strong>
                       <div className="text-[10px] text-slate-500">Maintien mutuelle privée obligatoire</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-600">
-                      <span className="text-[10px] text-slate-500">Mutuelle familiale souscrite et déduite sur Nell'Immo.</span>
+                      <span className="text-[10px] text-slate-500">Mutuelle collective d'entreprise déductible sur Nell'Immo.</span>
                     </td>
                   </tr>
 
@@ -330,20 +330,20 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-sky-50/20">
                       <strong>0 € / an</strong>
-                      <div className="text-[10px] text-slate-500">Plafond de ressources dépassé (70k€)</div>
+                      <div className="text-[10px] text-slate-500">Tranche 3 (70k€) neutralisée</div>
                     </td>
                     <td className="py-2.5 px-3 font-bold text-emerald-800 bg-emerald-50/30">
                       +600 € / an
-                      <div className="text-[10px] text-emerald-600 font-semibold">Allocation universelle dès 1er enfant</div>
+                      <div className="text-[10px] text-emerald-600 font-semibold">Allocation dès le 1er enfant (part 50%)</div>
                     </td>
                     <td className="py-2.5 px-3 font-black text-amber-900 bg-amber-50/30">
-                      +960 € à +1 320 € / an
+                      +1 080 € / an
                       <div className="text-[10px] text-amber-700 font-bold">Rétablissement Universalité Totale RN !</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-600">
                       <Tooltip 
                         term="Art. L. 521-1 CSS" 
-                        explanation="Article du Code de la Sécurité Sociale fixant les conditions d'attribution des allocations familiales."
+                        explanation="Article du Code de la Sécurité Sociale fixant les conditions d'attribution et le partage 50/50 des allocations familiales en garde alternée."
                         lawRef="Art. L521-1 CSS"
                       />
                     </td>
@@ -356,25 +356,25 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                         <Scale className="w-3.5 h-3.5 text-indigo-600" />
                         <span>Quotient Familial (Part Fiscale)</span>
                       </div>
-                      <div className="text-[10px] text-slate-500">Garde alternée + Majoration Case T parent isolé</div>
+                      <div className="text-[10px] text-slate-500">Garde alternée (0,25 pt/enfant) + Option Case T</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-sky-50/20">
-                      <strong>1,75 parts</strong>
-                      <div className="text-[10px] text-slate-500">Plafond demi-part : 1 759 €</div>
+                      <strong>1,50 part (1,75 Case T)</strong>
+                      <div className="text-[10px] text-slate-500">Plafond demi-part : 1 791 €</div>
                     </td>
                     <td className="py-2.5 px-3 font-bold text-emerald-800 bg-emerald-50/30">
                       Crédit d'impôt enfant
                       <div className="text-[10px] text-emerald-600 font-semibold">Barème 14 tranches lissé</div>
                     </td>
                     <td className="py-2.5 px-3 font-black text-amber-900 bg-amber-50/30">
-                      2,00 parts (+450 € IR)
+                      +0,25 part (+450 € IR)
                       <div className="text-[10px] text-amber-700 font-bold">Part pleine dès le 2e enfant !</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-600">
                       <Tooltip 
-                        term="Art. 194-II & 195 CGI" 
-                        explanation="Règles d'attribution des parts de quotient familial en garde alternée et majoration parent isolé case T."
-                        lawRef="Art. 194-II & 195 CGI"
+                        term="Art. 194-I & 197-I-2 CGI" 
+                        explanation="Règles d'attribution des parts de quotient familial en garde alternée et plafonnement légal à 1 791 € par demi-part (relevé à 2 500 € par la Droite Républicaine)."
+                        lawRef="Art. 197-I-2 CGI"
                       />
                     </td>
                   </tr>
@@ -390,11 +390,11 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-sky-50/20">
                       <strong>0 € de bourse</strong>
-                      <div className="text-[10px] text-slate-500">100% à charge (~12k€/an/fille)</div>
+                      <div className="text-[10px] text-slate-500">À charge (~6 500 €/an/fille part Nelly)</div>
                     </td>
                     <td className="py-2.5 px-3 font-black text-emerald-900 bg-emerald-50/40">
-                      +13 896 € / an par fille !
-                      <div className="text-[10px] text-emerald-700 font-bold">Allocation Autonomie 1 158 €/mois</div>
+                      +12 756 € à +13 896 € / an
+                      <div className="text-[10px] text-emerald-700 font-bold">Allocation Autonomie 1 063 €/m (1 158 € indexée)</div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-700 bg-amber-50/20">
                       <strong>0 € de bourse</strong>
@@ -402,9 +402,9 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                     </td>
                     <td className="py-2.5 px-3 text-slate-600">
                       <Tooltip 
-                        term="Donation temporaire d'usufruit" 
-                        explanation="Permet à Nelly de loger sa fille dans un studio détenu par sa holding sans payer d'IFI ni d'IR sur les loyers."
-                        lawRef="Art. 669 CGI"
+                        term="Art. 156-II-2° & 669 CGI" 
+                        explanation="Déduction d'une pension alimentaire jusqu'à 6 674 €/an par enfant majeur détaché ou donation temporaire d'usufruit d'un studio."
+                        lawRef="Art. 156-II-2° CGI"
                       />
                     </td>
                   </tr>
@@ -446,8 +446,8 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
               </div>
               <ul className="space-y-1.5 text-slate-600">
                 <li>• <strong>Constat actuel :</strong> Urgences de Salon-de-Provence et pédiatrie d'Aix souvent saturées (attente 5 à 8h). Délais de 3 à 6 mois pour un spécialiste pédiatrique.</li>
-                <li>• <strong>Sous LFI :</strong> Embauche de 100 000 soignants, réouverture de 50 000 lits et centres de santé publics municipaux avec médecins salariés pour stopper les déserts médicaux.</li>
-                <li>• <strong>Sous RN :</strong> Suppression des Agences Régionales de Santé (ARS), recentrage sur le personnel de soin, exonération fiscale sur 5 ans pour attirer les jeunes médecins en zone périurbaine.</li>
+                <li>• <strong>Sous LFI :</strong> Embauche de 100 000 soignants, réouverture de lits et centres de santé publics municipaux avec médecins salariés pour résorber les déserts médicaux.</li>
+                <li>• <strong>Sous RN :</strong> Suppression des Agences Régionales de Santé (ARS), défiscalisation du cumul emploi-retraite des médecins et exonération d'IR sur 5 ans pour les jeunes praticiens en zone périurbaine.</li>
               </ul>
             </div>
 
@@ -463,9 +463,9 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                 </div>
               </div>
               <ul className="space-y-1.5 text-slate-600">
-                <li>• <strong>Constat actuel :</strong> Canicules en mai-juin-septembre (38-40°C) dans des classes mal isolées à Pélissanne. Classes à 27-29 élèves au collège Carcassonne.</li>
-                <li>• <strong>Sous LFI :</strong> Plan d'urgence isolation & climatisation éco-responsable des écoles du Sud, plafonnement à 20 élèves par classe en primaire, recrutement massif d'AESH.</li>
-                <li>• <strong>Sous RN :</strong> Port de l'uniforme obligatoire au collège/primaire, rétablissement strict de l'autorité des professeurs, suppression du collège unique avec filières dès 14 ans.</li>
+                <li>• <strong>Constat actuel :</strong> Canicules en mai-juin-septembre (38-40°C) dans les salles de classe. Effectifs de 27-29 élèves au collège Carcassonne.</li>
+                <li>• <strong>Sous LFI :</strong> Plan d'urgence isolation & rafraîchissement des écoles du Sud, plafonnement à 20 élèves par classe en primaire, recrutement massif d'AESH.</li>
+                <li>• <strong>Sous RN :</strong> Port de l'uniforme obligatoire au collège/primaire, rétablissement de l'autorité disciplinaire, orientation plus précoce dès la 4e/3e.</li>
               </ul>
             </div>
 
@@ -481,9 +481,9 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                 </div>
               </div>
               <ul className="space-y-1.5 text-slate-600">
-                <li>• <strong>Sous RN :</strong> Tolérance zéro, peines planchers obligatoires, armement systématique des polices municipales, suppression des réductions automatiques de peine et 20 000 places de prison. Climat très sécuritaire et rassurant pour les déplacements des filles.</li>
-                <li>• <strong>Sous LFI :</strong> Police de proximité bienveillante non armée de guerre (îlotiers), désescalade des tensions, investissement massif dans la justice des mineurs et l'éducation spécialisée.</li>
-                <li>• <strong>Continuité :</strong> Création de 200 nouvelles brigades de gendarmerie en milieu rural/périurbain.</li>
+                <li>• <strong>Sous RN :</strong> Tolérance zéro, peines planchers obligatoires, armement généralisé des polices municipales, majorité pénale à 16 ans. Climat sécuritaire maximal pour les trajets autonomes des filles et l'attractivité résidentielle de Pélissanne.</li>
+                <li>• <strong>Sous LFI :</strong> Police de proximité (îlotiers), médiateurs aux abords des collèges, prévention spécialisée.</li>
+                <li>• <strong>Continuité / Droite :</strong> Renforcement des brigades de gendarmerie périurbaines et de la vidéoprotection communale.</li>
               </ul>
             </div>
 
@@ -499,8 +499,8 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                 </div>
               </div>
               <ul className="space-y-1.5 text-slate-600">
-                <li>• <strong>Sous LFI :</strong> Application de la Règle Verte, grand plan de gestion publique de l'eau, interdiction des coupures, aides à 100% pour la rénovation thermique et désimperméabilisation des sols contre les crues de la Touloubre.</li>
-                <li>• <strong>Sous RN :</strong> Simplification administrative drastique : facilitation des travaux de curage des cours d'eau et digues par les communes rurales sans veto environnemental. Refus du DPE obligatoire.</li>
+                <li>• <strong>Sous LFI :</strong> Gratuité des premiers m³ d'eau vitaux, gestion 100% publique, subventions pour la rénovation thermique et désimperméabilisation des sols contre les crues de la Touloubre.</li>
+                <li>• <strong>Sous RN :</strong> Simplification administrative accélérant le curage de la Touloubre et des bassins de rétention sans blocage réglementaire. Abrogation des interdictions DPE.</li>
               </ul>
             </div>
 
@@ -512,17 +512,17 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                 </div>
                 <div>
                   <h5 className="font-extrabold text-slate-900 text-sm">5. Mobilité Quotidienne, Carburants & Transports (Salon - Pélissanne - Aix)</h5>
-                  <span className="text-[10px] text-slate-500">Véhicule de fonction Nell'Immo et déplacements des enfants</span>
+                  <span className="text-[10px] text-slate-500">Véhicule de tournée Nell'Immo et déplacements des enfants</span>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-600">
                 <div>
                   <strong className="text-slate-900 block mb-0.5">• Sous LFI / NFP :</strong>
-                  Gratuité totale des transports en commun pour les moins de 25 ans (bus métropole Aix-Marseille, TER), blocage du prix du litre d'essence/gazole à 1,50 € par décret, développement des petites lignes ferroviaires.
+                  Gratuité des transports en commun pour les moins de 25 ans (bus métropole Aix-Marseille, TER), blocage du prix des carburants à la pompe par décret en cas de flambée, mais maintien des ZFE dans les métropoles.
                 </div>
                 <div>
                   <strong className="text-slate-900 block mb-0.5">• Sous le RN :</strong>
-                  Baisse immédiate et pérenne de la TVA de 20% à 5,5% sur tous les carburants automobiles et l'électricité. Suppression des Zones à Faibles Émissions (ZFE) interdisant aux voitures plus anciennes d'accéder à Marseille ou Aix.
+                  Baisse immédiate et pérenne de la TVA de 20% à 5,5% sur tous les carburants automobiles et l'électricité (-520 €/an sur la mobilité et -650 €/an sur l'énergie maison). Suppression pure et simple des ZFE à Aix/Marseille.
                 </div>
               </div>
             </div>
@@ -542,7 +542,7 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
               <span>L'Arbitrage Impartial & Sans Filtre pour Nelly Fernandez :</span>
             </div>
             <p className="text-xs text-amber-950 leading-relaxed">
-              Il n'existe aucun « camp parfait ». Chaque programme présente des avantages indéniables et des risques sérieux pour Nelly, son entreprise et ses filles :
+              Il n'existe aucun « camp parfait ». Chaque programme présente des avantages chiffrés réels et des effets de second tour qu'il faut documenter et parer :
             </p>
           </div>
 
@@ -558,10 +558,10 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
               <div className="space-y-1.5">
                 <div className="font-bold text-emerald-900 flex items-center gap-1 text-[11px]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Les Gains Majeurs pour ses 2 Filles (+3 230 € / an) :</span>
+                  <span>Les Gains Majeurs pour ses 2 Filles (+3 987 € / an) :</span>
                 </div>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  C'est de très loin le programme le plus protecteur pour le budget familial direct : cantine 100% gratuite, fournitures gratuites, soins d'orthodontie remboursés à 100% par la Sécurité sociale, transports gratuits pour les ados, et garantie d'autonomie de 1 158 €/mois qui financera intégralement leurs études supérieures en 2033 et 2039 sans puiser dans son épargne.
+                  C'est le programme le plus généreux sur les dépenses publiques familiales : cantine 100% gratuite (+777 €), fournitures gratuites (+260 €), orthodontie et soins à 100% Sécu (+1 250 €), chèque sport/culture (+350 €), blocage énergie (+750 €), CAF dès le 1er enfant (+600 €), et garantie d'autonomie de 1 063 €/mois (1 158 € indexée) qui financera leurs études supérieures en 2033 et 2039.
                 </p>
               </div>
 
@@ -571,7 +571,7 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                   <span>Les Risques pour Nell'Immo & le Patrimoine :</span>
                 </div>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  Suppression de la Flat Tax sur les dividendes (soumis à ~35% de cotisations sociales) si Nelly ne remplace pas ses dividendes par du foncier réel. Encadrement des loyers pouvant freiner 10% des investisseurs locatifs de l'agence. Hausse des taux d'emprunt si le déficit public inquiète les marchés européens.
+                  Suppression de la Flat Tax sur les dividendes passifs (+5 800 € d'impôts si Nelly ne restructure pas en foncier réel). Encadrement des loyers freinant les investisseurs locatifs (-12% CA transaction). Hausse probable de la Taxe Foncière communale (+340 €) et des taux de crédit immobilier (~4,20%).
                 </p>
               </div>
             </div>
@@ -586,11 +586,11 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
               <div className="space-y-1.5">
                 <div className="font-bold text-emerald-900 flex items-center gap-1 text-[11px]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Les Gains Majeurs pour Nell'Immo & Fiscalité :</span>
+                  <span>Les Gains Majeurs pour Nell'Immo & Fiscalité (+1 730 € + 450 € IR) :</span>
                 </div>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  Maintien de la Flat Tax à 30% sur les dividendes, exonération d'IFI sur l'immobilier d'habitation, TVA à 5,5% sur l'énergie, et moratoire de 5 ans sur le DPE libérant des mandats de vente pour Nell'Immo.
-                  Pour les filles : versement direct de <strong>+900 € à +1 320 € / an d'allocations universelles</strong> et <strong>part fiscale pleine dès le 2e enfant (+450 € IR)</strong>.
+                  Maintien de la Flat Tax sur les dividendes, exonération d'IFI sur l'immobilier d'habitation (IFF), TVA à 5,5% sur l'énergie (+650 €) et les carburants (+520 €), et abrogation du calendrier DPE libérant des mandats de vente.
+                  Pour les filles : <strong>+1 080 € / an d'allocations familiales universelles</strong> et <strong>part fiscale pleine dès le 2e enfant (+450 € IR)</strong>.
                 </p>
               </div>
 
@@ -600,7 +600,7 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
                   <span>Les Risques pour les Filles & l'Agence :</span>
                 </div>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  Aucune gratuité scolaire : cantine (777 €) et fournitures (220 €) restent à sa charge. Reste à charge orthodontie (~700 €) inchangé. Risque de flambée des cours de piano si les subventions culturelles sont réduites en mairie. Risque de spread OAT faisant monter les taux de crédit bancaire à 4,5%, bloquant les compromis de Nell'Immo.
+                  Aucune gratuité scolaire (cantine 777 € et orthodontie 1 250 € restent à charge) et 0 € de bourse étudiante en 2033. Risque de hausse des cours de piano si les subventions culturelles baissent. Surtout, risque de spread OAT (+110 bps) faisant grimper les taux de prêt immobilier vers 4,55%, amputant la solvabilité des acheteurs de Nell'Immo.
                 </p>
               </div>
             </div>
@@ -614,10 +614,10 @@ export const DaughtersAndCommonGoodBenchmark: React.FC = () => {
               <span>La Stratégie d'Immunité Totale pour Nelly Fernandez :</span>
             </div>
             <p className="text-slate-300 leading-relaxed">
-              En signant le <strong>bail professionnel de 35 m² à 600 € / mois</strong> dans sa maison de 305 000 € (<LawBadge article="Art. 28 & 31 CGI" />), 
-              en s'octroyant les <strong>2 591 € de CESU préfinancés</strong> par Nell'Immo (<LawBadge article="Art. 244 quater F CGI" /> & <LawBadge article="Art. L7233-4 C. trav." />) et en auditant les <strong>40 000 € de budget publicitaire</strong> :
+              En signant son prêt immobilier à taux fixe <strong>avant l'élection de 2027</strong>, en activant le <strong>bail professionnel + façade publicitaire</strong> dans sa maison de 305 000 € (<LawBadge article="Art. 28 & 31 CGI" />), 
+              en s'octroyant les <strong>CESU préfinancés</strong> par Nell'Immo (<LawBadge article="Art. 244 quater F CGI" /> & <LawBadge article="Art. L7233-4 C. trav." />) et en auditant les <strong>40 000 € de budget publicitaire</strong> :
               <br />
-              👉 <strong>Nelly devient 100% gagnante quel que soit le vainqueur de 2027</strong>. Elle neutralise la hausse de fiscalité sur les dividendes sous LFI tout en profitant des services scolaires gratuits pour ses filles, ou elle maximise son cash net et ses allocations universelles sous le RN !
+              👉 <strong>Nelly devient 100% gagnante quel que soit le vainqueur de 2027</strong>. Elle neutralise la suppression du PFU sous LFI tout en encaissant les +3 987 €/an de gratuités et CAF pour ses filles, ou elle cumule ses revenus fonciers défiscalisés avec la CAF universelle (+1 080 €) et la baisse d'IR sous le RN ou la Droite !
             </p>
           </div>
 

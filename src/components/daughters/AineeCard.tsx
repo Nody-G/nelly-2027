@@ -1,8 +1,7 @@
 import React from 'react';
-import { Music, Stethoscope, GraduationCap, Sparkles, CheckCircle2, AlertTriangle, School, Scale, Heart } from 'lucide-react';
+import { Music, Stethoscope, CheckCircle2, Scale } from 'lucide-react';
 import { LawBadge } from '../common/LawBadge';
 import { Tooltip } from '../common/Tooltip';
-import { pelissanneLocalData } from '../../data/pelissanneRates';
 
 export const AineeCard: React.FC = () => {
   return (
@@ -43,7 +42,7 @@ export const AineeCard: React.FC = () => {
             <LawBadge article="Art. 199 sexdecies" code="CGI" />
           </div>
           <p className="text-slate-600">
-            Nelly assume environ <strong>400 € / an</strong> pour la pratique du piano de son aînée (cours réguliers, partitions, répétitions).
+            Nelly assume environ <strong>400 € / an</strong> (quote-part 50%) pour la pratique du piano de son aînée (cours réguliers, partitions, répétitions).
           </p>
           <div className="p-2.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-950 text-[11px] space-y-1">
             <div className="font-bold flex items-center gap-1">
@@ -51,7 +50,7 @@ export const AineeCard: React.FC = () => {
               <span>Le Montage Idéal pour Nelly :</span>
             </div>
             <p>
-              En faisant intervenir le professeur de musique <strong>au domicile de Pélissanne</strong>, Nelly le règle via les <strong>2 591 € de CESU préfinancés par Nell'Immo</strong> (
+              En faisant intervenir le professeur de musique <strong>au domicile de Pélissanne</strong>, Nelly le règle via les <strong>CESU préfinancés par Nell'Immo</strong> (2 540 € base / 2 591 € plafond 2026,{' '}
               <Tooltip 
                 term="Art. 244 quater F CGI" 
                 explanation="Crédit d'impôt famille de 25% remboursé à Nell'Immo sur les CESU accordés à sa dirigeante." 
@@ -69,11 +68,11 @@ export const AineeCard: React.FC = () => {
               <span>2. Traitement d'Orthodontie Dentaire (Âge Clé 11 - 14 ans) :</span>
             </div>
             <span className="text-[10px] text-rose-700 font-semibold bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
-              Devis ~1 600 € / an
+              Devis ~1 700 € / an (TO 90)
             </span>
           </div>
           <p className="text-slate-600">
-            À l'entrée au collège, la pose d'un appareil orthodontique coûte typiquement <strong>700 € à 1 000 € par semestre</strong>. La Sécurité sociale ne remboursant qu'une base forfaitaire dérisoire (193,50 €), le reste à charge annuel pour Nelly en garde alternée s'élève à <strong>~700 € / an</strong> après mutuelle privée.
+            À l'entrée au collège, la pose d'un appareil orthodontique (cotation TO 90) coûte en moyenne <strong>850 € par semestre</strong> en PACA. La Sécurité sociale ne remboursant qu'une base forfaitaire de 193,50 €/semestre (Art. R162-52 CSS), le coût annuel pour Nelly (reste à charge + surcomplémentaire dentaire enfants) s'élève à <strong>1 250 € / an</strong> (dont ~700 € de reste à charge orthodontique pur).
           </p>
         </div>
 
@@ -95,11 +94,11 @@ export const AineeCard: React.FC = () => {
                 <span className="text-[9px] bg-emerald-800 text-emerald-100 px-1.5 py-0.2 rounded font-bold">100% Sécu & Gratuité</span>
               </div>
               <ul className="space-y-1 text-slate-300">
-                <li>• <strong>Plan « 100% Sécu » :</strong> Remboursement intégral de l'orthodontie adolescente sans mutuelle privée (+700 €/an net économisé !).</li>
+                <li>• <strong>Plan « 100% Sécu » :</strong> Remboursement intégral de l'orthodontie adolescente et suppression de la surcomplémentaire (+1 250 €/an économisés sur le poste santé !).</li>
                 <li>• <strong>Cantine collège gratuite :</strong> Prise en charge intégrale des repas au collège (+490 €/an).</li>
                 <li>• <strong>Transports scolaires gratuits :</strong> Bus métropole Aix-Marseille à 0 € pour les &lt;25 ans.</li>
-                <li>• <strong>Horizon 2033 (18 ans) :</strong> Garantie d'autonomie de <strong>1 158 € / mois</strong> pour financer ses études supérieures (+13 896 €/an !).</li>
-                <li className="text-amber-300 font-medium">• ⚠️ Risque : délais d'attente allongés chez les orthodontistes conventionnés.</li>
+                <li>• <strong>Horizon 2033 (18 ans) :</strong> Garantie d'autonomie de <strong>1 063 € / mois</strong> (+12 756 €/an au seuil NFP 2024, soit 1 158 €/mois indexé inflation) pour financer ses études supérieures.</li>
+                <li className="text-amber-300 font-medium">• ⚠️ Risque : délais d'attente allongés chez les orthodontistes conventionnés secteur 1.</li>
               </ul>
             </div>
 
@@ -107,14 +106,14 @@ export const AineeCard: React.FC = () => {
             <div className="p-3 rounded-lg bg-amber-950/70 border border-amber-500/40 space-y-1.5">
               <div className="font-bold text-amber-300 flex items-center justify-between">
                 <span>Sous le RN :</span>
-                <span className="text-[9px] bg-amber-800 text-amber-100 px-1.5 py-0.2 rounded font-bold">Part Fiscale 2e Enfant</span>
+                <span className="text-[9px] bg-amber-800 text-amber-100 px-1.5 py-0.2 rounded font-bold">Part Fiscale & CAF</span>
               </div>
               <ul className="space-y-1 text-slate-300">
-                <li>• <strong>Part fiscale pleine dès le 2e enfant :</strong> Gain direct de <strong>+450 € / an</strong> sur l'IR de Nelly grâce à sa 2e fille.</li>
-                <li>• <strong>Uniforme obligatoire au collège :</strong> Tenue unique imposée au Collège Roger Carcassonne.</li>
-                <li>• <strong>Suppression du collège unique :</strong> Orientation sélective en filières professionnelles ou générales dès 14 ans (fin de 4e/3e).</li>
-                <li className="text-rose-300 font-medium">• ⚠️ <strong>Alerte piano :</strong> Baisse des subventions aux écoles de musique municipales constatée en mairies RN du Sud, risquant de faire grimper le cours de piano de 400 € à 650-750 €/an !</li>
-                <li>• <strong>Orthodontie :</strong> Reste à charge de 700 € inchangé (mutuelle privée requise).</li>
+                <li>• <strong>Part fiscale pleine dès le 2e enfant :</strong> Gain direct de <strong>+450 € / an</strong> sur l'IR de Nelly grâce à ses 2 filles (passage de 1,50 à 1,75 part).</li>
+                <li>• <strong>Allocations familiales universelles :</strong> +1 080 €/an versés à Nelly (fin de la modulation de revenus).</li>
+                <li>• <strong>Uniforme obligatoire au collège :</strong> Tenue unique fournie au Collège Roger Carcassonne.</li>
+                <li className="text-rose-300 font-medium">• ⚠️ <strong>Alerte piano :</strong> Baisse des subventions aux écoles de musique constatée dans certaines mairies RN, pouvant renchérir le cours de piano de 400 € à 650 €/an.</li>
+                <li>• <strong>Orthodontie :</strong> Reste à charge et mutuelle (1 250 €/an) inchangés.</li>
               </ul>
             </div>
           </div>

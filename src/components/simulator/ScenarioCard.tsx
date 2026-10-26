@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, AlertTriangle, ArrowRight, CheckCircle2, TrendingUp, Sparkles } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, TrendingUp, Sparkles, PiggyBank } from 'lucide-react';
 import { ScenarioResult } from '../../types/simulation';
 import { Tooltip } from '../common/Tooltip';
 
@@ -86,19 +86,19 @@ export const ScenarioCard: React.FC<ScenarioCardProps> = ({
           </div>
 
           <div className="flex justify-between text-slate-600">
-            <span>Frais quotidiens Pélissanne :</span>
+            <span>Frais ciblés (Filles & Énergie) :</span>
             <span className="font-semibold text-slate-700">-{formatEuro(passive.dailyLifeLivingExpenses)} / an</span>
           </div>
 
-          {passive.dailyLifeAidsAndSavings > 0 && (
+          {(passive.dailyLifeAidsAndSavings > 0 || passive.familyAllowancesCash > 0) && (
             <div className="flex justify-between text-emerald-700 font-medium">
-              <span>Économies / Aides directes :</span>
-              <span className="font-bold">+{formatEuro(passive.dailyLifeAidsAndSavings)} / an</span>
+              <span>Économies + Allocations CAF :</span>
+              <span className="font-bold">+{formatEuro(passive.dailyLifeAidsAndSavings + passive.familyAllowancesCash)} / an</span>
             </div>
           )}
 
           <div className="flex justify-between pt-1 border-t border-slate-200 font-bold text-slate-900">
-            <span>Pouvoir d'achat restant :</span>
+            <span>Pouvoir d'achat net :</span>
             <span className="text-sm font-black">{formatEuro(passive.netPurchasingPower)}</span>
           </div>
         </div>
@@ -127,14 +127,38 @@ export const ScenarioCard: React.FC<ScenarioCardProps> = ({
 
           {optimized.dailyLifeAidsAndSavings > 0 && (
             <div className="flex justify-between text-emerald-700 font-semibold">
-              <span>Aides (École, Sport, Piano, Énergie) :</span>
+              <span>Économies (École, 100% Sécu, TVA) :</span>
               <span className="font-bold">+{formatEuro(optimized.dailyLifeAidsAndSavings)}</span>
             </div>
           )}
 
+          {optimized.familyAllowancesCash > 0 && (
+            <div className="flex justify-between text-emerald-700 font-semibold">
+              <span>Allocations familiales CAF (50/50) :</span>
+              <span className="font-bold">+{formatEuro(optimized.familyAllowancesCash)}</span>
+            </div>
+          )}
+
           <div className="pt-2 border-t border-current/20 flex items-baseline justify-between">
-            <span className="font-bold">Pouvoir d'achat net :</span>
+            <Tooltip
+              term="Pouvoir d'achat net :"
+              explanation="Formule exacte : Revenu net après IR/PFU + Gains des leviers d'entreprise (Loyer Bureau, Pub, TVA, CESU) + Allocations familiales CAF - Frais quotidiens ciblés des 2 filles et d'énergie."
+            />
             <span className="text-base sm:text-lg font-black">{formatEuro(optimized.netPurchasingPower)}</span>
+          </div>
+
+          {/* Capacité d'épargne réelle après coût de la vie intégral (8 postes Pélissanne) */}
+          <div className="p-2 rounded-lg bg-white/75 border border-current/15 flex items-center justify-between text-[11px]">
+            <span className="flex items-center gap-1 font-semibold text-slate-700">
+              <PiggyBank className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+              <Tooltip
+                term="Épargne libre (vie complète) :"
+                explanation={`Reste à vivre une fois payés les 8 postes du Coût de la Vie Complet à Pélissanne (${formatEuro(optimized.fullHouseholdCostOfLiving)}/an : Crédit maison 305k€ + Taxe foncière, Alimentation, Mobilité, Énergie/Eau, Scolarité, Santé, Sport/Piano, Assurances/Loisirs).`}
+              />
+            </span>
+            <span className="font-extrabold text-indigo-950">
+              {formatEuro(optimized.disposableSavingsCapacity)} / an
+            </span>
           </div>
 
           {/* Badge gain différentiel */}

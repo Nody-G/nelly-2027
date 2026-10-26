@@ -28,10 +28,13 @@ export const barèmeIR_LFI_14_Tranches: TaxBracket[] = [
 export const taxConstants = {
   abattement10PctMin: 495,
   abattement10PctMax: 14171,
-  // Plafonnement du quotient familial par demi-part classique (2025/2026)
+  // Plafonnement du quotient familial par demi-part classique (2025/2026 - Art. 197-I-2 CGI)
   plafondDemiPartQF: 1791,
   // Plafond pour un quart de part en garde alternée (1791 / 2)
   plafondQuartPartQF: 895.5,
+  // Plafond demi-part proposé par la Droite Républicaine (relèvement à 2 500 €)
+  plafondDemiPartQF_Droite: 2500,
+  plafondQuartPartQF_Droite: 1250,
   // Plafond avantage spécifique premier enfant parent isolé (Case T)
   plafondParentIsoleDemiPart: 4149,
   plafondParentIsoleQuartPart: 2074.5,

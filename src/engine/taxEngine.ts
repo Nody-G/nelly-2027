@@ -42,9 +42,11 @@ export function computeIRWithScale(taxableBase: number, parts: number, scale = b
 export function calculateIncomeTaxStandard(
   netSalaries: number,
   isSingleParent: boolean,
-  extraPartRN: boolean = false
+  extraPartRN: boolean = false,
+  blocId: PoliticalBlocId = 'continuite'
 ): number {
   // Abattement forfaitaire de 10% pour frais professionnels (Art. 83-3° CGI)
+  // Plafonné entre 495 € et 14 171 € pour éviter toute sur-déduction sur hauts salaires
   const abattement = Math.min(
     Math.max(netSalaries * 0.10, taxConstants.abattement10PctMin),
     taxConstants.abattement10PctMax
@@ -59,30 +61,55 @@ export function calculateIncomeTaxStandard(
   const taxWithFamilyParts = computeIRWithScale(netImposable, partsFoyer, barèmeIRActuel);
 
   // Plafonnement du quotient familial (Art. 197-I-2 CGI)
-  // 2 enfants en garde alternée = 2 x 0.25 part = 0.5 part classique
-  const maxAdvantageChildren = 2 * taxConstants.plafondQuartPartQF; // 1 791 €
-  // Majoration parent isolé (Case T) = 1 quart de part spécifique
-  const maxAdvantageCaseT = isSingleParent ? taxConstants.plafondParentIsoleQuartPart : 0; // ~2 074.50 €
+  // Sous la Droite Républicaine : le plafond est relevé de 1 791 € à 2 500 € par demi-part (1 250 € par quart de part)
+  // Sous le RN : le 2e enfant compte pour 0.50 part en garde alternée (soit 0.75 part enfants au total = 3 quarts de part)
+  const ceilingPerQuarterPart = blocId === 'droite'
+    ? taxConstants.plafondQuartPartQF_Droite
+    : taxConstants.plafondQuartPartQF;
+
+  const quarterPartsCount = extraPartRN ? 3 : 2;
+  const maxAdvantageChildren = quarterPartsCount * ceilingPerQuarterPart;
+
+  // Majoration parent isolé (Case T) = 1 quart de part spécifique en garde alternée (Art. 197-I-2 CGI)
+  const maxAdvantageCaseT = isSingleParent ? taxConstants.plafondParentIsoleQuartPart : 0; // 2 074.50 €
   const totalMaxAdvantage = maxAdvantageChildren + maxAdvantageCaseT;
 
   const theoreticalAdvantage = taxSingle - taxWithFamilyParts;
 
-  if (theoreticalAdvantage > totalMaxAdvantage) {
-    // Le plafonnement s'applique
-    return Math.max(0, taxSingle - totalMaxAdvantage);
+  let finalTax = theoreticalAdvantage > totalMaxAdvantage
+    ? Math.max(0, taxSingle - totalMaxAdvantage)
+    : Math.max(0, taxWithFamilyParts);
+
+  // Sous Droite Républicaine : crédit/réduction d'impôt famille & baisse ciblée charges TPE/PME (~180 € sur l'IR dirigeant)
+  if (blocId === 'droite') {
+    finalTax = Math.max(0, finalTax - 180);
   }
 
-  return Math.max(0, taxWithFamilyParts);
+  return finalTax;
 }
 
 export function calculateIncomeTaxLFI(
-  totalNetTaxableIncome: number,
+  netSalaries: number,
+  dividendsAfterSocialCharges: number,
   isSingleParent: boolean
 ): number {
-  // Sous LFI : barème 14 tranches et crédit d'impôt forfaitaire par enfant remplaçant le QF
+  // 1. Abattement légal de 10% sur les salaires (Art. 83-3° CGI) avec bornes min/max respectées
+  const abattementSalaire = Math.min(
+    Math.max(netSalaries * 0.10, taxConstants.abattement10PctMin),
+    taxConstants.abattement10PctMax
+  );
+  const taxableSalary = Math.max(0, netSalaries - abattementSalaire);
+
+  // 2. Sous LFI/NFP : révocation du PFU (Art. 200 A CGI) et de l'abattement de 40% (Art. 158-3-2° CGI)
+  // Les dividendes nets de cotisations sociales sont intégrés à l'assiette du barème progressif à 14 tranches,
+  // après déduction de la CSG déductible (6,8% selon Art. 154 quinquies CGI)
+  const totalNetTaxableIncome = taxableSalary + Math.max(0, dividendsAfterSocialCharges);
+
+  // 3. Application du barème progressif à 14 tranches sur 1 part individuelle
+  // (LFI remplace le quotient familial par un crédit d'impôt forfaitaire par enfant)
   const taxGross = computeIRWithScale(totalNetTaxableIncome, 1.0, barèmeIR_LFI_14_Tranches);
   
-  // Crédit d'impôt forfaitaire pour 2 enfants en garde alternée (~1 800 € si parent isolé, 1 300 € standard)
+  // 4. Crédit d'impôt forfaitaire pour 2 enfants en garde alternée (~1 800 € si parent isolé Case T, 1 300 € standard)
   const childCredit = isSingleParent ? 1800 : 1300;
   
   return Math.max(0, taxGross - childCredit);

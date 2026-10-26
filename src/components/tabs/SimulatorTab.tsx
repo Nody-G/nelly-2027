@@ -29,11 +29,11 @@ export const SimulatorTab: React.FC<SimulatorTabProps> = ({
           <Sparkles className="w-4 h-4 text-indigo-600 shrink-0" />
           <span>
             <strong>Simulation dynamique :</strong> Modifiez les curseurs à gauche pour recalculer en temps réel les 4 options politiques (Continuité, NFP/LFI, RN, Droite).
-            Toutes les règles fiscales (CGI, BOSS, barèmes 2026-2027) sont strictement appliquées.
+            Toutes les règles fiscales (CGI, BOSS, barèmes 2026-2027) et les 8 postes du coût de la vie à Pélissanne sont strictement modélisés et documentés.
           </span>
         </div>
         <span className="text-[11px] font-bold text-indigo-700 bg-white px-2 py-0.5 rounded-full border border-indigo-200">
-          Garde alternée 2 filles (5 & 11 ans)
+          Garde alternée 2 filles (5 & 11 ans) • 1,50 part QF (1,75 sous RN)
         </span>
       </div>
 
@@ -60,7 +60,7 @@ export const SimulatorTab: React.FC<SimulatorTabProps> = ({
               passive={scenarios.continuite.passive}
               optimized={scenarios.continuite.optimized}
               themeColor="sky"
-              aidsNote="Tarif plein partout à Pélissanne (0 € aide)"
+              aidsNote="Tarif plein partout à Pélissanne (0 € aide, 0 € CAF tranche 3)"
             />
 
             {/* Bloc 2 : LFI / NFP */}
@@ -71,29 +71,29 @@ export const SimulatorTab: React.FC<SimulatorTabProps> = ({
               passive={scenarios.lfi.passive}
               optimized={scenarios.lfi.optimized}
               themeColor="emerald"
-              aidsNote="+3 590 € aides/an (Cantine, 100% Sécu) + Études 1 063€/m"
+              aidsNote="+3 987 €/an (3 387 € gratuités/100% Sécu + 600 € CAF 1er enfant) + Études 1 063€/m"
             />
 
             {/* Bloc 3 : RN */}
             <ScenarioCard 
               title="3. Rassemblement National"
               badge="Bloc 3 • Droite Nat."
-              subtitle="Maintien PFU, TVA 5,5% énergie, part 2e enfant"
+              subtitle="Maintien PFU, TVA 5,5% énergie, part 2e enfant (1,75 pt)"
               passive={scenarios.rn.passive}
               optimized={scenarios.rn.optimized}
               themeColor="amber"
-              aidsNote="+640 € TVA 5,5% énergie/carburants"
+              aidsNote="+1 730 €/an (+650 € TVA 5,5% énergie/carburant + 1 080 € CAF universelle)"
             />
 
             {/* Bloc 4 : Droite Républicaine */}
             <ScenarioCard 
               title="4. Droite Républicaine"
               badge="Bloc 4 • Pro-Entreprise"
-              subtitle="Baisse charges TPE, exonération donations 200k€"
+              subtitle="Plafond QF relevé à 2 500 €, baisse charges TPE, donations 200k€"
               passive={scenarios.droite.passive}
               optimized={scenarios.droite.optimized}
               themeColor="indigo"
-              aidsNote="Climat pro-investisseurs locatifs"
+              aidsNote="+350 €/an (chèques sport/musique) + Plafond QF relevé + Climat investisseurs"
             />
 
           </div>
@@ -101,7 +101,7 @@ export const SimulatorTab: React.FC<SimulatorTabProps> = ({
           {/* Graphique de sensibilité */}
           <SensitivityChart scenarios={scenarios} />
 
-          {/* Tableau croisé des frais quotidiens */}
+          {/* Observatoire documenté du coût de la vie, du pouvoir d'achat et des horizons de vie */}
           <DailyExpensesTable />
 
         </div>

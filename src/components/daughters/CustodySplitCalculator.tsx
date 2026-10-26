@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
-import { Scale, Users, ShieldAlert, CheckCircle2, FileText } from 'lucide-react';
+import { Scale, ShieldAlert, CheckCircle2 } from 'lucide-react';
 import { LawBadge } from '../common/LawBadge';
 import { Tooltip } from '../common/Tooltip';
 
 export const CustodySplitCalculator: React.FC = () => {
-  const [totalSharedCosts, setTotalSharedCosts] = useState(3800); // Frais annuels partagés des 2 filles
+  const [totalSharedCosts, setTotalSharedCosts] = useState(3437); // Frais annuels partagés des 2 filles (hors énergie maison)
   const [nellyRatio, setNellyRatio] = useState(50); // 50/50 standard
 
-  const nellyShare = totalSharedCosts * (nellyRatio / 100);
-  const fatherShare = totalSharedCosts - nellyShare;
+  const nellyShare = totalSharedCosts * (nellyRatio / 100) * 2; // si totalSharedCosts = quote-part 50% de base à 50%
+  const actualNellyShare = Math.round((totalSharedCosts * nellyRatio) / 50);
 
-  // Montant que Nelly peut absorber via Nell'Immo (CESU 2 591 € + Chèques-Vacances 540 €)
-  const companyExemptCoverage = 3131;
-  const nellyOutOfPocketAfterCompany = Math.max(0, nellyShare - companyExemptCoverage);
-  const taxCredit50Pct = (nellyOutOfPocketAfterCompany * 0.50); // crédit d'impôt 50% sur le reste à charge domicile
+  // Montant que Nelly peut absorber via Nell'Immo (CESU 2 540 € base / 2 591 € plafond 2026 + Chèques-Vacances 540 €)
+  const companyExemptCoverage = 3080;
+  const nellyOutOfPocketAfterCompany = Math.max(0, actualNellyShare - companyExemptCoverage);
 
   const formatEuro = (n: number) => Math.round(n).toLocaleString('fr-FR') + ' €';
 
@@ -28,7 +27,7 @@ export const CustodySplitCalculator: React.FC = () => {
             </h3>
           </div>
           <p className="text-xs text-slate-600 mt-0.5">
-            Comment financer la quote-part de Nelly à 100% en franchise d'impôt et de charges URSSAF.
+            Comment financer la quote-part de Nelly (3 437 €/an hors énergie domestique) en franchise d'impôt et de charges URSSAF.
           </p>
         </div>
         <LawBadge article="Art. 194-II CGI" code="CGI" />
@@ -38,14 +37,14 @@ export const CustodySplitCalculator: React.FC = () => {
         {/* Curseur et réglage */}
         <div className="p-3.5 bg-white rounded-xl border border-slate-200 space-y-3">
           <div className="flex justify-between font-bold text-slate-800">
-            <span>Budget annuel des 2 filles (Activités, Scolaire, Santé) :</span>
+            <span>Quote-part de base des 2 filles (Scolaire, Sport, Piano, Santé) :</span>
             <span className="text-indigo-600 font-extrabold">{formatEuro(totalSharedCosts)}</span>
           </div>
           <input 
             type="range"
             min={2000}
-            max={7000}
-            step={200}
+            max={6000}
+            step={100}
             value={totalSharedCosts}
             onChange={(e) => setTotalSharedCosts(parseFloat(e.target.value))}
             className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer accent-indigo-600"
@@ -67,7 +66,7 @@ export const CustodySplitCalculator: React.FC = () => {
 
           <div className="p-2.5 rounded-lg bg-indigo-50/70 border border-indigo-100 flex justify-between text-indigo-950 font-semibold">
             <span>Part assumée par Nelly :</span>
-            <span className="font-bold">{formatEuro(nellyShare)} / an</span>
+            <span className="font-bold">{formatEuro(actualNellyShare)} / an</span>
           </div>
         </div>
 
@@ -81,17 +80,17 @@ export const CustodySplitCalculator: React.FC = () => {
           <div className="flex justify-between text-slate-600">
             <span>Prise en charge{' '}
               <Tooltip 
-                term="CESU Dirigeant 2026" 
-                explanation="Plafond annuel revalorisé d'aide financière de l'entreprise pour financer les services à la personne (garde d'enfants, soutien scolaire, ménage). Exonéré d'impôt et de charges sociales pour Nelly, et génère un crédit d'impôt famille de 25% pour Nell'Immo." 
-                lawRef="Art. L129-13 C. trav."
+                term="CESU Dirigeant (2 540 €)" 
+                explanation="Plafond annuel d'aide financière de l'entreprise pour financer les services à la personne (garde d'enfants, soutien scolaire, cours à domicile, ménage). Exonéré d'impôt et de charges sociales pour Nelly, et génère un crédit d'impôt famille de 25% (635 €) pour Nell'Immo." 
+                lawRef="Art. L7233-4 C. trav."
               /> :
             </span>
-            <span className="font-bold text-emerald-700">-{formatEuro(Math.min(nellyShare, 2591))}</span>
+            <span className="font-bold text-emerald-700">-{formatEuro(Math.min(actualNellyShare, 2540))}</span>
           </div>
 
           <div className="flex justify-between text-slate-600">
-            <span>Chèques-Vacances ANCV (Clubs sportifs) :</span>
-            <span className="font-bold text-emerald-700">-{formatEuro(Math.min(nellyShare, 540))}</span>
+            <span>Chèques-Vacances ANCV (Clubs sportifs / stages) :</span>
+            <span className="font-bold text-emerald-700">-{formatEuro(Math.min(Math.max(0, actualNellyShare - 2540), 540))}</span>
           </div>
 
           <div className="flex justify-between pt-1 border-t border-slate-100 font-bold text-slate-900">
@@ -100,7 +99,7 @@ export const CustodySplitCalculator: React.FC = () => {
           </div>
 
           <div className="text-[11px] text-slate-500 italic">
-            * Plus de 80% des dépenses des filles sont payées directement par les enveloppes défiscalisées de Nell'Immo.
+            * Près de 90% des dépenses des filles (hors énergie maison) sont absorbables par les enveloppes défiscalisées de Nell'Immo.
           </div>
         </div>
       </div>
@@ -112,20 +111,15 @@ export const CustodySplitCalculator: React.FC = () => {
             <ShieldAlert className="w-4 h-4 text-amber-700" />
             <span>Règle d'or fiscale anti-redressement (Garde alternée) :</span>
           </span>
-          <LawBadge article="Art. 194-II & 195" code="CGI" />
+          <LawBadge article="Art. 194-II & 197-I-2" code="CGI" />
         </div>
         <p className="leading-relaxed">
           En garde alternée, la loi fiscale (<LawBadge article="Art. 194-II CGI" />) interdit formellement de cumuler pour le même enfant l'attribution d'un{' '}
           <Tooltip 
             term="quart de part fiscale" 
-            explanation="En résidence alternée, l'avantage fiscal des enfants est divisé par deux entre les deux parents : 0,25 part par enfant (au lieu de 0,5 part pour un parent gardien exclusif)." 
-            lawRef="Art. 194-II CGI" 
-          /> et la déduction d'une pension alimentaire. Nelly a tout intérêt à conserver ses{' '}
-          <Tooltip 
-            term="1,75 parts fiscales (Case T parent isolé)" 
-            explanation="La Case T accorde une demi-part fiscale supplémentaire au parent vivant seul qui assume la charge d'au moins un enfant, réduisant considérablement le barème de l'IR." 
-            lawRef="Art. 194-II & 195 CGI" 
-          />, qui lui procurent un plafonnement avantageux de son impôt sur le revenu, tout en faisant financer les cours de piano et d'escalade par les dispositifs d'entreprise de Nell'Immo.
+            explanation="En résidence alternée, l'avantage fiscal des deux premiers enfants est divisé par deux entre les parents : 0,25 part par enfant (soit +0,50 part pour les 2 filles = 1,50 part, ou 1,75 part avec la Case T parent isolé)." 
+            lawRef="Art. 194-I CGI" 
+          /> et la déduction d'une pension alimentaire. Le plafonnement légal du quotient familial est fixé à <strong>1 791 € par demi-part</strong> (soit 895,50 € par quart de part en garde alternée, <LawBadge article="Art. 197-I-2 CGI" />).
         </p>
       </div>
 
@@ -135,18 +129,22 @@ export const CustodySplitCalculator: React.FC = () => {
           <Scale className="w-3.5 h-3.5 text-amber-400" />
           <span>Arbitrage 2027 : Ce que chaque parti change pour sa Garde Alternée :</span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-[11px] text-slate-300">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-2.5 text-[11px] text-slate-300">
           <div className="p-2 rounded-lg bg-slate-800 border border-slate-700 space-y-1">
-            <strong className="text-sky-300 block">Sous Continuité :</strong>
-            <span>0 € d'allocations CAF (plafond dépassé). Maintien des 1,75 parts (Case T), plafond demi-part à 1 759 €. Reste à charge assumé par Nelly.</span>
+            <strong className="text-sky-300 block">1. Continuité :</strong>
+            <span>0 € d'allocations CAF (tranche 3). 1,50 part (1,75 Case T), plafond QF à <strong>1 791 €</strong> par demi-part.</span>
           </div>
           <div className="p-2 rounded-lg bg-slate-800 border border-slate-700 space-y-1">
-            <strong className="text-emerald-300 block">Sous LFI / NFP :</strong>
-            <span>Création d'une allocation dès le 1er enfant (+600 €/an pour Nelly). Crédit d'impôt forfaitaire enfant remplaçant le quotient familial. Gratuité cantine et fournitures.</span>
+            <strong className="text-emerald-300 block">2. LFI / NFP :</strong>
+            <span>Allocation CAF dès le 1er enfant (<strong>+600 €/an</strong> part Nelly) + gratuités scolaires et 100% Sécu (<strong>+3 387 €/an</strong>).</span>
           </div>
           <div className="p-2 rounded-lg bg-slate-800 border border-slate-700 space-y-1">
-            <strong className="text-amber-300 block">Sous le RN :</strong>
-            <span><strong>Rétablissement de l'universalité des allocations CAF</strong> (+960 € à +1 320 €/an directs pour Nelly) + <strong>part pleine dès le 2e enfant (2,00 parts = +450 € IR)</strong> !</span>
+            <strong className="text-amber-300 block">3. Programme RN :</strong>
+            <span><strong>Allocations CAF universelles sans plafond (+1 080 €/an)</strong> + <strong>part pleine dès le 2e enfant (+0,25 part = +450 € IR)</strong>.</span>
+          </div>
+          <div className="p-2 rounded-lg bg-slate-800 border border-slate-700 space-y-1">
+            <strong className="text-indigo-300 block">4. Droite Répub. :</strong>
+            <span>Relèvement du plafond du Quotient Familial de 1 791 € à <strong>2 500 € par demi-part</strong> + chèques sport/culture (+350 €).</span>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { FiscalParameters } from '../../types/fiscal';
 import { runAllScenarios } from '../../engine/scenarioEngine';
 import { CrossMatrixTab } from './CrossMatrixTab';
 import { LawBadge } from '../common/LawBadge';
-import { Printer, Download, FileText, CheckCircle2, ShieldCheck, Scale, MapPin } from 'lucide-react';
+import { Printer, MapPin } from 'lucide-react';
 
 interface ExportReportTabProps {
   params: FiscalParameters;
@@ -24,10 +24,10 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
       <div className="no-print bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h3 className="font-extrabold text-slate-900 text-sm">
-            Dossier Exécutif d'Arbitrage Fiscal & Stratégique Complet
+            Dossier Exécutif d'Arbitrage Fiscal, Coût de la Vie & Stratégie 2027-2039
           </h3>
           <p className="text-xs text-slate-500">
-            Document officiel de synthèse prêt à imprimer et à transmettre à votre expert-comptable et à votre notaire.
+            Document officiel de synthèse documenté prêt à imprimer et à transmettre à votre expert-comptable et à votre notaire.
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
         <div className="border-b-2 border-slate-900 pb-5 flex flex-col sm:flex-row justify-between items-start gap-4">
           <div>
             <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo-700">
-              AUDIT STRATÉGIQUE & FISCAL INDÉPENDANT • PÉLISSANNE (13330)
+              AUDIT STRATÉGIQUE, COÛT DE LA VIE & POUVOIR D'ACHAT • PÉLISSANNE (13330)
             </div>
             <h1 className="text-xl sm:text-2xl font-black mt-1">
               Dossier Nell'Immo — Nelly Fernandez : Stratégie Patrimoniale, 2 Filles (5 & 11 ans) & Présidentielle 2027
@@ -71,7 +71,7 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
         {/* 1. Synthèse des Résultats selon l'Élection 2027 */}
         <div className="space-y-3">
           <h2 className="text-sm font-black uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1">
-            1. Comparatif Financier Net selon le Scénario Politique 2027
+            1. Comparatif Financier Net, Coût de la Vie Complet (8 Postes) & Capacité d'Épargne
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
@@ -80,7 +80,12 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
               <div className="text-lg font-black text-sky-700">
                 +{formatEuro(scenarios.continuite.optimized.netGainVsReferencePassive)} / an
               </div>
-              <div className="text-[11px] text-slate-600">Gain pur pérenne dès oct. 2026</div>
+              <div className="text-[11px] text-slate-600">
+                Coût vie complet : <strong>{formatEuro(scenarios.continuite.optimized.fullHouseholdCostOfLiving)}</strong>
+              </div>
+              <div className="text-[11px] text-indigo-900 font-bold">
+                Épargne libre : {formatEuro(scenarios.continuite.optimized.disposableSavingsCapacity)}/an
+              </div>
             </div>
 
             <div className="p-3.5 rounded-xl border border-emerald-300 bg-emerald-50/50 space-y-1">
@@ -88,7 +93,12 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
               <div className="text-lg font-black text-emerald-700">
                 +{formatEuro(scenarios.lfi.optimized.netGainVsReferencePassive)} / an
               </div>
-              <div className="text-[11px] text-slate-600">+ Retraite 60 ans & Études 1 063€/mois</div>
+              <div className="text-[11px] text-slate-600">
+                Coût vie complet : <strong>{formatEuro(scenarios.lfi.optimized.fullHouseholdCostOfLiving)}</strong>
+              </div>
+              <div className="text-[11px] text-emerald-900 font-bold">
+                Épargne libre : {formatEuro(scenarios.lfi.optimized.disposableSavingsCapacity)}/an
+              </div>
             </div>
 
             <div className="p-3.5 rounded-xl border border-amber-300 bg-amber-50/50 space-y-1">
@@ -96,7 +106,12 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
               <div className="text-lg font-black text-amber-800">
                 +{formatEuro(scenarios.rn.optimized.netGainVsReferencePassive)} / an
               </div>
-              <div className="text-[11px] text-slate-600">+ TVA 5,5% énergie & Part 2e enfant</div>
+              <div className="text-[11px] text-slate-600">
+                Coût vie complet : <strong>{formatEuro(scenarios.rn.optimized.fullHouseholdCostOfLiving)}</strong>
+              </div>
+              <div className="text-[11px] text-amber-900 font-bold">
+                Épargne libre : {formatEuro(scenarios.rn.optimized.disposableSavingsCapacity)}/an
+              </div>
             </div>
 
             <div className="p-3.5 rounded-xl border border-indigo-300 bg-indigo-50/50 space-y-1">
@@ -104,7 +119,12 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
               <div className="text-lg font-black text-indigo-700">
                 +{formatEuro(scenarios.droite.optimized.netGainVsReferencePassive)} / an
               </div>
-              <div className="text-[11px] text-slate-600">+ Relance investisseurs locatifs</div>
+              <div className="text-[11px] text-slate-600">
+                Coût vie complet : <strong>{formatEuro(scenarios.droite.optimized.fullHouseholdCostOfLiving)}</strong>
+              </div>
+              <div className="text-[11px] text-indigo-900 font-bold">
+                Épargne libre : {formatEuro(scenarios.droite.optimized.disposableSavingsCapacity)}/an
+              </div>
             </div>
           </div>
         </div>
@@ -117,59 +137,59 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse min-w-[650px]">
-            <thead>
-              <tr className="border-b border-slate-300 text-slate-500 uppercase text-[10px] bg-slate-50">
-                <th className="py-2 px-2.5">N°</th>
-                <th className="py-2 px-2.5">Levier Stratégique</th>
-                <th className="py-2 px-2.5">Base Juridique</th>
-                <th className="py-2 px-2.5">Mécanisme Opérationnel</th>
-                <th className="py-2 px-2.5 text-right">Gain Net pour Nelly</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 text-slate-700">
-              <tr>
-                <td className="py-2 px-2.5 font-bold">1</td>
-                <td className="py-2 px-2.5 font-bold text-slate-900">Bail Pro Foncier Réel (600€)</td>
-                <td className="py-2 px-2.5"><LawBadge article="Art. 28 & 31" code="CGI" /></td>
-                <td className="py-2 px-2.5">Déduction 28% intérêts prêt 305k€ + taxe foncière Pélissanne</td>
-                <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">+4 800 € / an</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2.5 font-bold">2</td>
-                <td className="py-2 px-2.5 font-bold text-slate-900">Déblocage PEE / PER Maison</td>
-                <td className="py-2 px-2.5"><LawBadge article="Art. R3324-22" code="C. trav." /></td>
-                <td className="py-2 px-2.5">Abondement 300% débloqué à 0% d'IR avec l'acte authentique</td>
-                <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">7 500 € à 12 500 €</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2.5 font-bold">3</td>
-                <td className="py-2 px-2.5 font-bold text-slate-900">CESU 2026 + Chèques-Vacances</td>
-                <td className="py-2 px-2.5"><LawBadge article="Art. L7233-4" code="C. trav." /></td>
-                <td className="py-2 px-2.5">Ménage maison, garde 5 ans et cours de piano à domicile</td>
-                <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">3 131 € net + 648 € CI</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2.5 font-bold">4</td>
-                <td className="py-2 px-2.5 font-bold text-slate-900">Travaux Bureau & Borne Auto</td>
-                <td className="py-2 px-2.5"><LawBadge article="Art. 39-1" code="CGI" /></td>
-                <td className="py-2 px-2.5">Prise en charge HT climatisation/meubles + TVA 20% récupérée</td>
-                <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">4 500 € HT + 900 € TVA</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2.5 font-bold">5</td>
-                <td className="py-2 px-2.5 font-bold text-slate-900">Audit Budget Pub (40k€)</td>
-                <td className="py-2 px-2.5"><LawBadge article="Loi Hoguet" code="Honoraires" /></td>
-                <td className="py-2 px-2.5">Portails payants réservés aux mandats exclusifs (-12% de frais)</td>
-                <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">+4 800 € HT marge</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2.5 font-bold">6</td>
-                <td className="py-2 px-2.5 font-bold text-slate-900">Donation Nue-Propriété Maison</td>
-                <td className="py-2 px-2.5"><LawBadge article="Art. 669" code="CGI" /></td>
-                <td className="py-2 px-2.5">Donation notariée avant 51 ans (40% valeur = 61k€ / fille)</td>
-                <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">0 € de droits à vie</td>
-              </tr>
-            </tbody>
+              <thead>
+                <tr className="border-b border-slate-300 text-slate-500 uppercase text-[10px] bg-slate-50">
+                  <th className="py-2 px-2.5">N°</th>
+                  <th className="py-2 px-2.5">Levier Stratégique</th>
+                  <th className="py-2 px-2.5">Base Juridique</th>
+                  <th className="py-2 px-2.5">Mécanisme Opérationnel Documenté</th>
+                  <th className="py-2 px-2.5 text-right">Gain Net pour Nelly</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-slate-700">
+                <tr>
+                  <td className="py-2 px-2.5 font-bold">1</td>
+                  <td className="py-2 px-2.5 font-bold text-slate-900">Bail Pro Foncier Réel (600€/m) + Façade Pub (300€/m)</td>
+                  <td className="py-2 px-2.5"><LawBadge article="Art. 28 & 31" code="CGI" /></td>
+                  <td className="py-2 px-2.5">Déduction quote-part intérêts prêt 305k€ + taxe foncière Pélissanne</td>
+                  <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">+7 950 € / an</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-2.5 font-bold">2</td>
+                  <td className="py-2 px-2.5 font-bold text-slate-900">Déblocage PEE / PER Maison</td>
+                  <td className="py-2 px-2.5"><LawBadge article="Art. R3324-22" code="C. trav." /></td>
+                  <td className="py-2 px-2.5">Abondement 300% débloqué à 0% d'IR avec l'acte authentique d'achat</td>
+                  <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">7 500 € à 12 500 €</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-2.5 font-bold">3</td>
+                  <td className="py-2 px-2.5 font-bold text-slate-900">CESU Dirigeante + Chèques-Vacances ANCV</td>
+                  <td className="py-2 px-2.5"><LawBadge article="Art. L7233-4" code="C. trav." /></td>
+                  <td className="py-2 px-2.5">Ménage maison, garde 5 ans et cours de piano à domicile + 25% crédit IS</td>
+                  <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">3 080 € net + 635 € CI</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-2.5 font-bold">4</td>
+                  <td className="py-2 px-2.5 font-bold text-slate-900">Travaux Bureau & Borne Auto</td>
+                  <td className="py-2 px-2.5"><LawBadge article="Art. 39-1" code="CGI" /></td>
+                  <td className="py-2 px-2.5">Prise en charge HT climatisation/meubles bureau + TVA 20% récupérée</td>
+                  <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">4 500 € HT + 900 € TVA</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-2.5 font-bold">5</td>
+                  <td className="py-2 px-2.5 font-bold text-slate-900">Audit Budget Pub (40k€)</td>
+                  <td className="py-2 px-2.5"><LawBadge article="Loi Hoguet" code="Honoraires" /></td>
+                  <td className="py-2 px-2.5">Portails payants réservés aux mandats exclusifs (-12% de frais)</td>
+                  <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">+4 800 € HT marge</td>
+                </tr>
+                <tr>
+                  <td className="py-2 px-2.5 font-bold">6</td>
+                  <td className="py-2 px-2.5 font-bold text-slate-900">Donation Nue-Propriété Maison</td>
+                  <td className="py-2 px-2.5"><LawBadge article="Art. 669" code="CGI" /></td>
+                  <td className="py-2 px-2.5">Donation notariée avant 51 ans (40% valeur = 61 000 € / fille &lt; 100k€)</td>
+                  <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">0 € de droits à vie</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -177,20 +197,20 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
         {/* 3. Recommandations prioritaires pour l'expert-comptable */}
         <div className="p-4 rounded-2xl bg-slate-100 border border-slate-300 space-y-2 text-xs">
           <div className="font-black uppercase tracking-wider text-slate-800">
-            3. Feuille de Route pour l'Expert-Comptable de Nell'Immo SASU (Automne 2026) :
+            3. Feuille de Route Opérationnelle pour l'Expert-Comptable & le Notaire (2026-2027) :
           </div>
           <ol className="list-decimal list-inside space-y-1.5 text-slate-700 leading-relaxed">
             <li>
-              <strong>Rédiger et signer le bail professionnel</strong> de sous-location pour 35 m² à 600 €/mois + 100 € charges entre Nelly Fernandez (propriétaire particulier) et NELL'IMMO SASU, avec plan métré des locaux annexé.
+              <strong>Verrouiller le prêt immobilier à taux fixe (~3,45%) avant l'élection de 2027</strong> pour immuniser l'acquisition de la maison de 305 000 € contre tout écartement du spread OAT 10 ans (+90 à +130 €/mois évités).
             </li>
             <li>
-              <strong>Émettre la décision de direction pour les CESU 2026</strong> à hauteur de 2 591 € et commander le chéquier auprès de l'organisme émetteur pour déduire le crédit d'impôt famille de 25%.
+              <strong>Rédiger et signer le bail professionnel (25 m² bureau + façade publicitaire)</strong> entre Nelly Fernandez (propriétaire particulier au régime foncier réel 2044) et NELL'IMMO SASU.
             </li>
             <li>
-              <strong>Optimiser les factures portails immobiliers</strong> : ajuster les packs de diffusion SeLoger/LeBonCoin pour basculer les annonces simples en diffusion gratuite ou locale et préserver la trésorerie.
+              <strong>Émettre la décision unilatérale de présidence pour les CESU préfinancés</strong> (2 540 € base / 2 591 € plafond 2026) et imputer le crédit d'impôt famille de 25% (Art. 244 quater F CGI) sur le solde d'IS.
             </li>
             <li>
-              <strong>Prendre rendez-vous chez le notaire</strong> de Pélissanne/Salon pour régulariser la donation avec réserve d'usufruit de la nue-propriété aux deux filles avant le 51e anniversaire de Nelly Fernandez.
+              <strong>Régulariser chez le notaire de Pélissanne/Salon la donation avec réserve d'usufruit</strong> de la nue-propriété aux deux filles avant le 51e anniversaire de Nelly (valeur fiscale 61 000 €/fille = 0 € de droits sous les 4 blocs politiques).
             </li>
           </ol>
         </div>
@@ -198,14 +218,14 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
         {/* 4. Matrice Stratégique Multicritère Intégrée */}
         <div className="space-y-3 pt-2">
           <h2 className="text-sm font-black uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1">
-            4. Matrice de Décision Multicritère Complète (11 Points Clés)
+            4. Matrice de Décision Multicritère Documentée (10 Axes Clés)
           </h2>
           <CrossMatrixTab />
         </div>
 
         {/* Pied de page certificat */}
         <div className="pt-4 border-t border-slate-300 flex flex-col sm:flex-row justify-between items-center text-[10px] text-slate-500 gap-2">
-          <span>Dossier généré conformément au Code Général des Impôts et au Bulletin Officiel de la Sécurité Sociale 2026.</span>
+          <span>Dossier généré conformément au Code Général des Impôts, au Code de la Sécurité Sociale et aux enquêtes INSEE / OVE / Banque de France 2026.</span>
           <span>Nell'Immo • Pélissanne (13330) • Document confidentiel</span>
         </div>
 
@@ -214,4 +234,3 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
     </div>
   );
 };
-

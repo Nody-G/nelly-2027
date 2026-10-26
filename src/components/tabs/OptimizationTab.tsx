@@ -1,11 +1,10 @@
 import React from 'react';
-import { LeverCard } from '../optimization/LeverCard';
 import { FoncierReelModeler } from '../optimization/FoncierReelModeler';
 import { AdAuditModeler } from '../optimization/AdAuditModeler';
 import { TransmissionModeler } from '../optimization/TransmissionModeler';
 import { LeversPoliticalComparisonCard } from '../optimization/LeversPoliticalComparisonCard';
 import { FiscalOptimizationMasterPlan } from '../optimization/FiscalOptimizationMasterPlan';
-import { ShieldCheck, Sparkles, Building, ArrowDownCircle, CheckCircle2, ShieldAlert, BadgeCheck } from 'lucide-react';
+import { Sparkles, CheckCircle2, BadgeCheck } from 'lucide-react';
 import { Tooltip } from '../common/Tooltip';
 import { agencyProfile } from '../../data/nelliProfile';
 
@@ -26,13 +25,13 @@ export const OptimizationTab: React.FC = () => {
             </h2>
           </div>
           <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
-            6 Domaines Clés d'Optimisation
+            6 Domaines Clés Documentés
           </span>
         </div>
 
         <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
           Puisque les frais classiques de fonctionnement (véhicule de fonction en leasing, réceptions clients, forfaits internet/téléphone et sous-location locataire à 300 €) sont déjà passés en charge dans Nell'Immo (CA ~130 000 € HT), 
-          voici le <strong>plan d'optimisation exhaustif dans tous les domaines</strong> débloqué par l'acquisition de sa maison de 305 000 € à Pélissanne, le statut SASU, les CESU dirigeante et l'audit publicitaire :
+          voici le <strong>plan d'optimisation exhaustif et interactif</strong> débloqué par l'acquisition de sa maison de 305 000 € à Pélissanne, le statut SASU, les CESU dirigeante (2 540 € base / 2 591 € plafond revalorisé 2026) et l'audit publicitaire :
         </p>
       </div>
 
@@ -96,7 +95,7 @@ export const OptimizationTab: React.FC = () => {
         <div className="p-3.5 bg-slate-800/50 rounded-xl border border-indigo-500/30 text-xs space-y-1.5">
           <div className="font-bold text-indigo-300 flex items-center gap-1.5 text-[11px] uppercase">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>Pourquoi le statut SASU de Nelly est un atout décisif :</span>
+            <span>Pourquoi le statut SASU de Nelly est un atout décisif (Justification Juridique) :</span>
           </div>
           <p className="text-slate-300 text-[11px] leading-relaxed">
             Contrairement à une SARL où tous les dividendes dépassant 10% du capital social (soit plus de 200 € pour son capital de 2 000 € !) 
@@ -109,86 +108,9 @@ export const OptimizationTab: React.FC = () => {
             <strong> en SASU, les dividendes de Nelly Fernandez échappent à 100% aux cotisations sociales professionnelles</strong>.
           </p>
           <div className="text-[11px] text-amber-300 font-medium">
-            ⚠️ <strong>En contrepartie :</strong> Le salaire de Présidente de SASU subissant ~75% de cotisations sociales, Nelly doit limiter son salaire au montant nécessaire pour valider 4 trimestres de retraite et faire transiter le reste via le <strong>bail professionnel (Art. 28 & 31 CGI)</strong> et les <strong>CESU dirigeante</strong>.
+            ⚠️ <strong>En contrepartie :</strong> Le salaire de Présidente de SASU subissant ~75% de cotisations sociales sur le net, Nelly doit limiter son salaire au montant validant ses 4 trimestres de retraite et faire transiter le surplus via le <strong>bail professionnel (Art. 28 & 31 CGI)</strong> et les <strong>CESU dirigeante</strong>.
           </div>
         </div>
-      </div>
-
-      {/* Grille des 6 Leviers */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        
-        {/* Levier 1 */}
-        <LeverCard 
-          number={1}
-          title="Loyer 300 € → 600 € (Foncier Réel)"
-          lawArticle="Art. 28 & 31"
-          badgeCode="CGI"
-          summary="Passer de locataire (300€) à propriétaire au Régime Réel (600€ + 100€ charges)"
-          explanation="Dans sa maison achetée 305 000 €, Nelly signe un bail professionnel pour 35 m² (bureau de réception, pièce d'archivage obligatoire Loi Hoguet, stockage garage panneaux et parking pro) à 600 €/mois + 100 € charges. En régime réel (formulaire 2044), elle déduit 28% des intérêts d'emprunt et 28% de sa taxe foncière : son bénéfice foncier imposable tombe à 0 €."
-          netAnnualGain="+4 800 € net / an sans IR ni URSSAF"
-          badgeColor="indigo"
-        />
-
-        {/* Levier 2 */}
-        <LeverCard 
-          number={2}
-          title="Déblocage PEE / PER Maison"
-          lawArticle="Art. R3324-22"
-          badgeCode="C. trav."
-          summary="Utiliser l'acte d'achat à 305 000 € pour sortir jusqu'à 12 500 € à 0% d'IR"
-          explanation="L'achat de la résidence principale est un motif légal de déblocage anticipé de l'épargne salariale (dans les 6 mois de l'acte authentique). Avec au moins 1 salarié à temps partiel ou alternant, Nell'Immo abonde à 300% son versement : l'argent sort de la société avec 0% d'IS, 0% de cotisations sociales et 0% d'IR (seule la CSG de 9,7% est prélevée)."
-          netAnnualGain="7 500 € à 12 500 € nets d'IR"
-          badgeColor="emerald"
-        />
-
-        {/* Levier 3 */}
-        <LeverCard 
-          number={3}
-          title="CESU & Enfance (2 591 €)"
-          lawArticle="Art. L129-13"
-          badgeCode="C. trav."
-          summary="Payer la garde, sport et piano des filles en franchise d'IR avec 25% de crédit d'impôt"
-          explanation="En tant que Présidente de SASU, Nelly peut s'octroyer jusqu'à 2 591 € / an de CESU préfinancés par Nell'Immo. Ces sommes sont totalement exonérées d'impôt sur le revenu et de cotisations sociales. De plus, Nell'Immo bénéficie d'un Crédit d'Impôt Famille de 25% (Art. 244 quater F CGI), soit une économie directe d'IS de 648 €."
-          netAnnualGain="+2 591 € nets d'impôt + 648 € crédit d'IS"
-          badgeColor="purple"
-        />
-
-        {/* Levier 4 */}
-        <LeverCard 
-          number={4}
-          title="Aménagement Bureau Pro & Borne"
-          lawArticle="Art. 39-1"
-          badgeCode="CGI"
-          summary="Climatisation réversible, bureau, fibre et borne de recharge 100% payés par la société"
-          explanation="Plutôt que de sortir 5 400 € TTC de sa poche personnelle (avec des dividendes taxés) pour climatiser, peindre et meubler le bureau/archives de sa nouvelle maison, Nell'Immo paie directement les factures professionnelles (4 500 € HT) et récupère 900 € de TVA. De plus, la borne électrique installée à domicile est 100% payée par la société avec 0 € d'avantage en nature."
-          netAnnualGain="4 500 € HT passés en charge + 900 € TVA récupérée"
-          badgeColor="amber"
-        />
-
-        {/* Levier 5 */}
-        <LeverCard 
-          number={5}
-          title="Audit 40 000 € Pub / Logiciels"
-          lawArticle="Marge Brute"
-          badgeCode="EBITDA"
-          summary="Récupérer 12% à 15% sur SeLoger, LeBonCoin et les outils SaaS en doublon"
-          explanation="Payer plus de 40 000 €/an (3 333 €/mois) de diffusion est le premier poste de fuite de cash de Nell'Immo. En réservant la multidiffusion payante premium aux seuls mandats exclusifs (ce qui incite les vendeurs de Pélissanne à signer en exclu) et en coupant les logiciels doublons, 12% d'économie crée immédiatement +4 800 € HT de bénéfice net."
-          netAnnualGain="+4 800 € à +6 000 € HT de marge par an"
-          badgeColor="emerald"
-        />
-
-        {/* Levier 6 */}
-        <LeverCard 
-          number={6}
-          title="Holding / CCA & Transmission"
-          lawArticle="Art. 145 & 669"
-          badgeCode="CGI"
-          summary="Capitaliser le surplus à 95% d'exonération pour les futures études des filles"
-          explanation="Si après tous ces leviers il reste 5 000 € à 10 000 € de bénéfices dans Nell'Immo, inutile de les distribuer en dividendes taxés en nom propre : soit Nelly se verse des intérêts de Compte Courant d'Associé (~4,65% déductibles à l'IS), soit elle fait remonter le surplus dans une holding patrimoniale (régime Mère-Fille à 95% d'exonération) pour acheter un studio étudiant pour ses filles."
-          netAnnualGain="0 € d'IR personnel sur ce surplus capitalisé"
-          badgeColor="purple"
-        />
-
       </div>
 
       {/* COMPARAISON CROISÉE DES 6 LEVIERS SELON LES PARTIS POLITIQUES */}

@@ -7,7 +7,7 @@ import {
   calculateDividendsTaxation,
   calculateFoncierReelAnnual
 } from './taxEngine';
-import { computeDailyLivingCostsByBloc } from './budgetEngine';
+import { computeDailyLivingCostsByBloc, computeFullCostOfLivingBreakdown } from './budgetEngine';
 import { taxConstants } from '../data/taxScale2026';
 
 export function computeOptimizationLevers(params: FiscalParameters): OptimizationLeversBreakdown {
@@ -113,19 +113,16 @@ export function runSingleScenario(
   let socialContributionsOnDividends = 0;
 
   if (blocId === 'nfp_lfi') {
-    if (isPassive) {
-      socialContributionsOnDividends = initialDividends * 0.35;
-      const netTaxableGlobal = (salaryNet * 0.90) + (initialDividends - socialContributionsOnDividends);
-      incomeTax = calculateIncomeTaxLFI(netTaxableGlobal, params.isSingleParent);
-    } else {
-      socialContributionsOnDividends = remainingDividends * 0.35;
-      const netTaxableGlobal = (salaryNet * 0.90) + (remainingDividends - socialContributionsOnDividends);
-      incomeTax = calculateIncomeTaxLFI(netTaxableGlobal, params.isSingleParent);
-    }
+    const activeDividends = isPassive ? initialDividends : remainingDividends;
+    // Sous LFI : cotisations sociales sur dividendes (~35% en SASU, ~42% en SARL)
+    const socialRate = params.companyForm === 'SASU' ? 0.35 : 0.42;
+    socialContributionsOnDividends = activeDividends * socialRate;
+    const dividendsNetForIR = activeDividends - socialContributionsOnDividends;
+    incomeTax = calculateIncomeTaxLFI(salaryNet, dividendsNetForIR, params.isSingleParent);
   } else {
     // Continuité, RN ou Droite
     const isRN = (blocId === 'rn');
-    incomeTax = calculateIncomeTaxStandard(salaryNet, params.isSingleParent, isRN);
+    incomeTax = calculateIncomeTaxStandard(salaryNet, params.isSingleParent, isRN, blocId);
 
     const activeDividends = isPassive ? initialDividends : remainingDividends;
     const divTax = calculateDividendsTaxation(activeDividends, params.companyForm, blocId);
@@ -137,9 +134,22 @@ export function runSingleScenario(
   const totalTaxBurden = incomeTax + socialContributionsOnDividends + csgOnSavingsUnlocked;
 
   // Calcul du Pouvoir d'Achat Net Réel :
-  // (Revenu global - Impôts) + Gains trésorerie entreprise - Coût de la vie quotidienne + Aides
+  // (Revenu global - Impôts) + Gains trésorerie entreprise + Allocations familiales directes - Coût de la vie ciblé (Filles & Énergie)
   const netIncomeAfterTaxes = totalIncome - totalTaxBurden;
-  const netPurchasingPower = netIncomeAfterTaxes + extraCashFromBusinessLevers - livingCosts.total;
+  const familyAllowancesCash = livingCosts.familyAllowancesCash;
+  const netPurchasingPower = netIncomeAfterTaxes + extraCashFromBusinessLevers + familyAllowancesCash - livingCosts.total;
+
+  // Calcul du Coût de la Vie Complet du Foyer (Crédit maison 305k€, taxe foncière, alimentation, mobilité, énergie, filles, santé, loisirs)
+  const fullItems = computeFullCostOfLivingBreakdown();
+  const fullHouseholdCostOfLiving = fullItems.reduce((sum, item) => {
+    if (blocId === 'nfp_lfi') return sum + item.lfiCost;
+    if (blocId === 'rn') return sum + item.rnCost;
+    if (blocId === 'droite') return sum + item.droiteCost;
+    return sum + item.continuiteCost;
+  }, 0);
+
+  // Reste à épargner / capacité financière nette annuelle une fois l'intégralité du coût de la vie payée
+  const disposableSavingsCapacity = netIncomeAfterTaxes + extraCashFromBusinessLevers + familyAllowancesCash - fullHouseholdCostOfLiving;
   
   const netGainVsReferencePassive = referencePassiveNetPurchasingPower > 0 
     ? (netPurchasingPower - referencePassiveNetPurchasingPower)
@@ -172,7 +182,10 @@ export function runSingleScenario(
     extraCashFromBusinessLevers,
     dailyLifeLivingExpenses: livingCosts.total,
     dailyLifeAidsAndSavings: livingCosts.savingsVsBase,
+    familyAllowancesCash,
     netPurchasingPower,
+    fullHouseholdCostOfLiving,
+    disposableSavingsCapacity,
     netGainVsReferencePassive,
     annualRecurringGain,
     oneOffPurchaseBoost
