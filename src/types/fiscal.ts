@@ -14,6 +14,7 @@ export interface FiscalParameters {
   housePurchasePrice: number; // 305 000 € (nouvelle maison achetée à Pélissanne)
   notaryFees: number; // 23 500 € de frais de notaire
   loanAmount: number; // 260 000 € de prêt immobilier
+  loanDurationYears: number; // 25 ans (300 mois)
   mortgageInterestRate: number; // 3,85 % par défaut (attendu entre 3,7 % et 4,0 %)
   enableOptimizationLevers: boolean;
   viewMode: CalculationViewMode; // 'recurring' (pérenne annuel) vs 'firstYear' (année 1 achat maison)

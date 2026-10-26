@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, CheckCircle2, ArrowRight, Landmark } from 'lucide-react';
+import { Home, CheckCircle2, Landmark } from 'lucide-react';
 import { calculateFoncierReelAnnual } from '../../engine/taxEngine';
 import { Tooltip } from '../common/Tooltip';
 
@@ -15,7 +15,8 @@ export const FoncierReelModeler: React.FC = () => {
     interestRate,
     proSurfaceRatio / 100,
     monthlyRent,
-    monthlyCharges
+    monthlyCharges,
+    25 // Sur 25 ans (300 mois)
   );
 
   const netAdditionalCashVsCurrent = result.totalCashReceived - currentRentedHouseAnnual;
@@ -27,10 +28,10 @@ export const FoncierReelModeler: React.FC = () => {
         <div>
           <span className="text-xs font-bold uppercase text-emerald-600 flex items-center gap-1">
             <Home className="w-3.5 h-3.5" />
-            Modélisateur Comptable n°1 • Art. 28 & 31 du CGI (Formulaire 2044)
+            Calculateur Bail Professionnel • Art. 28 & 31 du CGI (Formulaire 2044)
           </span>
           <h3 className="text-base sm:text-lg font-extrabold text-slate-900 mt-0.5">
-            Passage du Loyer Actuel (400 €/m en location) au Bail Propriétaire (Maison 305k€ • Prêt 260k€)
+            Passage du Loyer Actuel (400 €/m en location) au Bail Propriétaire (Maison 305k€ • Prêt 260k€ sur 25 ans)
           </h3>
         </div>
         <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 self-start sm:self-center">
@@ -51,13 +52,13 @@ export const FoncierReelModeler: React.FC = () => {
         <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200">
           <span className="text-[10px] font-bold uppercase text-amber-900 flex items-center gap-1">
             <Landmark className="w-3 h-3" />
-            Nouvelle Maison 305k€ (+23,5k€ Notaire)
+            Prêt 260 000 € sur 25 ans (+23,5k€ Notaire)
           </span>
           <div className="text-sm font-black text-amber-950 mt-0.5">
-            Prêt 260 000 € à {interestRate.toFixed(2)} %
+            {formatEuro(result.monthlyLoanPayment)} / mois (à {interestRate.toFixed(2)} %)
           </div>
           <p className="text-[11px] text-amber-900 mt-0.5">
-            Mensualité : <strong>{formatEuro(result.monthlyLoanPayment)}/mois</strong> • Intérêts An 1 : <strong>{formatEuro(result.annualMortgageInterests)}</strong>.
+            Sur 25 ans : <strong>-204 €/mois</strong> vs 20 ans • Intérêts An 1 : <strong>{formatEuro(result.annualMortgageInterests)}</strong>.
           </p>
         </div>
 
@@ -130,7 +131,7 @@ export const FoncierReelModeler: React.FC = () => {
 
           <div className="space-y-1">
             <div className="flex justify-between text-xs font-semibold">
-              <span>Taux du prêt de 260 000 € (attendu 3,7% - 4,0%) :</span>
+              <span>Taux du prêt 260 000 € sur 25 ans (3,7% - 4,0%) :</span>
               <span className="text-amber-800 font-bold">{interestRate.toFixed(2)} %</span>
             </div>
             <input
@@ -143,9 +144,9 @@ export const FoncierReelModeler: React.FC = () => {
               className="w-full accent-amber-600 cursor-pointer"
             />
             <div className="flex justify-between text-[10px] text-slate-500">
-              <button type="button" onClick={() => setInterestRate(3.7)} className="underline cursor-pointer">3,70 %</button>
-              <button type="button" onClick={() => setInterestRate(3.85)} className="underline cursor-pointer">3,85 % (médian)</button>
-              <button type="button" onClick={() => setInterestRate(4.0)} className="underline cursor-pointer">4,00 %</button>
+              <button type="button" onClick={() => setInterestRate(3.7)} className="underline cursor-pointer">3,70 % (1 330 €/m)</button>
+              <button type="button" onClick={() => setInterestRate(3.85)} className="underline cursor-pointer">3,85 % (1 351 €/m)</button>
+              <button type="button" onClick={() => setInterestRate(4.0)} className="underline cursor-pointer">4,00 % (1 372 €/m)</button>
             </div>
           </div>
         </div>
@@ -154,7 +155,7 @@ export const FoncierReelModeler: React.FC = () => {
         <div className="lg:col-span-7 space-y-3">
           <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2.5 text-xs">
             <div className="font-bold text-emerald-950 uppercase tracking-wider text-[11px]">
-              Compte de Résultat Foncier Réel (Formulaire 2044) — Prêt 260 000 € :
+              Compte de Résultat Foncier Réel (Formulaire 2044) — Prêt 260 000 € sur 25 ans :
             </div>
 
             <div className="flex justify-between text-slate-700">
@@ -164,7 +165,7 @@ export const FoncierReelModeler: React.FC = () => {
 
             <div className="border-t border-emerald-200/60 pt-2 space-y-1 text-slate-600">
               <div className="flex justify-between">
-                <span>• Quote-part intérêts du prêt de 260 000 € à {interestRate.toFixed(2)}% ({proSurfaceRatio}%) :</span>
+                <span>• Quote-part intérêts du prêt 260 000 € / 25 ans à {interestRate.toFixed(2)}% ({proSurfaceRatio}%) :</span>
                 <span className="font-semibold text-rose-700">-{formatEuro(result.deductibleInterests)}</span>
               </div>
               <div className="flex justify-between">
@@ -191,7 +192,7 @@ export const FoncierReelModeler: React.FC = () => {
             <span className="flex items-center gap-2 font-medium">
               <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
               <span>
-                <strong>Effet croisé du taux (3,7% - 4,0%) :</strong> Plus le taux du prêt de 260 000 € est proche de 4,0 %, plus les intérêts déductibles ({formatEuro(result.deductibleInterests)}/an) sont élevés et effacent l'impôt sur le loyer !
+                <strong>Double avantage du prêt sur 25 ans :</strong> La mensualité baisse à {formatEuro(result.monthlyLoanPayment)}/mois (-204 €/m vs 20 ans) et les intérêts déductibles ({formatEuro(result.deductibleInterests)}/an) restent élevés plus longtemps pour gommer l'impôt !
               </span>
             </span>
           </div>

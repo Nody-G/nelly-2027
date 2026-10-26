@@ -9,7 +9,6 @@ import { LawProvider } from './context/LawContext';
 import { SimulatorTab } from './components/tabs/SimulatorTab';
 import { OptimizationTab } from './components/tabs/OptimizationTab';
 import { DaughtersTab } from './components/tabs/DaughtersTab';
-import { DuelTab } from './components/tabs/DuelTab';
 import { ExportReportTab } from './components/tabs/ExportReportTab';
 
 export const App: React.FC = () => {
@@ -38,11 +37,11 @@ export const App: React.FC = () => {
           onToggleViewMode={(mode) => handleChangeParams({ viewMode: mode })}
         />
 
-        {/* Barre de navigation sticky en 5 piliers clairs (masquée à l'impression) */}
+        {/* Barre de navigation sticky épurée en 3 onglets (masquée à l'impression) */}
         <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* Contenu principal */}
-        <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-8 py-6">
+        {/* Contenu principal à l'écran (3 onglets unifiés sans sous-onglets) */}
+        <main className="no-print flex-1 max-w-7xl w-full mx-auto px-3 sm:px-8 py-6">
           {activeTab === 'simulator' && (
             <SimulatorTab
               params={params}
@@ -51,17 +50,18 @@ export const App: React.FC = () => {
             />
           )}
 
-          {activeTab === 'daughters' && <DaughtersTab />}
-
           {activeTab === 'optimization' && <OptimizationTab />}
 
-          {activeTab === 'duel' && <DuelTab />}
-
-          {activeTab === 'export' && <ExportReportTab params={params} />}
+          {activeTab === 'daughters' && <DaughtersTab />}
         </main>
 
+        {/* Version dédiée à l'impression PDF (déclenchée par le bouton PDF de l'en-tête) */}
+        <div className="hidden print:block max-w-7xl w-full mx-auto p-4">
+          <ExportReportTab params={params} />
+        </div>
+
         {/* Pied de page avec sources vérifiées (masqué à l'impression) */}
-        <footer className="no-print bg-white border-t border-slate-200 py-6 px-4 sm:px-8 mt-12 text-xs text-slate-500">
+        <footer className="no-print bg-white border-t border-slate-200 py-5 px-4 sm:px-8 mt-10 text-xs text-slate-500">
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>

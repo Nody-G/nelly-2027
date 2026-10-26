@@ -1,13 +1,11 @@
 export type TabId =
   | 'simulator'
-  | 'daughters'
   | 'optimization'
-  | 'duel'
-  | 'export';
-
-export type CompanyForm = 'SASU' | 'SARL';
+  | 'daughters';
 
 export type PoliticalBlocId = 'continuite' | 'nfp_lfi' | 'rn' | 'droite';
+
+export type CompanyForm = 'SASU' | 'SARL';
 
 export interface TabDefinition {
   id: TabId;

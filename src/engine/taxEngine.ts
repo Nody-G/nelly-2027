@@ -46,7 +46,6 @@ export function calculateIncomeTaxStandard(
   blocId: PoliticalBlocId = 'continuite'
 ): number {
   // Abattement forfaitaire de 10% pour frais professionnels (Art. 83-3° CGI)
-  // Plafonné entre 495 € et 14 171 € pour éviter toute sur-déduction sur hauts salaires
   const abattement = Math.min(
     Math.max(netSalaries * 0.10, taxConstants.abattement10PctMin),
     taxConstants.abattement10PctMax
@@ -55,14 +54,10 @@ export function calculateIncomeTaxStandard(
 
   const partsFoyer = calculateFiscalParts(isSingleParent, 2, extraPartRN);
 
-  // Calcul de l'impôt pour 1 part (contribuable seul sans enfant)
   const taxSingle = computeIRWithScale(netImposable, 1.0, barèmeIRActuel);
-  // Calcul de l'impôt avec le quotient familial du foyer
   const taxWithFamilyParts = computeIRWithScale(netImposable, partsFoyer, barèmeIRActuel);
 
   // Plafonnement du quotient familial (Art. 197-I-2 CGI)
-  // Sous la Droite Républicaine : le plafond est relevé de 1 791 € à 2 500 € par demi-part (1 250 € par quart de part)
-  // Sous le RN : le 2e enfant compte pour 0.50 part en garde alternée (soit 0.75 part enfants au total = 3 quarts de part)
   const ceilingPerQuarterPart = blocId === 'droite'
     ? taxConstants.plafondQuartPartQF_Droite
     : taxConstants.plafondQuartPartQF;
@@ -70,7 +65,6 @@ export function calculateIncomeTaxStandard(
   const quarterPartsCount = extraPartRN ? 3 : 2;
   const maxAdvantageChildren = quarterPartsCount * ceilingPerQuarterPart;
 
-  // Majoration parent isolé (Case T) = 1 quart de part spécifique en garde alternée (Art. 197-I-2 CGI)
   const maxAdvantageCaseT = isSingleParent ? taxConstants.plafondParentIsoleQuartPart : 0; // 2 074.50 €
   const totalMaxAdvantage = maxAdvantageChildren + maxAdvantageCaseT;
 
@@ -80,7 +74,6 @@ export function calculateIncomeTaxStandard(
     ? Math.max(0, taxSingle - totalMaxAdvantage)
     : Math.max(0, taxWithFamilyParts);
 
-  // Sous Droite Républicaine : crédit/réduction d'impôt famille & baisse ciblée charges TPE/PME (~180 € sur l'IR dirigeant)
   if (blocId === 'droite') {
     finalTax = Math.max(0, finalTax - 180);
   }
@@ -93,23 +86,16 @@ export function calculateIncomeTaxLFI(
   dividendsAfterSocialCharges: number,
   isSingleParent: boolean
 ): number {
-  // 1. Abattement légal de 10% sur les salaires (Art. 83-3° CGI) avec bornes min/max respectées
   const abattementSalaire = Math.min(
     Math.max(netSalaries * 0.10, taxConstants.abattement10PctMin),
     taxConstants.abattement10PctMax
   );
   const taxableSalary = Math.max(0, netSalaries - abattementSalaire);
 
-  // 2. Sous LFI/NFP : révocation du PFU (Art. 200 A CGI) et de l'abattement de 40% (Art. 158-3-2° CGI)
-  // Les dividendes nets de cotisations sociales sont intégrés à l'assiette du barème progressif à 14 tranches,
-  // après déduction de la CSG déductible (6,8% selon Art. 154 quinquies CGI)
   const totalNetTaxableIncome = taxableSalary + Math.max(0, dividendsAfterSocialCharges);
 
-  // 3. Application du barème progressif à 14 tranches sur 1 part individuelle
-  // (LFI remplace le quotient familial par un crédit d'impôt forfaitaire par enfant)
   const taxGross = computeIRWithScale(totalNetTaxableIncome, 1.0, barèmeIR_LFI_14_Tranches);
   
-  // 4. Crédit d'impôt forfaitaire pour 2 enfants en garde alternée (~1 800 € si parent isolé Case T, 1 300 € standard)
   const childCredit = isSingleParent ? 1800 : 1300;
   
   return Math.max(0, taxGross - childCredit);
@@ -125,7 +111,6 @@ export function calculateDividendsTaxation(
   }
 
   if (blocId === 'nfp_lfi') {
-    // Révocation Flat Tax : soumission aux cotisations sociales (~35%)
     const socialCharges = dividendsGross * 0.35;
     return {
       socialCharges,
@@ -135,16 +120,12 @@ export function calculateDividendsTaxation(
   }
 
   if (companyForm === 'SASU') {
-    // Présidente assimilée salariée : Flat Tax / PFU
-    // Sous Continuité : 31.4% (avec hausse CSG financière)
-    // Sous RN ou Droite : 30.0%
     const rate = (blocId === 'continuite') ? taxConstants.pfuTauxActuel : taxConstants.pfuTauxStandard;
     const totalTax = dividendsGross * rate;
     const socialCharges = dividendsGross * (rate - 0.128);
     const incomeTax = dividendsGross * 0.128;
     return { socialCharges, incomeTax, totalTax };
   } else {
-    // SARL / EURL (Gérante TNS) : dividendes > 10% du capital social sont assujettis aux cotisations TNS (~42%)
     const socialCharges = dividendsGross * 0.42;
     const taxableAfterCharges = dividendsGross - socialCharges;
     const incomeTax = taxableAfterCharges * 0.60 * 0.30;
@@ -156,7 +137,7 @@ export function calculateDividendsTaxation(
   }
 }
 
-export function calculateMonthlyMortgagePayment(loanAmount: number, annualRatePct: number, durationYears: number = 20): number {
+export function calculateMonthlyMortgagePayment(loanAmount: number, annualRatePct: number, durationYears: number = 25): number {
   const n = durationYears * 12;
   const r = (annualRatePct / 100) / 12;
   if (r <= 0) return loanAmount / n;
@@ -168,18 +149,19 @@ export function calculateFoncierReelAnnual(
   mortgageRatePct: number = 3.85,
   proProportion: number = 0.28,
   monthlyRent: number = 650,
-  monthlyCharges: number = 100
+  monthlyCharges: number = 100,
+  durationYears: number = 25
 ) {
   const annualRentIncome = monthlyRent * 12; // 7 800 € à 650 €/mois
   const annualChargesReimbursed = monthlyCharges * 12; // 1 200 €
   const totalReceived = annualRentIncome + annualChargesReimbursed; // 9 000 €
 
-  // Intérêts d'emprunt de début de prêt sur les 260 000 € empruntés (entre 3,7% et 4,0% : ~9 480 € à 10 250 €/an)
-  const annualMortgageInterests = loanAmount * (mortgageRatePct / 100) * 0.985;
+  // Sur 25 ans, l'amortissement initial du capital est plus progressif : les intérêts An 1 sur 260 000 € atteignent ~9 905 € à 3,85%
+  const annualMortgageInterests = loanAmount * (mortgageRatePct / 100) * 0.99;
   const annualPropertyTax = 1900; // Taxe foncière Pélissanne
   const annualInsurance = 450; // Assurance PNO / habitation
 
-  const deductibleInterests = annualMortgageInterests * proProportion; // ~2 760 € à 3,85%
+  const deductibleInterests = annualMortgageInterests * proProportion; // ~2 773 € à 3,85%
   const deductiblePropertyTax = annualPropertyTax * proProportion; // ~532 €
   const deductibleInsurance = annualInsurance * proProportion; // ~126 €
   const deductibleMaintenanceAndCharges = annualChargesReimbursed; // 1 200 €
@@ -197,7 +179,7 @@ export function calculateFoncierReelAnnual(
   // Bénéfice foncier net après déduction des travaux et intérêts : tombe à 0 €
   const netTaxableFoncier = Math.max(0, totalReceived - totalDeductibleExpenses);
 
-  const monthlyLoanPayment = calculateMonthlyMortgagePayment(loanAmount, mortgageRatePct, 20);
+  const monthlyLoanPayment = calculateMonthlyMortgagePayment(loanAmount, mortgageRatePct, durationYears);
 
   return {
     annualRentIncome,
@@ -211,6 +193,6 @@ export function calculateFoncierReelAnnual(
     netTaxableFoncier,
     monthlyLoanPayment,
     annualLoanPayment: monthlyLoanPayment * 12,
-    taxSavedIRAndUrssaf: totalReceived * 0.472 // Économie si c'était sorti en salaire/dividende chargé
+    taxSavedIRAndUrssaf: totalReceived * 0.472
   };
 }

@@ -12,6 +12,7 @@ export const initialFiscalParameters: FiscalParameters = {
   housePurchasePrice: 305000, // Nouvelle maison en cours d'achat à Pélissanne
   notaryFees: 23500, // 23 500 € de frais de notaire
   loanAmount: 260000, // Prêt immobilier de 260 000 €
+  loanDurationYears: 25, // Prêt sur 25 ans (300 mois)
   mortgageInterestRate: 3.85, // Taux attendu oscillant entre 3,7 % et 4,0 % (médiane 3,85 %)
   enableOptimizationLevers: true,
   viewMode: 'recurring', // Par défaut : affiche le gain récurrent annuel honnête
@@ -44,6 +45,7 @@ export const agencyProfile = {
   notaryFees: 23500, // 23 500 € de frais de notaire
   totalProjectCost: 328500, // 328 500 € coût total (305 000 € + 23 500 €)
   loanAmount: 260000, // 260 000 € empruntés
+  loanDurationYears: 25, // 25 ans
   personalDownPayment: 68500, // 68 500 € d'apport personnel (23 500 € notaire + 45 000 € sur le bien)
   expectedRateRange: [3.7, 4.0] as const, // Taux attendu entre 3,7 % et 4,0 %
   standardCommissionRatePct: 3.3,
@@ -84,6 +86,7 @@ export const nelliPersonalSituation = {
     notaryFees: 23500,
     totalOperationCost: 328500,
     loanAmount: 260000,
+    loanDurationYears: 25,
     personalDownPayment: 68500,
     expectedInterestRateMin: 3.7,
     expectedInterestRateMax: 4.0,

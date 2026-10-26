@@ -16,10 +16,11 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({ params, onChange, 
   const extraRentAnnual = Math.max(0, (params.homeOfficeRentMonthly - currentRent) * 12) + 1200; // +100€/m charges
   const adNetGain = Math.round(params.adBudgetAnnual * (params.adSavingTargetPercent / 100) * 0.85);
 
-  const monthlyLoan = Math.round(calculateMonthlyMortgagePayment(params.loanAmount || 260000, params.mortgageInterestRate || 3.85, 20));
-  const monthlyAt37 = Math.round(calculateMonthlyMortgagePayment(params.loanAmount || 260000, 3.7, 20));
-  const monthlyAt40 = Math.round(calculateMonthlyMortgagePayment(params.loanAmount || 260000, 4.0, 20));
-  const year1Interest = Math.round((params.loanAmount || 260000) * ((params.mortgageInterestRate || 3.85) / 100) * 0.985);
+  const duration = params.loanDurationYears || 25;
+  const monthlyLoan = Math.round(calculateMonthlyMortgagePayment(params.loanAmount || 260000, params.mortgageInterestRate || 3.85, duration));
+  const monthlyAt37 = Math.round(calculateMonthlyMortgagePayment(params.loanAmount || 260000, 3.7, duration));
+  const monthlyAt40 = Math.round(calculateMonthlyMortgagePayment(params.loanAmount || 260000, 4.0, duration));
+  const year1Interest = Math.round((params.loanAmount || 260000) * ((params.mortgageInterestRate || 3.85) / 100) * 0.99);
   const deductibleInterest28Pct = Math.round(year1Interest * 0.28);
 
   return (
@@ -27,7 +28,7 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({ params, onChange, 
       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <div className="flex items-center gap-2">
           <Sliders className="w-4 h-4 text-indigo-600" />
-          <h2 className="font-bold text-slate-800 text-sm">Paramètres Réels 2025 & Prêt</h2>
+          <h2 className="font-bold text-slate-800 text-sm">Paramètres Réels 2025 & Prêt 25 ans</h2>
         </div>
         <button
           onClick={onReset}
@@ -96,15 +97,15 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({ params, onChange, 
         </div>
       </div>
 
-      {/* 2. PRÊT 260 000 € (TAUX 3,7% - 4,0%) & NOTAIRE 23 500 € */}
+      {/* 2. PRÊT 260 000 € SUR 25 ANS (TAUX 3,7% - 4,0%) & NOTAIRE 23 500 € */}
       <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2.5">
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-extrabold uppercase text-amber-950 flex items-center gap-1">
             <Landmark className="w-3.5 h-3.5 text-amber-700" />
-            2. Prêt 260 000 € & Frais Notaire 23 500 €
+            2. Prêt 260 000 € sur 25 ans & Notaire 23,5k€
           </span>
           <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-200/80 text-amber-950">
-            Maison 305k€
+            25 ans (300 m.)
           </span>
         </div>
 
@@ -151,7 +152,7 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({ params, onChange, 
 
         <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
           <div className="p-2 rounded-lg bg-white border border-amber-200/80">
-            <span className="text-slate-500 block text-[10px]">Mensualité (20 ans)</span>
+            <span className="text-slate-500 block text-[10px]">Mensualité (sur 25 ans)</span>
             <strong className="text-slate-900 text-xs">{monthlyLoan.toLocaleString('fr-FR')} € / mois</strong>
           </div>
           <div className="p-2 rounded-lg bg-white border border-amber-200/80">
@@ -160,7 +161,7 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({ params, onChange, 
           </div>
         </div>
         <div className="text-[10px] text-amber-950 leading-tight">
-          <strong>Opération totale :</strong> 305 000 € + 23 500 € notaire = <strong>328 500 €</strong> (financés par 260 000 € de prêt + 68 500 € d'apport).
+          <strong>Opération :</strong> 305 000 € + 23 500 € notaire = <strong>328 500 €</strong> (260 000 € prêt 25 ans + 68 500 € apport).
         </div>
       </div>
 
@@ -177,7 +178,7 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({ params, onChange, 
           <div className="flex justify-between text-xs font-semibold">
             <Tooltip
               term="Nouveau Loyer (Maison 305k€) :"
-              explanation="Actuellement, Nelly facture 400 €/mois à Nell'Immo dans la maison qu'elle loue à Pélissanne. Dans sa nouvelle maison achetée 305 000 €, elle passe propriétaire au Régime Foncier Réel (Art. 28 & 31 CGI) et peut facturer 650 €/mois + 100 € de charges à 0 € d'impôt grâce aux intérêts du prêt de 260 000 €."
+              explanation="Actuellement, Nelly facture 400 €/mois à Nell'Immo dans la maison qu'elle loue à Pélissanne. Dans sa nouvelle maison achetée 305 000 €, elle passe propriétaire au Régime Foncier Réel (Art. 28 & 31 CGI) et peut facturer 650 €/mois + 100 € de charges à 0 € d'impôt grâce aux intérêts du prêt de 260 000 € sur 25 ans."
               lawRef="Art. 28 & 31 CGI"
             />
             <span className="text-emerald-700 font-bold">
@@ -199,7 +200,6 @@ export const ControlsPanel: React.FC<ControlsPanelProps> = ({ params, onChange, 
           </div>
         </div>
 
-        {/* Budget Pub 40 000 € */}
         <div className="space-y-1 pt-2 border-t border-emerald-200/60">
           <div className="flex justify-between text-xs font-semibold">
             <span className="text-slate-700">Économie sur les 40 000 € de Pub :</span>

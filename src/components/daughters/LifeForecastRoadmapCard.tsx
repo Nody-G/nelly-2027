@@ -21,7 +21,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
             </span>
             <div>
               <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300 font-bold block">
-                Prévision de Vie Complète (2027 → 2039) • Chiffres Réels 2025 (40k€ + 20k€ div • Prêt 260k€)
+                Prévision de Vie Complète (2027 → 2039) • Chiffres Réels 2025 (40k€ + 20k€ div • Prêt 260k€ sur 25 ans)
               </span>
               <h3 className="font-extrabold text-base sm:text-lg text-white">
                 Prévision de Vie pour Nelly & ses 2 Filles (LFI vs RN) : Coûts Réels & Vers Quoi Aller
@@ -30,7 +30,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
           </div>
         </div>
         <p className="text-xs text-slate-300 leading-relaxed">
-          Synthèse prédictive croisant les <strong>revenus 2025 de Nelly (40 000 € salaire + 20 000 € dividendes)</strong>, son <strong>prêt de 260 000 € (taux 3,7 % - 4,0 %) + 23 500 € de notaire</strong> sur sa nouvelle maison à 305 000 €, le passage de son loyer pro de <strong>400 €/mois (maison louée) à 650 €/mois + 100 € charges</strong>, et l'avenir de ses 2 filles (5 & 11 ans).
+          Synthèse prédictive croisant les <strong>revenus 2025 de Nelly (40 000 € salaire + 20 000 € dividendes)</strong>, son <strong>prêt de 260 000 € sur 25 ans (taux 3,7 % - 4,0 % = 1 330 € à 1 372 €/mois) + 23 500 € de notaire</strong> sur sa nouvelle maison à 305 000 €, le passage de son loyer pro de <strong>400 €/mois (maison louée) à 650 €/mois + 100 € charges</strong>, et l'avenir de ses 2 filles (5 & 11 ans).
         </p>
       </div>
 
@@ -39,7 +39,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
         <div className="space-y-3">
           <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wide text-slate-900 flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-indigo-600" />
-            <span>1. Verdict Chiffré (Base 2025 : 40 000 € + 20 000 € dividendes) : Pourquoi les 20k€ de dividendes changent tout</span>
+            <span>1. Verdict Chiffré (Base 2025 : 40 000 € + 20 000 € div. • Prêt 25 ans) : Pourquoi tout s'optimise</span>
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
@@ -54,7 +54,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                 </span>
               </div>
               <p className="text-slate-700 leading-relaxed text-[11px]">
-                • <strong>Sous LFI (Passif) :</strong> Comme Nelly n'a que <strong>20 000 € de dividendes</strong> (et non 30 000 €), la fin de la Flat Tax lui coûte ~4 140 € d'impôts en plus, mais ses <strong>+3 987 €/an d'économies de factures et CAF</strong> (cantine 0 €, 100 % Sécu orthodontie) compensent presque intégralement la hausse d'impôt !
+                • <strong>Sous LFI (Passif) :</strong> Comme Nelly n'a que <strong>20 000 € de dividendes</strong>, la fin de la Flat Tax lui coûte ~4 140 € d'impôts en plus, mais ses <strong>+3 987 €/an d'économies de factures et CAF</strong> (cantine 0 €, 100 % Sécu orthodontie) compensent presque intégralement la hausse d'impôt !
                 <br />• <strong>Sous le RN (Passif) :</strong> Maintien de la Flat Tax 30 % sur les 20 000 € de dividendes + part pleine dès le 2e enfant + 1 080 € de CAF universelle + baisse TVA 5,5 % énergie/carburant.
               </p>
             </div>
@@ -63,15 +63,15 @@ export const LifeForecastRoadmapCard: React.FC = () => {
             <div className="p-4 rounded-xl bg-emerald-50/70 border-2 border-emerald-400 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-extrabold text-emerald-950 uppercase text-[11px]">
-                  Cas B — Avec la Nouvelle Maison 305k€ (Bail 400€ → 650€ + CESU + PEE)
+                  Cas B — Avec la Nouvelle Maison 305k€ (Bail 400€ → 650€ + Prêt 25 ans)
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-700 text-white">
                   Avantage LFI (+2 521 €/an)
                 </span>
               </div>
               <p className="text-slate-700 leading-relaxed text-[11px]">
-                • <strong>Remplacement de 56 % à 100 % des 20 000 € de dividendes :</strong> En passant le loyer Nell'Immo de 400 € (maison louée) à 650 € + 100 € charges dans la nouvelle maison (+4 200 €/an déduits grâce aux intérêts du prêt de 260 000 € à 3,7-4 %), + CESU (3 131 €) + PEE (3 880 €), Nelly remplace <strong>11 211 € sur ses 20 000 € de dividendes en récurrent (et 100 % la 1re année)</strong> !
-                <br />• <strong>Résultat :</strong> Son pouvoir d'achat bondit de <strong>+10 349 €/an (Continuité)</strong>, <strong>+12 359 €/an (RN)</strong> et <strong>+14 880 €/an (LFI)</strong> !
+                • <strong>Remplacement de 56 % à 100 % des 20 000 € de dividendes :</strong> En passant le loyer Nell'Immo de 400 € (maison louée) à 650 € + 100 € charges dans la nouvelle maison (+4 200 €/an déduits grâce aux intérêts du prêt de 260 000 € sur 25 ans), + CESU (3 131 €) + PEE (3 880 €), Nelly remplace <strong>11 211 € sur ses 20 000 € de dividendes en récurrent (et 100 % la 1re année)</strong> !
+                <br />• <strong>Bonus du prêt sur 25 ans :</strong> La mensualité tombe à <strong>1 351 €/mois (à 3,85 %)</strong> au lieu de 1 555 €/mois sur 20 ans, libérant <strong>+2 450 €/an d'épargne libre supplémentaire</strong> !
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                 className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                   selectedStage === '2033_2039'
                     ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:bg-slate-900'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 Étape 3 : 2033-2039 (Université & Retraite)
@@ -133,7 +133,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                     • <strong>Quotidien des filles :</strong> Orthodontie de l'aînée remboursée à 100 % (« 100 % Sécu » : +1 250 €/an économisés), cantines primaire et Collège Carcassonne gratuites (+777 €), kits fournitures gratuits (+260 €), Pass'Sport & Culture (+350 €), CAF 1er enfant (+600 €).
                   </li>
                   <li>
-                    • <strong>Prêt 260 000 € (3,7 % - 4,0 %) :</strong> Les ~9 860 € d'intérêts annuels permettent de déduire ~2 761 €/an sur les 9 000 € du nouveau bail professionnel (650 € + 100 €), gommant l'impôt foncier.
+                    • <strong>Prêt 260 000 € sur 25 ans (3,7 % - 4,0 %) :</strong> Les ~9 905 € d'intérêts annuels permettent de déduire ~2 773 €/an sur les 9 000 € du nouveau bail professionnel (650 € + 100 €), gommant l'impôt foncier.
                   </li>
                   <li>
                     • <strong>Impact Nell'Immo :</strong> Compenser le recul des bailleurs privés en ouvrant 25 lots de gestion locative sous Garantie Universelle des Loyers (+14 400 € HT/an).
@@ -153,7 +153,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                     • <strong>Énergie & Mobilité :</strong> Baisse immédiate de la TVA de 20 % à 5,5 % sur l'électricité, le gaz et le carburant (-1 160 €/an cumulés maison + trajets) et fin des ZFE à Aix/Marseille.
                   </li>
                   <li>
-                    • <strong>Prêt 260 000 € verrouillé :</strong> Signé en 2026 entre 3,7 % et 4,0 %, le prêt de Nelly la protège contre toute tension ultérieure des taux OAT en 2027.
+                    • <strong>Prêt 260 000 € sur 25 ans verrouillé :</strong> Signé en 2026 entre 3,7 % et 4,0 % (1 330 € à 1 372 €/mois), le prêt protège Nelly contre toute hausse des taux OAT en 2027.
                   </li>
                 </ul>
               </div>
@@ -191,7 +191,7 @@ export const LifeForecastRoadmapCard: React.FC = () => {
                     • <strong>Exonération IR jeunes :</strong> Exonération totale d'IR jusqu'à 30 ans pour les jeunes en apprentissage ou premier emploi.
                   </li>
                   <li>
-                    • <strong>Anticipation Études :</strong> Avec 60 000 € de revenus, les filles n'auront droit à aucune bourse CROUS en 2033 : capitaliser l'épargne dans une Holding SASU pour préparer leur logement étudiant à Aix.
+                    • <strong>Anticipation Études :</strong> Grâce aux +2 450 €/an économisés par l'étalement du prêt sur 25 ans, Nelly met de côté +17 150 € d'ici 2033 pour préparer les études de l'aînée.
                   </li>
                 </ul>
               </div>
@@ -246,16 +246,16 @@ export const LifeForecastRoadmapCard: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3 text-[11px]">
             <div className="p-3 rounded-xl bg-slate-800/90 border border-slate-700 space-y-1">
-              <div className="font-bold text-amber-300">1. Prêt 260k€ (3,7-4%)</div>
+              <div className="font-bold text-amber-300">1. Prêt 260k€ / 25 ans</div>
               <p className="text-slate-300 leading-snug">
-                Négocier le taux du prêt de <strong>260 000 € au plus près de 3,70 %</strong> (1 535 €/m vs 1 576 €/m à 4,0 %) et débloquer le PEE achat pour couvrir la moitié des <strong>23 500 € de frais de notaire</strong>.
+                Verrouiller le prêt de <strong>260 000 € sur 25 ans au plus près de 3,70 %</strong> (1 330 €/m vs 1 372 €/m à 4,0 %) et débloquer le PEE achat pour couvrir la moitié des <strong>23 500 € de frais de notaire</strong>.
               </p>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-800/90 border border-slate-700 space-y-1">
               <div className="font-bold text-emerald-300">2. Bail 400€ → 650€</div>
               <p className="text-slate-300 leading-snug">
-                Dès la remise des clés de la maison à 305 000 €, passer le bail Nell'Immo de <strong>400 € (location actuelle) à 650 € + 100 € charges</strong> au Foncier Réel (<LawBadge article="Art. 28 & 31 CGI" />) et déduire 28 % des intérêts du prêt.
+                Dès la remise des clés de la maison à 305 000 €, passer le bail Nell'Immo de <strong>400 € (location actuelle) à 650 € + 100 € charges</strong> au Foncier Réel (<LawBadge article="Art. 28 & 31 CGI" />) et déduire 28 % des intérêts sur 25 ans.
               </p>
             </div>
 

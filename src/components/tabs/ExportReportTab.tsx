@@ -4,7 +4,7 @@ import { runAllScenarios } from '../../engine/scenarioEngine';
 import { calculateMonthlyMortgagePayment } from '../../engine/taxEngine';
 import { CrossMatrixTab } from './CrossMatrixTab';
 import { LawBadge } from '../common/LawBadge';
-import { Printer, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 interface ExportReportTabProps {
   params: FiscalParameters;
@@ -13,46 +13,23 @@ interface ExportReportTabProps {
 export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
   const scenarios = runAllScenarios(params);
   const formatEuro = (n: number) => Math.round(n).toLocaleString('fr-FR') + ' €';
+  const duration = params.loanDurationYears || 25;
   const monthlyLoan = Math.round(
-    calculateMonthlyMortgagePayment(params.loanAmount || 260000, params.mortgageInterestRate || 3.85, 20)
+    calculateMonthlyMortgagePayment(params.loanAmount || 260000, params.mortgageInterestRate || 3.85, duration)
   );
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
-    <div className="space-y-5 animate-in fade-in duration-200">
-      {/* Barre d'action d'exportation */}
-      <div className="no-print bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h3 className="font-extrabold text-slate-900 text-sm">
-            Synthèse Exécutive & Rapport Imprimable (Données Réelles 2025 & Prêt 260 000 €)
-          </h3>
-          <p className="text-xs text-slate-500">
-            Document condensé prêt à imprimer pour votre expert-comptable, votre banquier et votre notaire.
-          </p>
-        </div>
-
-        <button
-          onClick={handlePrint}
-          className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer active:scale-95"
-        >
-          <Printer className="w-4 h-4" />
-          <span>Imprimer / Enregistrer en PDF</span>
-        </button>
-      </div>
-
+    <div className="space-y-5">
       {/* FEUILLE OFFICIELLE DU DOSSIER */}
       <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-300 shadow-md space-y-6 text-slate-900">
         {/* Entête du document officiel */}
         <div className="border-b-2 border-slate-900 pb-5 flex flex-col sm:flex-row justify-between items-start gap-4">
           <div>
             <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo-700">
-              AUDIT STRATÉGIQUE, PRÊT IMMOBILIER & POUVOIR D'ACHAT • PÉLISSANNE (13330)
+              AUDIT STRATÉGIQUE, PRÊT IMMOBILIER 25 ANS & POUVOIR D'ACHAT • PÉLISSANNE (13330)
             </div>
             <h1 className="text-xl sm:text-2xl font-black mt-1">
-              Dossier Nell'Immo — Nelly Fernandez : Maison 305k€ (Prêt 260k€), 2 Filles & Horizon 2027
+              Dossier Nell'Immo — Nelly Fernandez : Maison 305k€ (Prêt 260k€ / 25 ans), 2 Filles & Horizon 2027
             </h1>
             <div className="text-xs text-slate-500 mt-1 flex flex-wrap items-center gap-2">
               <MapPin className="w-3.5 h-3.5 text-indigo-600" />
@@ -69,7 +46,7 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
               <strong>Achat Pélissanne :</strong> 305 000 € + <strong>23 500 € frais de notaire</strong> (328 500 €)
             </div>
             <div className="text-amber-900 font-bold">
-              Prêt : 260 000 € à {params.mortgageInterestRate.toFixed(2)}% ({monthlyLoan} €/m • attendu 3,7% - 4,0%)
+              Prêt : 260 000 € sur 25 ans à {params.mortgageInterestRate.toFixed(2)}% ({monthlyLoan} €/m • attendu 3,7% - 4,0%)
             </div>
             <div className="text-emerald-700 font-bold">
               Loyer Nell'Immo : 400 €/m (maison louée) → {params.homeOfficeRentMonthly} €/m + 100 € ch.
@@ -80,7 +57,7 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
         {/* 1. Synthèse des Résultats selon l'Élection 2027 */}
         <div className="space-y-3">
           <h2 className="text-sm font-black uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1">
-            1. Comparatif Financier Net, Coût de la Vie Complet (8 Postes incluant Prêt 260k€) & Épargne
+            1. Comparatif Financier Net, Coût de la Vie Complet (8 Postes incluant Prêt 260k€ / 25 ans) & Épargne
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
@@ -141,7 +118,7 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
         {/* 2. Tableau des 6 leviers de la Maison à 305 000 € */}
         <div className="space-y-3">
           <h2 className="text-sm font-black uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1">
-            2. Les 6 Leviers Activés par l'Achat de la Maison à 305 000 € (Prêt 260k€ + Notaire 23,5k€)
+            2. Les 6 Leviers Activés par l'Achat de la Maison à 305 000 € (Prêt 260k€ sur 25 ans + Notaire 23,5k€)
           </h2>
 
           <div className="overflow-x-auto">
@@ -160,7 +137,7 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
                   <td className="py-2 px-2.5 font-bold">1</td>
                   <td className="py-2 px-2.5 font-bold text-slate-900">Passage Loyer 400 €/m (locataire) → 650 €/m + 100 € ch. (propriétaire)</td>
                   <td className="py-2 px-2.5"><LawBadge article="Art. 28 & 31" code="CGI" /></td>
-                  <td className="py-2 px-2.5">Déduction de 28% des intérêts du prêt de 260 000 € (3,7-4%) + taxe foncière (0 € d'IR sur 9 000 €)</td>
+                  <td className="py-2 px-2.5">Déduction de 28% des intérêts du prêt de 260 000 € sur 25 ans (3,7-4%) + taxe foncière (0 € d'IR)</td>
                   <td className="py-2 px-2.5 font-bold text-emerald-700 text-right">+4 200 € / an net</td>
                 </tr>
                 <tr>
@@ -203,31 +180,10 @@ export const ExportReportTab: React.FC<ExportReportTabProps> = ({ params }) => {
           </div>
         </div>
 
-        {/* 3. Feuille de route Expert-Comptable & Notaire */}
-        <div className="p-4 rounded-2xl bg-slate-100 border border-slate-300 space-y-2 text-xs">
-          <div className="font-black uppercase tracking-wider text-slate-800">
-            3. Feuille de Route Opérationnelle (Banque, Notaire & Expert-Comptable) :
-          </div>
-          <ol className="list-decimal list-inside space-y-1.5 text-slate-700 leading-relaxed">
-            <li>
-              <strong>Valider l'offre de prêt de 260 000 € (taux attendu entre 3,7 % et 4,0 %) :</strong> chaque baisse de 0,10 % économise ~14 €/mois (3 300 € sur 20 ans), tandis que 28 % des intérêts (~2 761 €/an) viendront effacer l'impôt sur le loyer professionnel au Régime Foncier Réel.
-            </li>
-            <li>
-              <strong>Basculer le bail Nell'Immo à la signature chez le notaire (frais : 23 500 €) :</strong> résilier la sous-location de 400 €/mois de la maison actuellement louée à Pélissanne et signer le nouveau bail propriétaire de 35 m² à <strong>650 €/mois + 100 €/mois de charges</strong> dans la nouvelle maison achetée à 305 000 €.
-            </li>
-            <li>
-              <strong>Remplacer 56 % à 100 % des 20 000 € de dividendes :</strong> en combinant le surplus de bail (+4 200 €), les CESU/ANCV (3 131 €) et le PEE (3 880 €), Nelly réduit ses dividendes taxables de 20 000 € à 8 789 € (et à 0 € l'année de l'achat).
-            </li>
-            <li>
-              <strong>Régulariser la donation avec réserve d'usufruit</strong> de la nue-propriété aux deux filles avant le 51e anniversaire de Nelly (valeur fiscale 61 000 €/fille = 0 € de droits).
-            </li>
-          </ol>
-        </div>
-
-        {/* 4. Matrice Stratégique Multicritère Intégrée */}
+        {/* 3. Matrice Stratégique Multicritère Intégrée */}
         <div className="space-y-3 pt-2">
           <h2 className="text-sm font-black uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1">
-            4. Matrice de Décision Multicritère Documentée (10 Axes Clés)
+            3. Matrice de Décision Multicritère Documentée (10 Axes Clés)
           </h2>
           <CrossMatrixTab />
         </div>

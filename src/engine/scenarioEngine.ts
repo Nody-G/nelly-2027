@@ -36,10 +36,10 @@ export function computeOptimizationLevers(params: FiscalParameters): Optimizatio
   const extraRentAnnual = Math.max(0, (params.homeOfficeRentMonthly - currentRent) * 12);
   const extraChargesAnnual = 100 * 12; // 1 200 €/an d'eau/électricité/clim réversible remboursés
 
-  // Quote-part de 28% des intérêts sur le prêt de 260 000 € (entre 3,7% et 4,0%) + 28% de la taxe foncière (1 900 €)
+  // Quote-part de 28% des intérêts sur le prêt de 260 000 € sur 25 ans (entre 3,7% et 4,0%) + 28% de la taxe foncière (1 900 €)
   const loanAmount = params.loanAmount || 260000;
   const rate = params.mortgageInterestRate || 3.85;
-  const deductibleInterestAndPropertyTax = Math.round(loanAmount * (rate / 100) * 0.985 * 0.28 + 1900 * 0.28);
+  const deductibleInterestAndPropertyTax = Math.round(loanAmount * (rate / 100) * 0.99 * 0.28 + 1900 * 0.28);
 
   // 2. Package CESU Préfinancé (plafond 2026 : 2 591 €) + Chèques-Vacances ANCV (540 €) = 3 131 €/an exonérés d'IR et de charges
   const cesuAmount = 2591;
@@ -139,8 +139,8 @@ export function runScenarioForBloc(
     incomeTax = irOnSalary + divTax.incomeTax;
   }
 
-  // En passant de locataire (sous-location 400 €/m) à propriétaire au Régime Foncier Réel dans la maison à 305k€ (prêt 260k€ à 3,7-4%),
-  // les 4 800 €/an déjà facturés bénéficient eux aussi de l'effacement d'impôt par les intérêts d'emprunt (~2 761 €/an déductibles) : gain IR/PS de ~820 €/an
+  // En passant de locataire (sous-location 400 €/m) à propriétaire au Régime Foncier Réel dans la maison à 305k€ (prêt 260k€ sur 25 ans à 3,7-4%),
+  // les 4 800 €/an déjà facturés bénéficient eux aussi de l'effacement d'impôt par les intérêts d'emprunt (~2 773 €/an déductibles) : gain IR/PS de ~820 €/an
   const existingLeaseRealRegimeTaxShield = isPassive ? 0 : 820;
 
   const csgOnSavingsUnlocked = isPassive ? 0 : Math.round(levers.savingsPlanRelease * 0.097);
@@ -165,11 +165,12 @@ export function runScenarioForBloc(
   const billSavingsOnly = baseLivingCosts.total - livingCosts.total;
   const familyAllowancesCash = livingCosts.familyAllowancesCash;
 
-  // Coût de la vie complet du foyer à Pélissanne (les 8 postes du budget réel), ajusté dynamiquement selon le taux du prêt de 260 000 € (attendu entre 3,7 % et 4,0 %)
+  // Coût de la vie complet du foyer à Pélissanne (les 8 postes du budget réel), ajusté dynamiquement selon le taux du prêt de 260 000 € sur 25 ans
   const fullCostItems = computeFullCostOfLivingBreakdown();
-  const baseLoanAnnual = calculateMonthlyMortgagePayment(260000, 3.85, 20) * 12;
+  const duration = params.loanDurationYears || 25;
+  const baseLoanAnnual = calculateMonthlyMortgagePayment(260000, 3.85, 25) * 12;
   const currentLoanAnnual =
-    calculateMonthlyMortgagePayment(params.loanAmount || 260000, params.mortgageInterestRate || 3.85, 20) * 12;
+    calculateMonthlyMortgagePayment(params.loanAmount || 260000, params.mortgageInterestRate || 3.85, duration) * 12;
   const loanRateDeltaAnnual = currentLoanAnnual - baseLoanAnnual;
 
   const fullHouseholdCostOfLiving =
@@ -184,7 +185,7 @@ export function runScenarioForBloc(
   const netPurchasingPower =
     params.totalRevenue - totalTaxBurden + extraCashFromBusinessLevers + familyAllowancesCash - livingCosts.total;
 
-  // Capacité d'épargne / Reste à vivre une fois TOUT le coût de la vie payé (y compris le prêt de 260 000 € à 3,7%-4%)
+  // Capacité d'épargne / Reste à vivre une fois TOUT le coût de la vie payé (y compris le prêt de 260 000 € sur 25 ans à 3,7%-4%)
   const disposableSavingsCapacity =
     params.totalRevenue - totalTaxBurden + extraCashFromBusinessLevers + familyAllowancesCash - fullHouseholdCostOfLiving;
 

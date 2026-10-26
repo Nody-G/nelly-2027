@@ -57,41 +57,39 @@ export function computeDailyLivingCostsByBloc(blocId: PoliticalBlocId) {
 
   switch (blocId) {
     case 'nfp_lfi':
-      // Factures réduites à 2 300 € (-3 387 €) + Allocations familiales dès le 1er enfant (+600 €/an en garde alternée)
       return {
         cantine: 0,
         fournitures: 0,
-        piano: 200, // Subvention publique conservatoire/école municipale + chèque culture (-200 €)
-        sport: 250, // Pass'Sport universel 150 € sans condition de ressources CAF (-150 €)
-        sante: 200, // 100% Sécu (orthodontie 100% remboursée + fin surcomplémentaire privée : -1 250 €)
-        energieEau: 1650, // Premiers m3 d'eau gratuits + blocage tarif réglementé électricité Art. L410-2 C. com. (-750 €)
+        piano: 200,
+        sport: 250,
+        sante: 200,
+        energieEau: 1650,
         total: 2300,
-        familyAllowancesCash: 600, // Allocation familiale dès le 1er enfant à 60k€ (50 €/mois en garde alternée)
-        savingsVsBase: (baseTotal - 2300) + 600 // 3 387 € d'économies de factures + 600 € d'allocations = +3 987 €/an
+        familyAllowancesCash: 600,
+        savingsVsBase: (baseTotal - 2300) + 600 // +3 987 €/an
       };
     
     case 'rn':
-      // Factures à 5 037 € (-650 €) + Rétablissement universalité allocations familiales sans plafond (+1 080 €/an en garde alternée)
       return {
-        cantine: baseCantine, // 777 € (maintien tarif communal plein pot)
-        fournitures: 230, // Baisse TVA 5,5% papeterie/fournitures scolaires (-30 €)
-        piano: 480, // Effet croisé : baisse des subventions culturelles locales répercutée sur les tarifs (+80 €)
-        sport: 380, // TVA 5,5% équipements d'escalade chaussons/baudrier (-20 €)
-        sante: baseSante, // 1 450 € (système dual Sécu + Mutuelle privée maintenu)
-        energieEau: 1720, // Baisse TVA 20% -> 5,5% sur électricité, gaz, carburants (-680 €)
+        cantine: baseCantine,
+        fournitures: 230,
+        piano: 480,
+        sport: 380,
+        sante: baseSante,
+        energieEau: 1720,
         total: 5037,
-        familyAllowancesCash: 1080, // Universalité allocations familiales rétablie (Art. L521-1 CSS : ~90 €/mois en garde alternée 50/50 avec majoration +11 ans)
-        savingsVsBase: (baseTotal - 5037) + 1080 // 650 € d'économies nettes factures + 1 080 € d'allocations = +1 730 €/an
+        familyAllowancesCash: 1080,
+        savingsVsBase: (baseTotal - 5037) + 1080 // +1 730 €/an
       };
 
     case 'droite':
       return {
-        cantine: baseCantine, // 777 €
-        fournitures: baseFournitures, // 260 €
-        piano: basePiano, // 400 €
-        sport: 350, // Déduction fiscale cotisations sportives jeunes (-50 €)
-        sante: 1400, // Optimisation contrat collectif / Madelin (-50 €)
-        energieEau: 2150, // Baisse accise électricité (TICFE) et bouclier nucléaire (-250 €)
+        cantine: baseCantine,
+        fournitures: baseFournitures,
+        piano: basePiano,
+        sport: 350,
+        sante: 1400,
+        energieEau: 2150,
         total: 5337,
         familyAllowancesCash: 0,
         savingsVsBase: baseTotal - 5337 // +350 €/an
@@ -126,7 +124,7 @@ export function computeDaughterLivingExpensesBreakdown(blocId: PoliticalBlocId):
         ? 'Gratuité intégrale de la cantine scolaire primaire et collège (0 €)'
         : 'Tarif plein communal tranche 5 (4,10 €/repas × 70 j/an en garde alternée) + collège Carcassonne',
       sourceRef: 'Délibération Ville de Pélissanne n° 2024-52 & CD13 Collèges',
-      methodologyAndWhy: 'Calcul fondé sur 140 jours d\'école/an divisés par 2 parents en garde alternée (70 repas/enfant/an). Avec 60 000 € de revenus 2025 (40k€ salaire + 20k€ dividendes), Nelly est en Tranche 5 maximale à Pélissanne (4,10 €/repas en primaire = 287 €) et au tarif plein départemental au Collège Roger Carcassonne (~7,00 €/repas = 490 €). Sous LFI/NFP, l\'État finance la gratuité universelle.',
+      methodologyAndWhy: 'Calcul fondé sur 140 jours d\'école/an divisés par 2 parents en garde alternée (70 repas/enfant/an). Avec 60 000 € de revenus 2025 (40k€ salaire + 20k€ dividendes), Nelly est en Tranche 5 maximale à Pélissanne (4,10 €/repas en primaire = 287 €) et au tarif plein départemental au Collège Roger Carcassonne (~7,00 €/repas = 490 €).',
       crossImpactNote: 'Sous RN et Droite, le maintien de la tarification locale évite une hausse de taxe foncière mais laisse 777 €/an à la charge de Nelly.',
       lawRef: 'Art. L410-2 C. com.'
     },
@@ -141,7 +139,7 @@ export function computeDaughterLivingExpensesBreakdown(blocId: PoliticalBlocId):
         ? 'Baisse de TVA à 5,5% sur la papeterie scolaire (-30 €), 0 € d\'ARS'
         : 'Achats libres à charge intégrale de la famille (0 € d\'ARS CAF car revenus > plafond)',
       sourceRef: 'Baromètre Rentrée Scolaire CSF / Familles de France 2026',
-      methodologyAndWhy: 'Le plafond d\'éligibilité à l\'Allocation de Rentrée Scolaire (ARS : ~416 €/enfant) est fixé à ~31 150 € pour 2 enfants : avec 60 000 € de revenus, Nelly touche 0 € d\'ARS. Le coût réel mesuré en garde alternée (50%) est de 100 € en CP/primaire et 160 € en 6e/5e.',
+      methodologyAndWhy: 'Le plafond d\'éligibilité à l\'ARS (~31 150 € pour 2 enfants) exclut Nelly (60 000 € de revenus). Le coût réel en garde alternée (50%) est de 100 € en CP/primaire et 160 € en 6e/5e.',
       crossImpactNote: 'Sous le RN, le port obligatoire de l\'uniforme/blouse (fourni au démarrage) réduit les dépenses vestimentaires de marque au collège Roger Carcassonne.',
       lawRef: 'Art. L521-1 CSS'
     },
@@ -156,7 +154,7 @@ export function computeDaughterLivingExpensesBreakdown(blocId: PoliticalBlocId):
         ? 'Risque de hausse tarifaire (+80 €) par baisse des subventions culturelles locales'
         : 'École Municipale de Musique de Pélissanne ou cours à domicile (400 €/an)',
       sourceRef: 'École Municipale de Musique Pélissanne & Rapports CRC PACA',
-      methodologyAndWhy: 'Nelly consacre 400 €/an (sa quote-part) aux cours de piano de son aînée de 11 ans. Les rapports des Chambres Régionales des Comptes (PACA/Occitanie) documentent une baisse moyenne de 20% à 35% des subventions aux associations culturelles dans les communes RN, répercutée sur les cotisations des familles.',
+      methodologyAndWhy: 'Nelly consacre 400 €/an (sa quote-part) aux cours de piano de son aînée de 11 ans.',
       crossImpactNote: 'PARADE FISCALE NELL\'IMMO : En faisant venir le professeur de piano à domicile dans la nouvelle maison de Pélissanne, Nelly paie les 400 € avec ses 2 591 € de CESU préfinancés par Nell\'Immo (0 € d\'IR, 0 € d\'URSSAF + 25% de crédit d\'IS) !',
       lawRef: 'Art. 199 sexdecies CGI'
     },
@@ -173,8 +171,8 @@ export function computeDaughterLivingExpensesBreakdown(blocId: PoliticalBlocId):
         ? 'Déduction fiscale des cotisations sportives associatives (-50 €)'
         : 'Club d\'escalade (Sensabloc / CAF Pays Salonais) + chaussons & stages (400 €/an)',
       sourceRef: 'FFME / Clubs Pays Salonais & Code du Tourisme (ANCV)',
-      methodologyAndWhy: 'Actuellement, le Pass\'Sport d\'État (50 €) est réservé aux bénéficiaires de l\'ARS, excluant Nelly. Le programme NFP/LFI prévoit son universalisation à 150 €. Sous le RN, la baisse de TVA à 5,5% sur les équipements sportifs réduit le coût des chaussons et du baudrier (-20 €/an).',
-      crossImpactNote: 'PARADE FISCALE NELL\'IMMO : Nell\'Immo attribue 540 €/an de Chèques-Vacances ANCV exonérés d\'IR et de charges sociales à Nelly, acceptés par les clubs affiliés FFME/ANCV.',
+      methodologyAndWhy: 'Le programme NFP/LFI prévoit l\'universalisation du Pass\'Sport à 150 €. Sous le RN, la baisse de TVA à 5,5% sur les équipements sportifs réduit le coût des chaussons et du baudrier (-20 €/an).',
+      crossImpactNote: 'PARADE FISCALE NELL\'IMMO : Nell\'Immo attribue 540 €/an de Chèques-Vacances ANCV exonérés d\'IR et de charges sociales à Nelly.',
       lawRef: 'Art. L7233-4 C. trav.'
     },
     {
@@ -186,8 +184,8 @@ export function computeDaughterLivingExpensesBreakdown(blocId: PoliticalBlocId):
         ? '« 100% Sécu » : remboursement intégral orthodontie 11-16 ans et soins sans mutuelle privée'
         : 'Quote-part mutuelle dirigeante (750 €) + reste à charge semestres d\'orthodontie (700 €)',
       sourceRef: 'Base Ameli (TO 90 = 193,50 €/semestre) & Devis Orthodontistes Salon/Aix',
-      methodologyAndWhy: 'Un semestre d\'orthodontie multi-attaches (11-14 ans) est facturé 850 € à 1 000 € en Provence contre 193,50 € remboursés par la Sécu. En garde alternée, le reste à charge net de Nelly est de ~700 €/an + ~750 €/an de mutuelle. Sous LFI, le « 100% Sécu » rembourse à 100% l\'orthodontie pédiatrique (-1 250 €/an).',
-      crossImpactNote: 'En SASU (Art. L311-3 23° CSS), Nelly peut souscrire une mutuelle cadre d\'entreprise payée à 100% par Nell\'Immo avec renfort orthodontie 300% BRSS.',
+      methodologyAndWhy: 'En garde alternée, le reste à charge net d\'orthodontie de Nelly est de ~700 €/an + ~750 €/an de mutuelle. Sous LFI, le « 100% Sécu » rembourse à 100% l\'orthodontie pédiatrique (-1 250 €/an).',
+      crossImpactNote: 'En SASU (Art. L311-3 23° CSS), Nelly peut souscrire une mutuelle cadre d\'entreprise payée à 100% par Nell\'Immo.',
       lawRef: 'Art. L311-3 23° CSS'
     },
     {
@@ -203,7 +201,7 @@ export function computeDaughterLivingExpensesBreakdown(blocId: PoliticalBlocId):
         ? 'Baisse de l\'accise sur l\'électricité (TICFE) et relance nucléaire (-250 €/an)'
         : 'Tarifs réglementés actuels électricité (clim été + chauffage hiver) & eau à Pélissanne',
       sourceRef: 'Commission de Régulation de l\'Énergie (CRE) 2026 & Régie des Eaux Pays Salonais',
-      methodologyAndWhy: 'Pour la maison de 125 m² à Pélissanne équipée de climatisation réversible et d\'un bureau d\'agence de 35 m², la consommation annuelle moyenne est de ~9 500 kWh d\'électricité (~2 000 €/an) + ~110 m³ d\'eau (~400 €/an) = 2 400 €/an. Sous le RN, la TVA à 5,5% sur l\'énergie et les carburants génère -680 €/an. Sous LFI, le blocage des prix et la gratuité des premiers m³ d\'eau réduisent la facture de -750 €/an.',
+      methodologyAndWhy: 'Pour la maison de 125 m² à Pélissanne équipée de climatisation réversible et d\'un bureau d\'agence de 35 m², la consommation annuelle moyenne est de ~2 000 € d\'électricité + ~400 € d\'eau = 2 400 €/an.',
       crossImpactNote: 'PARADE FISCALE NELL\'IMMO : Avec le nouveau bail professionnel dans la maison achetée à 305 000 €, Nell\'Immo rembourse 1 200 €/an (100 €/mois) de charges d\'électricité, climatisation et eau en franchise totale d\'impôt !',
       lawRef: 'Art. L410-2 C. com.'
     }
@@ -214,18 +212,18 @@ export function computeFullCostOfLivingBreakdown(): FullCostOfLivingItem[] {
   return [
     {
       id: 'housing_mortgage',
-      category: '1. Logement, Prêt 260k€ (3,7% - 4,0%) & Notaire (23,5k€)',
-      label: 'Prêt 260 000 € (Taux attendu 3,7% à 4,0%, médian 3,85%) sur Maison 305k€ (+23,5k€ notaire), Taxe Foncière & Assurance',
-      continuiteCost: 21010,
-      lfiCost: 21360,
-      rnCost: 21860,
-      droiteCost: 20860,
-      continuiteWhy: 'Prêt de 260 000 € sur 20 ans à 3,85% médian (1 555 €/mois = 18 660 €/an ; de 1 535 €/m à 3,7% à 1 576 €/m à 4,0%) + Taxe foncière Pélissanne (1 900 €) + Assurance (450 €). Frais de notaire (23 500 €) financés par l\'apport.',
-      lfiWhy: 'Prêt de 260 000 € figé à la signature (entre 3,7% et 4,0%), mais hausse estimée de la fiscalité locale départementale/communale (+350 €/an).',
-      rnWhy: 'Prêt initial figé, mais risque de tension sur les taux (4,65% en cas de crédit complémentaire) et compensation des baisses de dotations par la fiscalité locale (+850 €/an).',
-      droiteWhy: 'Détente des taux bancaires (favorable pour obtenir 3,70% au lieu de 4,00%, soit -492 €/an) et plafonnement de la taxe foncière (-150 €/an).',
-      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? Nelly achète sa nouvelle maison 305 000 € + 23 500 € de frais de notaire (coût total 328 500 €) avec un prêt de 260 000 € dont le taux attendu oscille entre 3,7% (1 535 €/m) et 4,0% (1 576 €/m). Actuellement, elle facture 400 €/mois de loyer à Nell\'Immo dans la maison qu\'elle loue à Pélissanne. Dès l\'entrée dans sa nouvelle maison, elle devient propriétaire-bailleuse au Régime Foncier Réel (Art. 28 & 31 CGI) : elle passe le bail à 650 €/mois + 100 € de charges (9 000 €/an, soit +4 200 €/an de cash en plus) ET déduit 28% des intérêts de son prêt de 260 000 € (~2 761 €/an à 3,85%) + 28% de la taxe foncière (~532 €/an) !',
-      sourceRef: 'Offre de Prêt 260k€ (3,7%-4,0%), Barème Notarial DMTO (23 500 €) & Art. 28/31 CGI',
+      category: '1. Logement, Prêt 260k€ sur 25 ans (3,7% - 4,0%) & Notaire (23,5k€)',
+      label: 'Prêt 260 000 € sur 25 ans (Taux 3,7% à 4,0%, médian 3,85% = 1 351 €/m), Taxe Foncière & Assurance',
+      continuiteCost: 18560,
+      lfiCost: 18910,
+      rnCost: 19410,
+      droiteCost: 18410,
+      continuiteWhy: 'Prêt de 260 000 € sur 25 ans à 3,85% médian (1 351 €/mois = 16 210 €/an ; de 1 330 €/m à 3,7% à 1 372 €/m à 4,0%) + Taxe foncière Pélissanne (1 900 €) + Assurance (450 €). Frais de notaire (23 500 €) financés par l\'apport.',
+      lfiWhy: 'Prêt de 260 000 € sur 25 ans figé à la signature, mais hausse estimée de la fiscalité locale départementale/communale (+350 €/an).',
+      rnWhy: 'Prêt initial figé sur 25 ans, mais risque de tension sur les taux (4,65% en cas de crédit complémentaire) et compensation des baisses de dotations par la fiscalité locale (+850 €/an).',
+      droiteWhy: 'Détente des taux bancaires (favorable pour décrocher 3,70% au lieu de 4,00% sur 25 ans, soit -252 €/an) et plafonnement de la taxe foncière (-150 €/an).',
+      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? En empruntant 260 000 € sur 25 ans (au lieu de 20 ans) pour sa maison à 305 000 € (+23 500 € de frais de notaire), la mensualité de Nelly baisse de 204 €/mois (1 351 €/mois à 3,85% au lieu de 1 555 €/mois sur 20 ans), ce qui dégage +2 450 €/an de trésorerie disponible ! De plus, sur 25 ans, le capital s\'amortit plus lentement les premières années, ce qui maintient des intérêts d\'emprunt élevés (~9 905 € en An 1, dont 28% = 2 773 € déductibles) pour gommer l\'impôt sur le loyer Nell\'Immo (passé de 400 €/m en location à 650 €/m + 100 € charges) au Régime Foncier Réel (Art. 28 & 31 CGI).',
+      sourceRef: 'Offre de Prêt 260k€ sur 25 ans (3,7%-4,0%), Notaire (23 500 €) & Art. 28/31 CGI',
       lawRef: 'Art. 28 & 31 CGI'
     },
     {
@@ -240,7 +238,7 @@ export function computeFullCostOfLivingBreakdown(): FullCostOfLivingItem[] {
       lfiWhy: 'TVA à 0% sur les produits alimentaires de première nécessité + blocage par décret des marges de la grande distribution (-650 €/an).',
       rnWhy: 'Panier de 100 produits de première nécessité avec TVA abaissée à 5,5% / 0% et priorité aux circuits courts français (-350 €/an).',
       droiteWhy: 'Assouplissement des négociations commerciales (Loi Egalim IV) pour favoriser les promotions en supermarché (-100 €/an).',
-      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? L\'alimentation a subi +21% d\'inflation cumulée depuis 2022. LFI agit par blocage réglementaire des prix et des marges (Art. L410-2 C. com.), tandis que le RN agit par baisse de TVA ciblée (gain dépendant du taux de répercussion par les distributeurs, estimé à 70% par l\'IPP).',
+      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? LFI agit par blocage réglementaire des prix et des marges (Art. L410-2 C. com.), tandis que le RN agit par baisse de TVA ciblée.',
       sourceRef: 'INSEE Indice des Prix à la Consommation & Institut des Politiques Publiques (IPP)',
       lawRef: 'Art. L410-2 C. com.'
     },
@@ -256,7 +254,7 @@ export function computeFullCostOfLivingBreakdown(): FullCostOfLivingItem[] {
       lfiWhy: 'Sortie du marché européen de l\'électricité (retour au tarif régulé coût nucléaire EDF) + gratuité des premiers m³ d\'eau vitaux (-750 €/an).',
       rnWhy: 'Baisse immédiate de la TVA de 20% à 5,5% sur l\'électricité, le gaz et le fioul domestique (-340 € élec) + part carburant (-340 €) = -680 €/an.',
       droiteWhy: 'Réduction de l\'accise sur l\'électricité (ex-TICFE) et relance du programme électronucléaire (-250 €/an).',
-      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? À Pélissanne, la climatisation réversible entre juin et septembre est un poste énergétique majeur. Avec le passage de la maison louée (400 €/m hors charges) à la nouvelle maison achetée à 305 000 € (650 €/m + 100 €/m de charges), Nell\'Immo rembourse 1 200 €/an d\'eau et d\'électricité à Nelly à 0 € d\'impôt.',
+      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? Avec le passage de la maison louée (400 €/m hors charges) à la nouvelle maison achetée à 305 000 € (650 €/m + 100 €/m de charges), Nell\'Immo rembourse 1 200 €/an d\'eau et d\'électricité à Nelly à 0 € d\'impôt.',
       sourceRef: 'Commission de Régulation de l\'Énergie (CRE) & Directive UE 2022/542',
       lawRef: 'Art. 39-1 CGI'
     },
@@ -272,7 +270,7 @@ export function computeFullCostOfLivingBreakdown(): FullCostOfLivingItem[] {
       lfiWhy: 'Blocage du prix des carburants à 1,50 €/L à la pompe + gratuité totale des transports en commun (bus/TER) pour les <25 ans (-450 €/an).',
       rnWhy: 'TVA à 5,5% sur les carburants (-22 cts/L), baisse de 15% des péages autoroutiers et abrogation des ZFE d\'Aix-Marseille (-480 €/an).',
       droiteWhy: 'Coup de pouce ciblé pour les actifs roulants et maintien des aides aux véhicules propres (-120 €/an).',
-      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? En zone périurbaine comme Pélissanne (13330), la voiture est indispensable. Dans sa nouvelle maison à 305 000 €, Nelly peut faire installer une borne de recharge électrique payée à 100% par Nell\'Immo (Art. 39-1 CGI) avec 70% d\'abattement sur l\'avantage en nature.',
+      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? Dans sa nouvelle maison à 305 000 €, Nelly peut faire installer une borne de recharge électrique payée à 100% par Nell\'Immo (Art. 39-1 CGI) avec 70% d\'abattement sur l\'avantage en nature.',
       sourceRef: 'BOSS Avantages en Nature (Arrêté 25/02/2025) & Ministère de la Transition Écologique',
       lawRef: 'Avantages en Nature BOSS'
     },
@@ -304,7 +302,7 @@ export function computeFullCostOfLivingBreakdown(): FullCostOfLivingItem[] {
       lfiWhy: '100% Sécu : intégration des mutuelles dans la Sécu et remboursement à 100% de l\'orthodontie des enfants (-1 250 €/an).',
       rnWhy: 'Maintien du système actuel Sécurité Sociale + complémentaire santé privée obligatoire (1 450 €/an).',
       droiteWhy: 'Déductibilité fiscale accrue des contrats collectifs santé/prévoyance des dirigeants TPE (-50 €/an).',
-      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? L\'orthodontie est le premier poste de reste à charge médical des familles avec un enfant entrant au collège (11 ans). En tant que Présidente assimilée salariée de SASU (Art. L311-3 23° CSS), Nelly peut souscrire un contrat collectif « Frais de Santé Cadre » payé par Nell\'Immo.',
+      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? En tant que Présidente assimilée salariée de SASU (Art. L311-3 23° CSS), Nelly peut souscrire un contrat collectif « Frais de Santé Cadre » payé par Nell\'Immo.',
       sourceRef: 'Ameli Assurance Maladie & DREES Comptes de la Santé',
       lawRef: 'Art. L311-3 23° CSS'
     },
@@ -336,7 +334,7 @@ export function computeFullCostOfLivingBreakdown(): FullCostOfLivingItem[] {
       lfiWhy: 'Gratuité des musées nationaux/monuments pour les jeunes, chèques vacances sociaux élargis et transports TER gratuits (-250 €/an).',
       rnWhy: 'Baisse de TVA sur les péages et carburants de départs en vacances (-100 €/an).',
       droiteWhy: 'Défiscalisation accrue des Chèques-Vacances pour dirigeants de TPE (-50 €/an).',
-      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? Les abonnements fibre Internet de la maison de Pélissanne et le forfait mobile principal de Nelly sont déjà passés à 100% en charges professionnelles dans Nell\'Immo. Seul le reliquat strictement familial pèse sur le budget privé.',
+      deepCrossReasoning: 'POURQUOI CETTE RÉFLEXION ? Les abonnements fibre Internet de la maison de Pélissanne et le forfait mobile principal de Nelly sont déjà passés à 100% en charges professionnelles dans Nell\'Immo.',
       sourceRef: 'INSEE Enquête Budget de Famille & Code du Tourisme',
       lawRef: 'Art. 39-1 CGI'
     }
@@ -348,17 +346,17 @@ export function computeLifeHorizonProjections(): LifeHorizonProjection[] {
     {
       horizonId: 'h1_2027',
       period: 'Horizon 1 • 2026 - 2027 (Court Terme)',
-      title: 'Achat Maison 305k€ (Prêt 260k€ à 3,7-4% + 23,5k€ Notaire) & Passage Bail 400€ → 650€',
+      title: 'Achat Maison 305k€ (Prêt 260k€ sur 25 ans à 3,7-4% + 23,5k€ Notaire) & Bail 400€ → 650€',
       daughtersAges: 'Cadette : 5-6 ans (CP) • Aînée : 11-12 ans (6e/5e)',
-      keyLifeEvents: 'Signature maison 305 000 € (+23 500 € notaire), prêt 260 000 € (3,7%-4,0%), passage loyer pro de 400 € (maison louée) à 650 € + 100 € charges en Foncier Réel.',
+      keyLifeEvents: 'Signature maison 305 000 € (+23 500 € notaire), prêt 260 000 € sur 25 ans (1 330 € à 1 372 €/m), loyer pro passé de 400 € à 650 € + 100 € charges.',
       annualPurchasingPowerByBloc: {
         continuite: { passive: 44315, optimized: 54664, note: '+10 349 € (Récurrent) / +19 569 € (Année 1 achat)' },
         nfp_lfi: { passive: 44162, optimized: 59195, note: '+15 033 € vs réf. : 56% à 100% des 20k€ de dividendes sont remplacés !' },
         rn: { passive: 46773, optimized: 56674, note: '+12 359 € vs réf. : baisse immédiate TVA 5,5% énergie + CAF 1 080 €' },
-        droite: { passive: 45245, optimized: 55420, note: 'Détente des taux vers 3,70% sur le prêt de 260 000 €' }
+        droite: { passive: 45245, optimized: 55420, note: 'Détente des taux vers 3,70% sur le prêt de 260 000 € sur 25 ans' }
       },
-      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Avec 40 000 € de revenu et 20 000 € de dividendes (60 000 € sur 2025), Nelly est beaucoup plus agile qu\'avec 30 000 € de dividendes : en passant son loyer Nell\'Immo de 400 €/mois (dans sa maison actuelle louée) à 650 €/mois + 100 € de charges dans sa nouvelle maison achetée 305 000 € (+4 200 €/an), et en activant les CESU (3 131 €) + PEE (3 880 €), elle remplace 11 211 € de ses 20 000 € de dividendes en rythme annuel (et 100% des 20 000 € la 1re année avec le déblocage PEE) ! De plus, les 260 000 € empruntés entre 3,7% et 4,0% génèrent ~9 860 € d\'intérêts la 1re année, dont 28% (~2 761 €) gomment l\'impôt sur les 9 000 € de loyers perçus au Régime Foncier Réel.',
-      sourceRef: 'Art. 28 & 31 CGI, Offre de Prêt 260k€ (3,7%-4,0%) & Art. 34 Constitution'
+      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Le passage du prêt de 260 000 € sur 25 ans (au lieu de 20 ans) abaisse la mensualité à 1 351 €/mois (à 3,85%), tout en maintenant ~9 905 € d\'intérêts d\'emprunt la 1re année dont 28% (2 773 €) effacent l\'impôt sur le nouveau bail professionnel de 9 000 €/an.',
+      sourceRef: 'Art. 28 & 31 CGI, Offre de Prêt 260k€ sur 25 ans (3,7%-4,0%) & Art. 34 Constitution'
     },
     {
       horizonId: 'h2_2030',
@@ -367,13 +365,13 @@ export function computeLifeHorizonProjections(): LifeHorizonProjection[] {
       daughtersAges: 'Cadette : 7-11 ans (Primaire/6e) • Aînée : 13-17 ans (Collège/Lycée Salon)',
       keyLifeEvents: 'Pleine application des réformes fiscales (PFU vs 14 tranches sur les dividendes résiduels), orthodontie, donation nue-propriété avant les 51 ans de Nelly.',
       annualPurchasingPowerByBloc: {
-        continuite: { passive: 43900, optimized: 54300, note: 'Érosion par l\'inflation (+1,8%/an) sans aide familiale nouvelle, mais prêt de 260k€ figé.' },
+        continuite: { passive: 43900, optimized: 54300, note: 'Érosion par l\'inflation (+1,8%/an) sans aide familiale nouvelle, mais prêt de 260k€ sur 25 ans figé.' },
         nfp_lfi: { passive: 43700, optimized: 59100, note: 'Écart maximal (+15 400 €/an !) : les dividendes résiduels ne sont plus que de 8 789 € et Nelly cumule +3 987 €/an d\'aides/gratuités.' },
-        rn: { passive: 46900, optimized: 55200, note: 'Gain fiscal + allocations (+1 730 €), mais vigilance sur le volume de ventes Nell\'Immo si les taux crédit acheteurs montent à 4,65%.' },
+        rn: { passive: 46900, optimized: 55200, note: 'Gain fiscal + allocations (+1 730 €), vigilance sur le volume de ventes Nell\'Immo si taux acheteurs > 4,5%.' },
         droite: { passive: 45800, optimized: 57900, note: 'Relance des investisseurs locatifs privés (+12% CA Nell\'Immo) + QF relevé à 2 500 €.' }
       },
-      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Comme le prêt de 260 000 € de Nelly est signé en 2026 entre 3,7% et 4,0% à taux fixe, sa mensualité personnelle (1 535 € à 1 576 €/mois) est 100% immunisée contre toute hausse ultérieure des taux OAT en 2027-2032. Et comme ses dividendes ne sont que de 20 000 € (ramenés à 8 789 € après leviers maison), même la suppression de la Flat Tax sous LFI est quasi indolore.',
-      sourceRef: 'Croisement Modèle Micro-Fiscal DGFiP × Amortissement Prêt 260k€'
+      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Le prêt sur 25 ans allège la charge fixe du foyer de 2 450 €/an et prolonge la durée pendant laquelle les intérêts d\'emprunt gomment les revenus fonciers du bureau Nell\'Immo.',
+      sourceRef: 'Croisement Modèle Micro-Fiscal DGFiP × Amortissement Prêt 260k€ sur 25 ans'
     },
     {
       horizonId: 'h3_2035',
@@ -387,7 +385,7 @@ export function computeLifeHorizonProjections(): LifeHorizonProjection[] {
         rn: { passive: 35800, optimized: 50100, note: 'Fin des allocations familiales à 20 ans et 0 € de bourse CROUS : études à charge, compensées par pension déductible ou Holding.' },
         droite: { passive: 35100, optimized: 51200, note: 'Transmission studio/maison à 0 € de droits (abattement 200k€), mais retraite à 64-65 ans et études à la charge de la famille.' }
       },
-      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? Même avec 60 000 € de revenus (40k€ + 20k€), Nelly dépasse le plafond des bourses CROUS (~33 100 €). Financer la vie étudiante à Aix-en-Provence dès 2033 coûte ~1 050 €/mois (soit 6 300 €/an pour la part 50/50 de Nelly). Sous LFI/NFP, l\'Allocation d\'Autonomie Jeunesse (1 063 €/mois) couvre 100% de cette dépense et la retraite à 60 ans ajoute 4 ans de pension. Sous Continuité, RN ou Droite, la parade consiste à déduire une pension alimentaire majeure (6 674 €/an, Art. 156-II-2° CGI) ou à loger les filles via une Holding SASU (Art. 145 CGI).',
+      documentedReasoning: 'POURQUOI CETTE PRÉDICTION ? En économisant +2 450 €/an de mensualité grâce au prêt sur 25 ans (1 351 €/m au lieu de 1 555 €/m), Nelly accumule +17 150 € de trésorerie supplémentaire d\'ici 2033 (entrée de l\'aînée à l\'université) !',
       sourceRef: 'Barème National CROUS, Contrat Législature NFP 2024 & Art. 145 / 156 CGI'
     }
   ];
